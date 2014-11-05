@@ -1,0 +1,16 @@
+﻿#canvas {
+/*    border: dashed 1px black; */
+}
+
+.fullscreen {
+    cursor: none;
+}
+
+.turnCW {
+    transform: rotate(90);
+    -webkit-transform: rotate(90);
+    -o-transform: rotate(90);
+    -moz-transform: rotate(90);
+    -ms-transform: rotate(90);
+}
+

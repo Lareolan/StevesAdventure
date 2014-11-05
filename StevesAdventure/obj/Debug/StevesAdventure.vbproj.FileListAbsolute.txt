@@ -1,0 +1,8 @@
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.dll
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.pdb
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.xml
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Debug\StevesAdventure.Resources.resources
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Debug\StevesAdventure.vbproj.GenerateResource.Cache
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Debug\StevesAdventure.dll
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Debug\StevesAdventure.xml
+S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Debug\StevesAdventure.pdb

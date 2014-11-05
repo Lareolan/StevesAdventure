@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="500" height="20" tilewidth="32" tileheight="32" backgroundcolor="#ffffff">
+ <tileset firstgid="1" name="MasterTileSet" tilewidth="32" tileheight="32">
+  <image source="MasterTileSet.png" trans="ffffff" width="512" height="512"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+ </tileset>
+ <tileset firstgid="257" name="Character-Tileset" tilewidth="64" tileheight="64">
+  <image source="Character-Tileset.png" trans="ffffff" width="512" height="512"/>
+ </tileset>
+ <layer name="Foreground" width="500" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt18kJwzAURVFlaCBxUdmnhPRfRNDCYIIlJE/h43PgrQxCXl2UEgAQ2fPfFwAAVtNzAIhPzwEgPj0HgPj0HADi03MAiE/PASA+PQeA+PQcAOLbs+evHc8GgLN7TKbnABBT7vg7Hd/zs/b93jkAaJE7/kntPV/S4aGwpaK2MN/p1jkAqJnr39Y9H88ttaq3xeO3S+OO6HrPW7u35XoOQE2pLbWel97YQ9q2X7XWt3a81PU9tuYf9RyAJaYNus4s93xpM22fAcCv6btPz2MMAGr0PMYAoKbUczMzM4u/L+dMLAg=
+  </data>
+ </layer>
+ <layer name="Background" width="500" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt2bENgCAQQNErXcB1HMIRHJL5DB0kdhABfS+5/rqfgwgAAAAAAAAAAAAAAOAv0ugFAIAmqRgAYD3pYQCANe2jFwCAyWzFrELPAaCWO35Gn56/9f6t5wBQyx2/or3n/rQB4BvczQD82TF6gU70HAAAAAAAAAAAAABgDjelBQrS
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object name="Steve" type="Steve" gid="257" x="0" y="512" width="32" height="64"/>
+  <object name="Zombie" type="Zombie" gid="267" x="2336" y="480" width="32" height="64"/>
+ </objectgroup>
+</map>

@@ -11,16 +11,19 @@
  </tileset>
  <layer name="Foreground" width="500" height="20">
   <data encoding="base64" compression="zlib">
-   eJzt18kJwzAURVFlaCBxUdmnhPRfRNDCYIIlJE/h43PgrQxCXl2UEgAQ2fPfFwAAVtNzAIhPzwEgPj0HgPj0HADi03MAiE/PASA+PQeA+PQcAOLbs+evHc8GgLN7TKbnABBT7vg7Hd/zs/b93jkAaJE7/kntPV/S4aGwpaK2MN/p1jkAqJnr39Y9H88ttaq3xeO3S+OO6HrPW7u35XoOQE2pLbWel97YQ9q2X7XWt3a81PU9tuYf9RyAJaYNus4s93xpM22fAcCv6btPz2MMAGr0PMYAoKbUczMzM4u/L+dMLAg=
+   eJztnFtu2zAQRY20WUCdReW/S8guusl+dhldQ2AgAojJkCKHM3zI5wAXge1ED2o0Rw9HtxuAHz+NAQAAO/fZCwCX44cxAABgB5+DN/gcdoZrRbAr+By8weewG+l9n1Xq8X32AsB24HPwBp/DDmgOX6ku8Tm0gs+hB+37bPgcVqbG4RF12epnfA6t4HNoJXdec4DPYUVyHn8pxLM+NT9r772JtEwPnht8DjXUXJs8wOewGmce15BO7+Xwr/S1NfgcJPgcSrRcmzzA5xCF9bvnufPvmr/zqFHp4rN9QfO3fN/qc44Drgs+hwPtGS8WH+Pza5F73s+/k58988rFo05qPH78Xqv/U1odXvJ5yfOWaJQ8b/0MxhLpc7bzPCzPYLN6WPpYu/9YukdZ6pWvX7H21Jns/uw7eUyXrod09tnrdHq5Mak9fuwZT0sNtf5+6l7LfqR5XNtf3pTXPX5/v333ffpZDvr8XH4lwefrUfNM1D9fyb0u9cLSuY8lske2Orumx/acJ2lYn0nbEm1sRuG1/B7XUHLT66m/kcdKFp/L6/QWp9ceCx8OLn3mca/ecs4P8Tw8/vs23ufP6nePPtraT7Ve0Hv+nfO4dNarQyS91z7ltLzHomaMRhK1Lv8NiR7vla5/eO9vNde1LPHyPE6fz8PjH7d6n1s87L3ta124Gj3nvdo+3dJDS/97U9s7WnpMJF7zjDq2qRmjEfReazlbB6vPtXHXaq3koPTv5LKuQo9j5bhEOz3C6zAOzX/ePm/pJzUubu1PI7zuda5t6ak9Po9OBNr98zR/G1JznKKNu+yxq43Rg6h68/a5xxiWpjeTiH1qZaePqm34Tm5fL/m8tC0j/KVNz1qj0fdFR6Snn0bu/7lEkpun1eezEoGsyUgfePh8l3FtIWI9RtVkydG7jP+zoH03J8098z5ZMyv1UJlIcvPczecR4zTiHK61/kbWokZ0Pcp5Ra7HDoExnJ3v4fO9skoP1eLxPbhccvN8dp+XjtVn1t8uPq+d5qy6mF2rM2oa6tC2Az7fK6v00FWyo893zoo+v0o0Zi+TdbkhHm1b3AkhhBByiXwCmaISdA==
   </data>
  </layer>
  <layer name="Background" width="500" height="20">
   <data encoding="base64" compression="zlib">
-   eJzt2bENgCAQQNErXcB1HMIRHJL5DB0kdhABfS+5/rqfgwgAAAAAAAAAAAAAAOAv0ugFAIAmqRgAYD3pYQCANe2jFwCAyWzFrELPAaCWO35Gn56/9f6t5wBQyx2/or3n/rQB4BvczQD82TF6gU70HAAAAAAAAAAAAABgDjelBQrS
+   eJzt2c1JA0EAhuE5es3BDiKCFpCTFiFiAYI1aRtetpSUoG24AwkMcVyRXedn8zzwwSbkMLeX2YQAAAAAAAAAAADQv8/MAIC+xH6/J9Nz+B9D7QMAq5brubs6LGtIBrTlOrMeTd3PP6qcCNZlyAxO7ce9/LJ9tdOtU8/tztFzKOOy9gFoWuz1Ltnjyefd4Tf83em9e20dh55dJOuFnjPl2POn8L3nx+/0vBz9hzJixx/CMj0v9f5bz5mi58A5ih1/DvN77j9tWuF9O8A87s20QM+BWu5rH2Ahek4L9Ly8q8wAYA49L6+1nm+SAbQgvru5OzzfjLvNPL+Oeyt8rpbFVm/Dzz3fBj1fWtrw2j3fZAZAf/T8vOk5APRPzwEAiL4AOJNH8Q==
   </data>
  </layer>
  <objectgroup name="Objects">
   <object name="Steve" type="Steve" gid="257" x="0" y="512" width="32" height="64"/>
   <object name="Zombie" type="Zombie" gid="267" x="2336" y="480" width="32" height="64"/>
+  <object name="Zombie" type="Spawner" gid="66" x="10272" y="544"/>
+  <object name="Torch" type="Torch" gid="81" x="11328" y="576"/>
+  <object name="Torch" type="Torch" gid="81" x="11456" y="576"/>
  </objectgroup>
 </map>

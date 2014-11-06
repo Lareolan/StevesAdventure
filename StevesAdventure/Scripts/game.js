@@ -7,6 +7,8 @@ var stage;
 var queue;
 
 // Game objects
+var progressBar;
+var text;
 var sky;
 var clouds = [];
 var tile;
@@ -47,9 +49,21 @@ var PLAYER = {
 
 // Preload function
 function preload() {
+    stage = new createjs.Stage(document.getElementById("canvas"));
+    progressBar = new createjs.Shape();
+    text = new createjs.Text();
+    text.font = "bold 36px Arial";
+    text.color = "#C33";
+
+    stage.addChild(progressBar);
+    stage.addChild(text);
+
     queue = new createjs.LoadQueue();
     queue.installPlugin(createjs.Sound);
-    queue.addEventListener("complete", init);
+
+    //    queue.addEventListener("complete", init);
+    queue.addEventListener("progress", handleProgress);
+    queue.addEventListener("complete", handleComplete);
     queue.loadManifest([
         { id: "SteveStand", src: "Assets/images/SteveStand.png" },
         { id: "SteveStep", src: "Assets/images/SteveStep.png" },
@@ -57,11 +71,36 @@ function preload() {
         { id: "sky", src: "Assets/images/Sky.png" },
         { id: "cloud1", src: "Assets/images/Cloud_1.png" },
         { id: "cloud2", src: "Assets/images/Cloud_2.png" },
-        { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png" },
+        { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png", type: createjs.LoadQueue.IMAGE, data: 102955 },
         { id: "Character-Tileset", src: "Assets/images/MasterTileSet.png" },
         { id: "Level1Data", src: "Assets/data/Level1.json" },
         { id: "Level1Map", src: "Assets/data/Level1.tmx" }
     ]);
+}
+
+function handleProgress(event) {
+    var x = stage.canvas.width / 2 - 200;
+    var y = stage.canvas.height / 2 - 25;
+    var width = 400;
+    var height = 50;
+    var progress = event.loaded / event.total;
+
+    progressBar.graphics.clear();
+    progressBar.graphics.beginStroke("#000").drawRect(x, y, width, height);
+    progressBar.graphics.beginFill("#CCC").drawRect(x, y, width * progress, height);
+
+    text.text = (progress * 100).toFixed(0) + "% complete";
+    text.x = x + width / 2;
+    text.y = y + height / 2;
+    text.textAlign = "center";
+    text.textBaseline = "middle";
+
+    stage.update();
+    console.log((100 * progress).toFixed(0));
+}
+
+function handleComplete(event) {
+    setTimeout(init, 500);
 }
 
 function init() {

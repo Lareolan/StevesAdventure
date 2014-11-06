@@ -7,3 +7,12 @@ S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAd
 S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.xml
 S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.pdb
 S:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.dll.config
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.dll.config
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.dll
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.pdb
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\bin\StevesAdventure.xml
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.Resources.resources
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.vbproj.GenerateResource.Cache
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.dll
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.xml
+E:\Academic Semester 3\COMP2068 (Advanced Web Programming)\Assignment 3\StevesAdventure\StevesAdventure\obj\Release\StevesAdventure.pdb

@@ -2,7 +2,7 @@
 
 // Declare external functions for TypeScript
 declare function Base64Decode(base64String);
-declare function Zlib() : Zlib;
+declare function Zlib(): Zlib;
 declare module Zlib {
     function Inflate(data): void;
 }
@@ -14,6 +14,8 @@ var stage: createjs.Stage;
 var queue;
 
 // Game objects
+var progressBar: createjs.Shape;
+var text: createjs.Text;
 var sky: Sky;
 var clouds = [];
 var tile: Tileset2;
@@ -55,9 +57,20 @@ var PLAYER = {
 
 // Preload function
 function preload(): void {
+    stage = new createjs.Stage(document.getElementById("canvas"));
+    progressBar = new createjs.Shape();
+    text = new createjs.Text();
+    text.font = "bold 36px Arial";
+    text.color = "#C33";
+
+    stage.addChild(progressBar);
+    stage.addChild(text);
+
     queue = new createjs.LoadQueue();
     queue.installPlugin(createjs.Sound);
-    queue.addEventListener("complete", init);
+    //    queue.addEventListener("complete", init);
+    queue.addEventListener("progress", handleProgress);
+    queue.addEventListener("complete", handleComplete);
     queue.loadManifest([
         { id: "SteveStand", src: "Assets/images/SteveStand.png" },
         { id: "SteveStep", src: "Assets/images/SteveStep.png" },
@@ -65,11 +78,37 @@ function preload(): void {
         { id: "sky", src: "Assets/images/Sky.png" },
         { id: "cloud1", src: "Assets/images/Cloud_1.png" },
         { id: "cloud2", src: "Assets/images/Cloud_2.png" },
-        { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png" },
+        { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png", type: createjs.LoadQueue.IMAGE, data: 102955 },
         { id: "Character-Tileset", src: "Assets/images/MasterTileSet.png" },
         { id: "Level1Data", src: "Assets/data/Level1.json" },
         { id: "Level1Map", src: "Assets/data/Level1.tmx" }
     ]);
+
+}
+
+function handleProgress(event) {
+    var x = stage.canvas.width / 2 - 200;
+    var y = stage.canvas.height / 2 - 25;
+    var width = 400;
+    var height = 50;
+    var progress = event.loaded / event.total;
+
+    progressBar.graphics.clear();
+    progressBar.graphics.beginStroke("#000").drawRect(x, y, width, height);
+    progressBar.graphics.beginFill("#CCC").drawRect(x, y, width * progress, height);
+
+    text.text = (progress * 100).toFixed(0) + "% complete";
+    text.x = x + width / 2;
+    text.y = y + height / 2;
+    text.textAlign = "center";
+    text.textBaseline = "middle";
+
+    stage.update();
+    console.log((100 * progress).toFixed(0));
+}
+
+function handleComplete(event) {
+    setTimeout(init, 500);
 }
 
 function init(): void {
@@ -251,7 +290,7 @@ class GameMap {
         var tilesetInfo = this.tileset.getTileInfo(1);
         this.mapWidth = canvas.width = this.width * tilesetInfo["width"];
         this.mapHeight = canvas.height = this.height * tilesetInfo["height"];
-        
+
 
         var bitmapStage = new createjs.Stage(canvas);
 
@@ -339,7 +378,7 @@ class Layer {
         return null;
     }
 
-    flipGlobalIDs(data) : Array<number> {
+    flipGlobalIDs(data): Array<number> {
         var flippedGlobalIds = [];
         for (var n = 0; n < data.length; n += 4) {
             var flippedGlobalId = 0;
@@ -664,7 +703,7 @@ function launchIntoFullscreen(element) {
 
 function exitFullscreen() {
     $("canvas").removeAttr("style").removeClass("fullscreen");
-;
+    ;
 };
 
 /*

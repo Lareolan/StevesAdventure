@@ -6,14 +6,13 @@
 };
 var GameObjects;
 (function (GameObjects) {
-    // Sky Class
-    var Sky = (function (_super) {
-        __extends(Sky, _super);
-        function Sky() {
-            _super.call(this, "sky");
+    var SpriteObject = (function (_super) {
+        __extends(SpriteObject, _super);
+        function SpriteObject() {
+            _super.apply(this, arguments);
         }
-        return Sky;
-    })(GameObjects.BitmapObject);
-    GameObjects.Sky = Sky;
+        return SpriteObject;
+    })(createjs.Sprite);
+    GameObjects.SpriteObject = SpriteObject;
 })(GameObjects || (GameObjects = {}));
-//# sourceMappingURL=Sky.js.map
+//# sourceMappingURL=SpriteObject.js.map

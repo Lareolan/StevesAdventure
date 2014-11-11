@@ -1,0 +1,1 @@
+{"version":3,"file":"SpriteObject.js","sourceRoot":"","sources":["SpriteObject.ts"],"names":["GameObjects","GameObjects.SpriteObject","GameObjects.SpriteObject.constructor"],"mappings":";;;;;;AAAA,IAAO,WAAW;AAGjB,CAHD,UAAO,WAAW;IACdA;QAAkCC,+BAAeA;QAAjDA;YAAkCC,6BAAeA;QACjDA,CAACA;AAAAD,QAADA,oBAACA;IAADA,CAACA,EADiCD,QAAQA,CAACA,MAAMA,EAChDA;IADDA,wCACCA;AACLA,CAACA,qCAAA"}

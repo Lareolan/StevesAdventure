@@ -42,7 +42,7 @@ var input = {
 var constants = {
     MAX_CLOUDS: 5,
     CLOUDS: ["cloud1", "cloud2"],
-    MOVE_SPEED: 4
+    MOVE_SPEED: 8
 };
 
 var PLAYER = {
@@ -55,6 +55,9 @@ var PLAYER = {
 
 // Preload function
 function preload() {
+    //    Managers.Assets.init();
+    //    Managers.Assets.loader.addEventListener("progress", handleProgress);
+    //    Managers.Assets.loader.addEventListener("complete", handleComplete);
     stage = new createjs.Stage(document.getElementById("canvas"));
     progressBar = new createjs.Shape();
     text = new createjs.Text();

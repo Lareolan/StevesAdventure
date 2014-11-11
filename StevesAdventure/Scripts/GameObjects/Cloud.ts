@@ -1,36 +1,34 @@
 ﻿module GameObjects {
     // Cloud Class
-    export class Cloud {
-        image: createjs.Bitmap;
+    export class Cloud extends GameObjects.BitmapObject {
         width: number;
         height: number;
         dx: number;
-        constructor() {
-            var cloudIndex = constants.CLOUDS[Math.floor(Math.random() * constants.CLOUDS.length)];
-            this.image = new createjs.Bitmap(queue.getResult(cloudIndex));
-            this.width = this.image.getBounds().width;
-            this.height = this.image.getBounds().height;
-            this.image.regX = this.width * 0.5;
-            this.image.regY = this.height * 0.5;
-            stage.addChild(this.image);
-            this.reset();
-        }
-        reset() {
-            this.image.y = Math.floor(Math.random() * (stage.canvas.height - 320));
-            this.image.x = this.width;
-            this.dx = Math.floor(Math.random() * 4 + 2);
+        name: string = "Cloud";
+
+        constructor(cloudName: string, index: number) {
+            super(cloudName, index);
+            createjs.EventDispatcher.initialize(this);
         }
         update() {
-            this.image.x += this.dx;
-            if (this.image.x > (this.width + stage.canvas.width)) {
-                this.reset();
+            this.x += this.dx;
+            if (this.x > (this.width + stage.canvas.width)) {
+                var event = new createjs.Event("cloudOffScreen", true, false);
+                this.dispatchEvent(event);
             }
         }
+        setPosition(x: number, y: number) {
+            this.x = x;
+            this.y = y;
+        }
+        setSpeed(speed: number) {
+            this.dx = speed;
+        }
         moveLeft() {
-            this.image.x += constants.MOVE_SPEED;
+            this.x += constants.MOVE_SPEED;
         }
         moveRight() {
-            this.image.x -= constants.MOVE_SPEED;
+            this.x -= constants.MOVE_SPEED;
         }
     }
 }

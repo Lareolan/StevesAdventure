@@ -1,36 +1,41 @@
-﻿var GameObjects;
+﻿var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var GameObjects;
 (function (GameObjects) {
     // Cloud Class
-    var Cloud = (function () {
-        function Cloud() {
-            var cloudIndex = constants.CLOUDS[Math.floor(Math.random() * constants.CLOUDS.length)];
-            this.image = new createjs.Bitmap(queue.getResult(cloudIndex));
-            this.width = this.image.getBounds().width;
-            this.height = this.image.getBounds().height;
-            this.image.regX = this.width * 0.5;
-            this.image.regY = this.height * 0.5;
-            stage.addChild(this.image);
-            this.reset();
+    var Cloud = (function (_super) {
+        __extends(Cloud, _super);
+        function Cloud(cloudName, index) {
+            _super.call(this, cloudName, index);
+            this.name = "Cloud";
+            createjs.EventDispatcher.initialize(this);
         }
-        Cloud.prototype.reset = function () {
-            this.image.y = Math.floor(Math.random() * (stage.canvas.height - 320));
-            this.image.x = this.width;
-            this.dx = Math.floor(Math.random() * 4 + 2);
-        };
         Cloud.prototype.update = function () {
-            this.image.x += this.dx;
-            if (this.image.x > (this.width + stage.canvas.width)) {
-                this.reset();
+            this.x += this.dx;
+            if (this.x > (this.width + stage.canvas.width)) {
+                var event = new createjs.Event("cloudOffScreen", true, false);
+                this.dispatchEvent(event);
             }
         };
+        Cloud.prototype.setPosition = function (x, y) {
+            this.x = x;
+            this.y = y;
+        };
+        Cloud.prototype.setSpeed = function (speed) {
+            this.dx = speed;
+        };
         Cloud.prototype.moveLeft = function () {
-            this.image.x += constants.MOVE_SPEED;
+            this.x += constants.MOVE_SPEED;
         };
         Cloud.prototype.moveRight = function () {
-            this.image.x -= constants.MOVE_SPEED;
+            this.x -= constants.MOVE_SPEED;
         };
         return Cloud;
-    })();
+    })(GameObjects.BitmapObject);
     GameObjects.Cloud = Cloud;
 })(GameObjects || (GameObjects = {}));
 //# sourceMappingURL=Cloud.js.map

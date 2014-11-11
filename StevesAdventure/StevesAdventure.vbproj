@@ -159,7 +159,10 @@
     <Content Include="Scripts\lib\jquery-2.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\exports.ts" />
     <TypeScriptCompile Include="Scripts\game.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\Cloud.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\Sky.ts" />
     <TypeScriptCompile Include="Scripts\lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\lib\easeljs.d.ts" />
     <TypeScriptCompile Include="Scripts\lib\jquery.d.ts" />

@@ -1,7 +1,12 @@
 ﻿/// <reference path="lib/jquery.d.ts" />
+/// <reference path="gameobjects/sky.ts" />
+/// <reference path="gameobjects/cloud.ts" />
 
 ;
 
+/*
+stage.mouseX <--- use this
+*/
 // Global object references
 var stage;
 var queue;
@@ -11,7 +16,8 @@ var progressBar;
 var text;
 var sky;
 var clouds = [];
-var tile;
+
+//var tile: Tileset2;
 var player;
 var map;
 
@@ -96,7 +102,7 @@ function handleProgress(event) {
     text.textBaseline = "middle";
 
     stage.update();
-    console.log((100 * progress).toFixed(0));
+    //    console.log((100 * progress).toFixed(0) + ": " + event.progress);
 }
 
 function handleComplete(event) {
@@ -133,49 +139,56 @@ function gameLoop(event) {
     stage.update();
 }
 
+/*
 // Sky Class
-var Sky = (function () {
-    function Sky() {
-        this.image = new createjs.Bitmap(queue.getResult("sky"));
-        this.width = this.image.getBounds().width;
-        this.height = this.image.getBounds().height;
-        stage.addChild(this.image);
-    }
-    return Sky;
-})();
-
+class Sky {
+image: createjs.Bitmap;
+width: number;
+height: number;
+constructor() {
+this.image = new createjs.Bitmap(queue.getResult("sky"));
+this.width = this.image.getBounds().width;
+this.height = this.image.getBounds().height;
+stage.addChild(this.image);
+}
+}
+*/
+/*
 // Cloud Class
-var Cloud = (function () {
-    function Cloud() {
-        var cloudIndex = constants.CLOUDS[Math.floor(Math.random() * constants.CLOUDS.length)];
-        this.image = new createjs.Bitmap(queue.getResult(cloudIndex));
-        this.width = this.image.getBounds().width;
-        this.height = this.image.getBounds().height;
-        this.image.regX = this.width * 0.5;
-        this.image.regY = this.height * 0.5;
-        stage.addChild(this.image);
-        this.reset();
-    }
-    Cloud.prototype.reset = function () {
-        this.image.y = Math.floor(Math.random() * (stage.canvas.height - 320));
-        this.image.x = this.width;
-        this.dx = Math.floor(Math.random() * 4 + 2);
-    };
-    Cloud.prototype.update = function () {
-        this.image.x += this.dx;
-        if (this.image.x > (this.width + stage.canvas.width)) {
-            this.reset();
-        }
-    };
-    Cloud.prototype.moveLeft = function () {
-        this.image.x += constants.MOVE_SPEED;
-    };
-    Cloud.prototype.moveRight = function () {
-        this.image.x -= constants.MOVE_SPEED;
-    };
-    return Cloud;
-})();
-
+class Cloud {
+image: createjs.Bitmap;
+width: number;
+height: number;
+dx: number;
+constructor() {
+var cloudIndex = constants.CLOUDS[Math.floor(Math.random() * constants.CLOUDS.length)];
+this.image = new createjs.Bitmap(queue.getResult(cloudIndex));
+this.width = this.image.getBounds().width;
+this.height = this.image.getBounds().height;
+this.image.regX = this.width * 0.5;
+this.image.regY = this.height * 0.5;
+stage.addChild(this.image);
+this.reset();
+}
+reset() {
+this.image.y = Math.floor(Math.random() * (stage.canvas.height - 320));
+this.image.x = this.width;
+this.dx = Math.floor(Math.random() * 4 + 2);
+}
+update() {
+this.image.x += this.dx;
+if (this.image.x > (this.width + stage.canvas.width)) {
+this.reset();
+}
+}
+moveLeft() {
+this.image.x += constants.MOVE_SPEED;
+}
+moveRight() {
+this.image.x -= constants.MOVE_SPEED;
+}
+}
+*/
 // Level Class
 var Level = (function () {
     function Level() {
@@ -183,59 +196,54 @@ var Level = (function () {
     return Level;
 })();
 
+/*
 // Tileset Class
-var Tileset2 = (function () {
-    function Tileset2() {
-        this.image = new createjs.Bitmap(queue.getResult("MasterTileSet"));
-        this.image.setBounds(0, 32, 32, 32);
-
-        this.tiles = new createjs.SpriteSheet({
-            images: [queue.getResult("MasterTileSet")],
-            frames: { width: 32, height: 32 }
-        });
-
-        var canvas = document.createElement("canvas");
-        canvas.width = 3200;
-        canvas.height = 640;
-        var bitmapStage = new createjs.Stage(canvas);
-
-        // Testing
-        var json = queue.getResult("Level1Data");
-        for (var y = 0; y < json.layers[0].height; y++) {
-            for (var x = 0; x < 100; x++) {
-                var idx = json.layers[0].width * y + x;
-                var frameID = json.layers[0].data[idx];
-
-                if (frameID !== 0) {
-                    var frame = createjs.SpriteSheetUtils.extractFrame(this.tiles, frameID - 1);
-                    var image = new createjs.Bitmap(frame);
-
-                    image.x = x * 32;
-                    image.y = y * 32;
-
-                    bitmapStage.addChild(image);
-                }
-            }
-        }
-
-        bitmapStage.update();
-        this.image = new createjs.Bitmap(canvas);
-        stage.addChild(this.image);
-    }
-    Tileset2.prototype.moveLeft = function () {
-        if (this.image.x <= -constants.MOVE_SPEED) {
-            this.image.x += constants.MOVE_SPEED;
-        }
-    };
-
-    Tileset2.prototype.moveRight = function () {
-        if (this.image.x >= -(3200 - stage.canvas.width - constants.MOVE_SPEED)) {
-            this.image.x -= constants.MOVE_SPEED;
-        }
-    };
-    return Tileset2;
-})();
-
+class Tileset2 {
+image: createjs.Bitmap;
+tiles: createjs.SpriteSheet;
+tile: createjs.Bitmap;
+constructor() {
+this.image = new createjs.Bitmap(queue.getResult("MasterTileSet"));
+this.image.setBounds(0, 32, 32, 32);
+this.tiles = new createjs.SpriteSheet({
+images: [queue.getResult("MasterTileSet")],
+frames: { width: 32, height: 32 }
+});
+var canvas = document.createElement("canvas");
+canvas.width = 3200;
+canvas.height = 640;
+var bitmapStage = new createjs.Stage(canvas);
+// Testing
+var json = queue.getResult("Level1Data");
+for (var y = 0; y < json.layers[0].height; y++) {
+for (var x = 0; x < 100; x++) {
+var idx = json.layers[0].width * y + x;
+var frameID = json.layers[0].data[idx];
+if (frameID !== 0) {
+var frame = createjs.SpriteSheetUtils.extractFrame(this.tiles, frameID - 1);
+var image = new createjs.Bitmap(frame);
+image.x = x * 32;
+image.y = y * 32;
+bitmapStage.addChild(image);
+}
+}
+}
+bitmapStage.update();
+this.image = new createjs.Bitmap(canvas);
+stage.addChild(this.image);
+}
+moveLeft() {
+if (this.image.x <= -constants.MOVE_SPEED) {
+this.image.x += constants.MOVE_SPEED;
+}
+}
+moveRight() {
+if (this.image.x >= -(3200 - stage.canvas.width - constants.MOVE_SPEED)) {
+this.image.x -= constants.MOVE_SPEED;
+}
+}
+}
+*/
 // Map class
 var GameMap = (function () {
     function GameMap() {
@@ -350,7 +358,7 @@ var Layer = (function () {
         var flippedGlobalIds = [];
         for (var n = 0; n < data.length; n += 4) {
             var flippedGlobalId = 0;
-            flippedGlobalId += data[n + 0] << 0;
+            flippedGlobalId += data[n + 0]; // << 0;
             flippedGlobalId += data[n + 1] << 8;
             flippedGlobalId += data[n + 2] << 16;
             flippedGlobalId += data[n + 3] << 24;
@@ -430,10 +438,10 @@ var Player = (function () {
 
 // Initialize game images
 function gameStart() {
-    sky = new Sky();
+    sky = new GameObjects.Sky();
 
     for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
-        clouds[cloud] = new Cloud();
+        clouds[cloud] = new GameObjects.Cloud();
     }
 
     map = new GameMap();

@@ -25,28 +25,11 @@
     <script src="Scripts/lib/preloadjs-0.4.1.min.js"></script>
 
 
-    <script>
-        /*
-        var bytes = Base64Decode("eJzt3EEKgkAYhuEpW7iu+7Rt3xG6/yFCcECkCWf0z4TngW+hgujqxY19SqmfrBt3HpfNjwEAAAAAAAAAAAAAAAAAAAAAAAA4hkfgvaf/swMA4kT3/Jn0HACizXu+Zd+Hjr/SMXp+qRwARGjp8K2wVkdt4fBMXeUAIEKp5/cP53JXS62qbXG+dlq4X3S95lu7tuV6DsDWSt/Yw7bs17fWL+14qesRW/OOeg5AlNZmWswAoMXe/TI9B2C9vftleg7Aelf7qwFAize/vg5c");
-        bytes = new Zlib.Inflate(bytes).decompress();
-
-        var flippedGlobalIds = [];
-        for (var n = 0; n < bytes.length; n += 4) {
-            var flippedGlobalId = 0;
-            flippedGlobalId += bytes[n + 0] << 0;
-            flippedGlobalId += bytes[n + 1] << 8;
-            flippedGlobalId += bytes[n + 2] << 16;
-            flippedGlobalId += bytes[n + 3] << 24;
-            flippedGlobalIds.push(flippedGlobalId);
-        }
-
-        console.log(flippedGlobalIds);
-        */
-    </script>
-
 
 
     <!-- Game Files -->
+    <script src="Scripts/GameObjects/Sky.js"></script>
+    <script src="Scripts/GameObjects/Cloud.js"></script>
     <script src="Scripts/game.js"></script>
 </body>
 </html>

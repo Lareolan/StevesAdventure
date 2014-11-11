@@ -1,13 +1,24 @@
 ﻿/// <reference path="lib/jquery.d.ts" />
+/// <reference path="gameobjects/sky.ts" />
+/// <reference path="gameobjects/cloud.ts" />
+
+
 
 // Declare external functions for TypeScript
 declare function Base64Decode(base64String);
+
+
 declare function Zlib(): Zlib;
 declare module Zlib {
     function Inflate(data): void;
 }
 interface Zlib { };
 
+
+/*
+	stage.mouseX <--- use this
+
+*/
 
 // Global object references
 var stage: createjs.Stage;
@@ -16,9 +27,9 @@ var queue;
 // Game objects
 var progressBar: createjs.Shape;
 var text: createjs.Text;
-var sky: Sky;
-var clouds = [];
-var tile: Tileset2;
+var sky: GameObjects.Sky;
+var clouds: Array<GameObjects.Cloud> = [];
+//var tile: Tileset2;
 var player: Player;
 var map: GameMap;
 
@@ -86,7 +97,7 @@ function preload(): void {
 
 }
 
-function handleProgress(event) {
+function handleProgress(event: ProgressEvent): void {
     var x = stage.canvas.width / 2 - 200;
     var y = stage.canvas.height / 2 - 25;
     var width = 400;
@@ -104,10 +115,10 @@ function handleProgress(event) {
     text.textBaseline = "middle";
 
     stage.update();
-    console.log((100 * progress).toFixed(0));
+//    console.log((100 * progress).toFixed(0) + ": " + event.progress);
 }
 
-function handleComplete(event) {
+function handleComplete(event: Event): void {
     setTimeout(init, 500);
 }
 
@@ -141,6 +152,7 @@ function gameLoop(event): void {
     stage.update();
 }
 
+/*
 // Sky Class
 class Sky {
     image: createjs.Bitmap;
@@ -153,7 +165,9 @@ class Sky {
         stage.addChild(this.image);
     }
 }
+*/
 
+/*
 // Cloud Class
 class Cloud {
     image: createjs.Bitmap;
@@ -188,6 +202,7 @@ class Cloud {
         this.image.x -= constants.MOVE_SPEED;
     }
 }
+*/
 
 // Level Class
 class Level {
@@ -196,6 +211,7 @@ class Level {
     }
 }
 
+/*
 // Tileset Class
 class Tileset2 {
     image: createjs.Bitmap;
@@ -251,6 +267,7 @@ class Tileset2 {
         }
     }
 }
+*/
 
 // Map class
 class GameMap {
@@ -382,7 +399,7 @@ class Layer {
         var flippedGlobalIds = [];
         for (var n = 0; n < data.length; n += 4) {
             var flippedGlobalId = 0;
-            flippedGlobalId += data[n + 0] << 0;
+            flippedGlobalId += data[n + 0];// << 0;
             flippedGlobalId += data[n + 1] << 8;
             flippedGlobalId += data[n + 2] << 16;
             flippedGlobalId += data[n + 3] << 24;
@@ -467,10 +484,10 @@ class Player {
 
 // Initialize game images
 function gameStart(): void {
-    sky = new Sky();
+    sky = new GameObjects.Sky();
 
     for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
-        clouds[cloud] = new Cloud();
+        clouds[cloud] = new GameObjects.Cloud();
     }
 
     map = new GameMap();
@@ -553,7 +570,7 @@ $("canvas").mousemove(function (e) {
     }
 });
 
-$("canvas").bind("touchstart", function (e) {
+$("canvas").bind("touchstart", function (e: Event) {
     var middle = $(window).outerWidth() / 2;
     var touch = e.originalEvent.touches[0];
 

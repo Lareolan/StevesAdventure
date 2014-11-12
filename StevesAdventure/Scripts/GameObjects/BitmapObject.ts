@@ -2,8 +2,8 @@
     export class BitmapObject extends createjs.Bitmap {
         width: number;
         height: number;
+
         constructor(imageAsset: string, positionIndex: number) {
-//            super(queue.getResult(imageAsset));
             super(Managers.Assets.loader.getResult(imageAsset));
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;

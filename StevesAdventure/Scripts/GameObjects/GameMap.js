@@ -6,7 +6,8 @@ var GameObjects;
     var GameMap = (function () {
         function GameMap() {
             this.layers = [];
-            var index, tileID, tile;
+            var index, tileID;
+            var tile;
 
             //            var $mapData = $(queue.getResult("Level1Map"));
             var $mapData = $(Managers.Assets.loader.getResult("Level1Map"));
@@ -46,6 +47,13 @@ var GameObjects;
                         tilesetInfo = this.tileset.getTileInfo(tileID);
 
                         if (tile) {
+                            // If processing a background layer, then darken it by 25% to
+                            // differentiate it from the foreground.
+                            if (layer !== this.layers.length - 1) {
+                                var color = new createjs.ColorFilter(0.75, 0.75, 0.75, 1, 0, 0, 0, 0);
+                                tile.filters = [color];
+                                tile.cache(0, 0, tilesetInfo["width"], tilesetInfo["height"]);
+                            }
                             tile.x = x * tilesetInfo["width"];
                             tile.y = y * tilesetInfo["height"];
                             bitmapStage.addChild(tile);

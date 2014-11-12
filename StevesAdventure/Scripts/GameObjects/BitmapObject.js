@@ -9,7 +9,6 @@ var GameObjects;
     var BitmapObject = (function (_super) {
         __extends(BitmapObject, _super);
         function BitmapObject(imageAsset, positionIndex) {
-            //            super(queue.getResult(imageAsset));
             _super.call(this, Managers.Assets.loader.getResult(imageAsset));
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;

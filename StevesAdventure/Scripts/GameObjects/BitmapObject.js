@@ -8,15 +8,21 @@ var GameObjects;
 (function (GameObjects) {
     var BitmapObject = (function (_super) {
         __extends(BitmapObject, _super);
-        function BitmapObject(imageAsset) {
-            _super.call(this, queue.getResult(imageAsset));
+        function BitmapObject(imageAsset, positionIndex) {
+            //            super(queue.getResult(imageAsset));
+            _super.call(this, Managers.Assets.loader.getResult(imageAsset));
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
             this.regX = this.width * 0.5;
             this.regY = this.height * 0.5;
             this.x = this.regX;
             this.y = this.regY;
-            stage.addChild(this);
+
+            if (positionIndex !== undefined) {
+                stage.addChildAt(this, positionIndex);
+            } else {
+                stage.addChild(this);
+            }
         }
         return BitmapObject;
     })(createjs.Bitmap);

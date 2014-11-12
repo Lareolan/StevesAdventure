@@ -1,6 +1,8 @@
 ﻿/// <reference path="lib/jquery.d.ts" />
 /// <reference path="gameobjects/sky.ts" />
-/// <reference path="gameobjects/cloud.ts" />
+/// <reference path="managers/cloudmanager.ts" />
+/// <reference path="gameobjects/gamemap.ts" />
+/// <reference path="gameobjects/player.ts" />
 
 
 
@@ -28,10 +30,10 @@ var queue;
 var progressBar: createjs.Shape;
 var text: createjs.Text;
 var sky: GameObjects.Sky;
-var clouds: Array<GameObjects.Cloud> = [];
-//var tile: Tileset2;
-var player: Player;
-var map: GameMap;
+//var clouds: Array<GameObjects.Cloud> = [];
+var cloudManager: Managers.CloudManager;
+var player: GameObjects.Player;
+var map: GameObjects.GameMap;
 
 // Input state
 var input = {
@@ -81,7 +83,7 @@ function preload(): void {
 
     stage.addChild(progressBar);
     stage.addChild(text);
-
+/*
     queue = new createjs.LoadQueue();
     queue.installPlugin(createjs.Sound);
     //    queue.addEventListener("complete", init);
@@ -99,7 +101,10 @@ function preload(): void {
         { id: "Level1Data", src: "Assets/data/Level1.json" },
         { id: "Level1Map", src: "Assets/data/Level1.tmx" }
     ]);
-
+*/
+    Managers.Assets.init();
+    Managers.Assets.loader.addEventListener("progress", handleProgress);
+    Managers.Assets.loader.addEventListener("complete", handleComplete);
 }
 
 function handleProgress(event: ProgressEvent): void {
@@ -144,6 +149,9 @@ function gameLoop(event): void {
         map.moveRight();
     }
 
+    cloudManager.update();
+
+    /*
     for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
         clouds[cloud].update();
         if (input.keyboard.KEY_LEFT) {
@@ -153,61 +161,10 @@ function gameLoop(event): void {
             clouds[cloud].moveRight();
         }
     }
+*/
 
     stage.update();
 }
-
-/*
-// Sky Class
-class Sky {
-    image: createjs.Bitmap;
-    width: number;
-    height: number;
-    constructor() {
-        this.image = new createjs.Bitmap(queue.getResult("sky"));
-        this.width = this.image.getBounds().width;
-        this.height = this.image.getBounds().height;
-        stage.addChild(this.image);
-    }
-}
-*/
-
-/*
-// Cloud Class
-class Cloud {
-    image: createjs.Bitmap;
-    width: number;
-    height: number;
-    dx: number;
-    constructor() {
-        var cloudIndex = constants.CLOUDS[Math.floor(Math.random() * constants.CLOUDS.length)];
-        this.image = new createjs.Bitmap(queue.getResult(cloudIndex));
-        this.width = this.image.getBounds().width;
-        this.height = this.image.getBounds().height;
-        this.image.regX = this.width * 0.5;
-        this.image.regY = this.height * 0.5;
-        stage.addChild(this.image);
-        this.reset();
-    }
-    reset() {
-        this.image.y = Math.floor(Math.random() * (stage.canvas.height - 320));
-        this.image.x = this.width;
-        this.dx = Math.floor(Math.random() * 4 + 2);
-    }
-    update() {
-        this.image.x += this.dx;
-        if (this.image.x > (this.width + stage.canvas.width)) {
-            this.reset();
-        }
-    }
-    moveLeft() {
-        this.image.x += constants.MOVE_SPEED;
-    }
-    moveRight() {
-        this.image.x -= constants.MOVE_SPEED;
-    }
-}
-*/
 
 // Level Class
 class Level {
@@ -217,63 +174,6 @@ class Level {
 }
 
 /*
-// Tileset Class
-class Tileset2 {
-    image: createjs.Bitmap;
-    tiles: createjs.SpriteSheet;
-    tile: createjs.Bitmap;
-    constructor() {
-        this.image = new createjs.Bitmap(queue.getResult("MasterTileSet"));
-        this.image.setBounds(0, 32, 32, 32);
-
-        this.tiles = new createjs.SpriteSheet({
-            images: [queue.getResult("MasterTileSet")],
-            frames: { width: 32, height: 32 }
-        });
-
-        var canvas = document.createElement("canvas");
-        canvas.width = 3200;
-        canvas.height = 640;
-        var bitmapStage = new createjs.Stage(canvas);
-
-        // Testing
-        var json = queue.getResult("Level1Data");
-        for (var y = 0; y < json.layers[0].height; y++) {
-            for (var x = 0; x < 100; x++) {
-                var idx = json.layers[0].width * y + x;
-                var frameID = json.layers[0].data[idx];
-
-                if (frameID !== 0) {
-                    var frame = createjs.SpriteSheetUtils.extractFrame(this.tiles, frameID - 1);
-                    var image = new createjs.Bitmap(frame);
-
-                    image.x = x * 32;
-                    image.y = y * 32;
-
-                    bitmapStage.addChild(image);
-                }
-            }
-        }
-
-        bitmapStage.update();
-        this.image = new createjs.Bitmap(canvas);
-        stage.addChild(this.image);
-    }
-
-    moveLeft() {
-        if (this.image.x <= -constants.MOVE_SPEED) {
-            this.image.x += constants.MOVE_SPEED;
-        }
-    }
-
-    moveRight() {
-        if (this.image.x >= -(3200 - stage.canvas.width - constants.MOVE_SPEED)) {
-            this.image.x -= constants.MOVE_SPEED;
-        }
-    }
-}
-*/
-
 // Map class
 class GameMap {
     map: createjs.Bitmap;
@@ -361,7 +261,9 @@ class GameMap {
         }
     }
 }
+*/
 
+/*
 // Layer Class
 class Layer {
     data: Array<number>;
@@ -413,7 +315,9 @@ class Layer {
         return flippedGlobalIds;
     }
 }
+*/
 
+/*
 // Tileset Class
 class Tileset {
     tileInfo: Array<Object>;
@@ -464,40 +368,21 @@ class Tileset {
         return null;
     }
 }
-
-
-// Player Class
-class Player {
-    sprites: createjs.Bitmap[] = [];
-    sprite: createjs.Bitmap;
-    spriteID: string;
-    constructor() {
-        var frameName;
-        for (var frameID in PLAYER.FRAMES) {
-            frameName = PLAYER.FRAMES[frameID];
-            this.sprites[frameName] = new createjs.Bitmap(queue.getResult(frameName));
-        }
-
-        this.spriteID = "SteveStand";
-        this.sprite = this.sprites[this.spriteID].clone();
-        this.sprite.x = 320;
-        this.sprite.y = 800;
-        stage.addChild(this.sprite);
-    }
-
-}
+*/
 
 // Initialize game images
 function gameStart(): void {
     sky = new GameObjects.Sky();
 
+    cloudManager = new Managers.CloudManager(5);
+
     for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
-        clouds[cloud] = new GameObjects.Cloud();
+//        clouds[cloud] = new GameObjects.Cloud();
     }
 
-    map = new GameMap();
+    map = new GameObjects.GameMap();
 
-    player = new Player();
+    player = new GameObjects.Player();
 }
 
 $("canvas").click(function () {

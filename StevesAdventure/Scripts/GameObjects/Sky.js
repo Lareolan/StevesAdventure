@@ -11,6 +11,7 @@ var GameObjects;
         __extends(Sky, _super);
         function Sky() {
             _super.call(this, "sky");
+            this.name = "Sky";
         }
         return Sky;
     })(GameObjects.BitmapObject);

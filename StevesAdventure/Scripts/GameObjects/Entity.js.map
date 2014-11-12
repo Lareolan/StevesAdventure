@@ -1,0 +1,1 @@
+{"version":3,"file":"Entity.js","sourceRoot":"","sources":["Entity.ts"],"names":["GameObjects","GameObjects.Entity","GameObjects.Entity.constructor"],"mappings":"AAAA,IAAO,WAAW;AAGjB,CAHD,UAAO,WAAW;IACdA;QAAAC;QACAC,CAACA;AAAAD,QAADA,cAACA;IAADA,CAACA,IAAAD;IADDA,4BACCA;AACLA,CAACA,qCAAA"}

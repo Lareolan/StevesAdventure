@@ -7,6 +7,7 @@ module GameObjects {
         map: createjs.Bitmap;
         layers: Array<GameObjects.Layer>;
         tileset: GameObjects.Tileset;
+        entities: GameObjects.MapEntities;
         width: number;
         height: number;
         mapWidth: number;
@@ -21,6 +22,7 @@ module GameObjects {
             var $mapData = $(Managers.Assets.loader.getResult("Level1Map"));
             var $tilesets = $mapData.find("tileset");
             var $layers = $mapData.find("layer");
+            var $entityGroup = $mapData.find("objectgroup");
             var gameMap = this;
 
             this.tileset = new GameObjects.Tileset($tilesets);
@@ -31,6 +33,7 @@ module GameObjects {
                 gameMap.layers.push(newLayer);
             });
 
+            this.entities = new GameObjects.MapEntities($entityGroup);
 
             var background = this.getLayer("Background");
             var foreground = this.getLayer("Foreground");

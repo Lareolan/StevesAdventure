@@ -56,9 +56,14 @@ var input = {
 var constants = {
     MAX_CLOUDS: 5,
     CLOUDS: ["cloud1", "cloud2"],
-    MOVE_SPEED: 8
+    MOVE_SPEED: 8,
+    FACING_LEFT: 0,
+    FACING_RIGHT: 1,
+    AIR_BLOCK: 0,
+    WATER_BLOCK: 206
 };
 
+/*
 var PLAYER = {
     FRAMES: {
         STAND: "SteveStand",
@@ -66,15 +71,10 @@ var PLAYER = {
         ATTACK: "SteveStepAttack"
     }
 };
-
+*/
 
 // Preload function
 function preload(): void {
-//    Managers.Assets.init();
-//    Managers.Assets.loader.addEventListener("progress", handleProgress);
-//    Managers.Assets.loader.addEventListener("complete", handleComplete);
-
-
     stage = new createjs.Stage(document.getElementById("canvas"));
     progressBar = new createjs.Shape();
     text = new createjs.Text();
@@ -83,25 +83,7 @@ function preload(): void {
 
     stage.addChild(progressBar);
     stage.addChild(text);
-/*
-    queue = new createjs.LoadQueue();
-    queue.installPlugin(createjs.Sound);
-    //    queue.addEventListener("complete", init);
-    queue.addEventListener("progress", handleProgress);
-    queue.addEventListener("complete", handleComplete);
-    queue.loadManifest([
-        { id: "SteveStand", src: "Assets/images/SteveStand.png" },
-        { id: "SteveStep", src: "Assets/images/SteveStep.png" },
-        { id: "SteveStepAttack", src: "Assets/images/SteveStepAttack.png" },
-        { id: "sky", src: "Assets/images/Sky.png" },
-        { id: "cloud1", src: "Assets/images/Cloud_1.png" },
-        { id: "cloud2", src: "Assets/images/Cloud_2.png" },
-        { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png", type: createjs.LoadQueue.IMAGE, data: 102955 },
-        { id: "Character-Tileset", src: "Assets/images/MasterTileSet.png" },
-        { id: "Level1Data", src: "Assets/data/Level1.json" },
-        { id: "Level1Map", src: "Assets/data/Level1.tmx" }
-    ]);
-*/
+
     Managers.Assets.init();
     Managers.Assets.loader.addEventListener("progress", handleProgress);
     Managers.Assets.loader.addEventListener("complete", handleComplete);
@@ -143,10 +125,17 @@ function init(): void {
 // Game Loop
 function gameLoop(event): void {
     if (input.keyboard.KEY_LEFT) {
-        map.moveLeft();
+        if (player.moveLeft()) {
+            map.moveLeft();
+        }
     }
     if (input.keyboard.KEY_RIGHT) {
-        map.moveRight();
+        if (player.moveRight()) {
+            map.moveRight();
+        }
+    }
+    if (input.keyboard.KEY_UP) {
+        player.jump();
     }
 
     cloudManager.update();
@@ -162,7 +151,7 @@ function gameLoop(event): void {
         }
     }
 */
-
+    player.update();
     stage.update();
 }
 
@@ -173,216 +162,22 @@ class Level {
     }
 }
 
-/*
-// Map class
-class GameMap {
-    map: createjs.Bitmap;
-    layers: Array<Layer>;
-    tileset: Tileset;
-    width: number;
-    height: number;
-    mapWidth: number;
-    mapHeight: number;
-
-    constructor() {
-        this.layers = [];
-        var index, tileID, tile;
-
-        var $mapData = $(queue.getResult("Level1Map"));
-        var $tilesets = $mapData.find("tileset");
-        var $layers = $mapData.find("layer");
-        var gameMap = this;
-
-        this.tileset = new Tileset($tilesets);
-
-        $layers.each(function () {
-            var newLayer = new Layer();
-            newLayer.fromXML($(this));
-            gameMap.layers.push(newLayer);
-        });
-
-
-        var background = this.getLayer("Background");
-        var foreground = this.getLayer("Foreground");
-
-        this.width = foreground.width;
-        this.height = foreground.height;
-
-        var canvas = document.createElement("canvas");
-        var tilesetInfo = this.tileset.getTileInfo(1);
-        this.mapWidth = canvas.width = this.width * tilesetInfo["width"];
-        this.mapHeight = canvas.height = this.height * tilesetInfo["height"];
-
-
-        var bitmapStage = new createjs.Stage(canvas);
-
-        var layerList = [background, foreground];
-
-        for (var layer = 0; layer < this.layers.length; layer++) {
-            for (var y = 0; y < this.height; y++) {
-                for (var x = 0; x < this.width; x++) {
-                    index = this.width * y + x;
-                    tileID = layerList[layer].data[index];
-                    tile = this.tileset.getTile(tileID);
-                    tilesetInfo = this.tileset.getTileInfo(tileID);
-
-                    if (tile) {
-                        tile.x = x * tilesetInfo["width"];
-                        tile.y = y * tilesetInfo["height"];
-                        bitmapStage.addChild(tile);
-                    }
-                }
-            }
-        }
-
-        bitmapStage.update();
-        this.map = new createjs.Bitmap(canvas);
-        stage.addChild(this.map);
-    }
-
-    getLayer(name: string): Layer {
-        for (var index = 0; index < this.layers.length; index++) {
-            if (this.layers[index].name == name) {
-                return this.layers[index];
-            }
-        }
-        return null;
-    }
-
-    moveLeft() {
-        if (this.map.x <= -constants.MOVE_SPEED) {
-            this.map.x += constants.MOVE_SPEED;
-        }
-    }
-
-    moveRight() {
-        if (this.map.x >= -(this.mapWidth - stage.canvas.width - constants.MOVE_SPEED)) {
-            this.map.x -= constants.MOVE_SPEED;
-        }
-    }
-}
-*/
-
-/*
-// Layer Class
-class Layer {
-    data: Array<number>;
-    name: string;
-    width: number;
-    height: number;
-
-    constructor() {
-    }
-
-    fromXML($layer) {
-        this.name = $layer.attr("name");
-        this.width = parseInt($layer.attr("width"));
-        this.height = parseInt($layer.attr("height"));
-        this.data = this.getData($layer.find("data:first"));
-    }
-
-    getData($data): Array<number> {
-        var encoding = $data.attr("encoding");
-        var compression = $data.attr("compression");
-        var bytes = $.trim($data.text());
-
-        if (encoding) {
-            if (encoding == "base64") {
-                bytes = Base64Decode(bytes);
-            }
-        }
-
-        if (compression) {
-            if (compression == "zlib") {
-                bytes = new Zlib.Inflate(bytes).decompress();
-                return this.flipGlobalIDs(bytes);
-            }
-        }
-
-        return null;
-    }
-
-    flipGlobalIDs(data): Array<number> {
-        var flippedGlobalIds = [];
-        for (var n = 0; n < data.length; n += 4) {
-            var flippedGlobalId = 0;
-            flippedGlobalId += data[n + 0];// << 0;
-            flippedGlobalId += data[n + 1] << 8;
-            flippedGlobalId += data[n + 2] << 16;
-            flippedGlobalId += data[n + 3] << 24;
-            flippedGlobalIds.push(flippedGlobalId);
-        }
-        return flippedGlobalIds;
-    }
-}
-*/
-
-/*
-// Tileset Class
-class Tileset {
-    tileInfo: Array<Object>;
-    tileIndex: Array<createjs.Bitmap>;
-
-    constructor($tilesets) {
-        this.tileInfo = [];
-        this.tileIndex = [];
-
-        var tileset = this;
-
-        $tilesets.each(function () {
-            var $tileset = $(this);
-            var info = {};
-
-            info["name"] = $tileset.attr("name");
-            info["firstgid"] = parseInt($tileset.attr("firstgid"));
-            info["width"] = parseInt($tileset.attr("tilewidth"));
-            info["height"] = parseInt($tileset.attr("tileheight"));
-
-            var spriteSheet = new createjs.SpriteSheet({
-                images: [queue.getResult(info["name"])],
-                frames: { width: info["width"], height: info["height"] }
-            });
-
-            var frame;
-            for (var frameIdx = info["firstgid"]; frameIdx < info["firstgid"] + spriteSheet.getNumFrames(null); frameIdx++) {
-                frame = createjs.SpriteSheetUtils.extractFrame(spriteSheet, frameIdx - 1);
-                tileset.tileIndex[frameIdx] = new createjs.Bitmap(frame);
-                tileset.tileInfo[frameIdx] = { width: info["width"], height: info["height"] }
-            }
-        });
-    }
-
-    getTile(index: number): createjs.Bitmap {
-        var tile = this.tileIndex[index];
-        if (tile) {
-            return tile.clone()
-        }
-        return null;
-    }
-
-    getTileInfo(index: number) {
-        var info = this.tileInfo[index];
-        if (info) {
-            return info;
-        }
-        return null;
-    }
-}
-*/
-
 // Initialize game images
 function gameStart(): void {
     sky = new GameObjects.Sky();
 
     cloudManager = new Managers.CloudManager(5);
 
+/*
     for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
 //        clouds[cloud] = new GameObjects.Cloud();
     }
+*/
 
     map = new GameObjects.GameMap();
 
-    player = new GameObjects.Player();
+    player = new GameObjects.Player(map.entities.getEntity("Steve"));
+    player.setMapData(map.getLayer("Foreground"));
 }
 
 $("canvas").click(function () {

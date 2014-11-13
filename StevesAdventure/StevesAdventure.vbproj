@@ -165,6 +165,7 @@
     <TypeScriptCompile Include="Scripts\GameObjects\Entity.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\GameMap.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Layer.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\MapEntities.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Monster.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Player.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Sky.ts" />

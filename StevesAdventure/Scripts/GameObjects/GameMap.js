@@ -13,6 +13,7 @@ var GameObjects;
             var $mapData = $(Managers.Assets.loader.getResult("Level1Map"));
             var $tilesets = $mapData.find("tileset");
             var $layers = $mapData.find("layer");
+            var $entityGroup = $mapData.find("objectgroup");
             var gameMap = this;
 
             this.tileset = new GameObjects.Tileset($tilesets);
@@ -22,6 +23,8 @@ var GameObjects;
                 newLayer.fromXML($(this));
                 gameMap.layers.push(newLayer);
             });
+
+            this.entities = new GameObjects.MapEntities($entityGroup);
 
             var background = this.getLayer("Background");
             var foreground = this.getLayer("Foreground");

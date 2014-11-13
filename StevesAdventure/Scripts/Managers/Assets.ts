@@ -14,7 +14,7 @@
 
         static characterSpriteSheet = {
             images: ["Assets/images/Character-Tileset.png"],
-            frames: { width: 32, height: 64 },
+            frames: { width: 64, height: 64 },
             animations: {
                 steveStandRight: [0],
                 steveStepRight: [1],

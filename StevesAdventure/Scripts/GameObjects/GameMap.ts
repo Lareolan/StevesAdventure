@@ -89,15 +89,22 @@ module GameObjects {
             return null;
         }
 
-        moveLeft() {
+        moveLeft(): void {
             if (this.map.x <= -constants.MOVE_SPEED) {
                 this.map.x += constants.MOVE_SPEED;
             }
         }
 
-        moveRight() {
+        moveRight(): void {
             if (this.map.x >= -(this.mapWidth - stage.canvas.width - constants.MOVE_SPEED)) {
                 this.map.x -= constants.MOVE_SPEED;
+            }
+        }
+
+        move(x: number, y: number): void {
+            if ((this.map.x <= 0) || (this.map.x >= -(this.mapWidth - stage.canvas.width))) {
+//                this.map.x = -x;
+//                this.map.y = y;
             }
         }
     }

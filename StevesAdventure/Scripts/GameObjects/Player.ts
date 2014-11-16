@@ -23,10 +23,17 @@ module GameObjects {
         height: number;
         width: number;
         facing: number;
+        spriteUpdate: boolean;
         jumping: boolean;
         jumpedFrom: number;
         falling: boolean;
         mapData: GameObjects.Layer;
+
+
+        ///////////////////////////
+        tempShape: createjs.Shape;
+        tempShape2: createjs.Shape;
+
 
         constructor(Steve: Object) {
             var spriteName: string;
@@ -63,10 +70,11 @@ module GameObjects {
             var result = false;
             if (this.facing !== constants.FACING_RIGHT) {
                 this.facing = constants.FACING_RIGHT;
+                this.spriteUpdate = true;
             }
 
             var newX = this.mapX + constants.MOVE_SPEED;
-            if (this.canPass(newX, this.mapY + this.height)) {
+            if (this.testHorizontal(constants.MOVE_SPEED)) {
                 if (this.mapX <= (stage.canvas.width / 2)) {
                     this.canvasX = this.mapX;
                     result = false;
@@ -78,6 +86,8 @@ module GameObjects {
                     result = true;
                 }
                 this.mapX = newX;
+                ////////////////////////////////
+//                result = true;
             }
             return result;
         }
@@ -85,10 +95,11 @@ module GameObjects {
             var result = false;
             if (this.facing !== constants.FACING_LEFT) {
                 this.facing = constants.FACING_LEFT;
+                this.spriteUpdate = true;
             }
 
             var newX = this.mapX - constants.MOVE_SPEED;
-            if (this.canPass(newX, this.mapY + this.height)) {
+            if (this.testHorizontal(-constants.MOVE_SPEED)) {
                 if (this.mapX <= (stage.canvas.width / 2)) {
                     this.canvasX = this.mapX;
                     result = false;
@@ -100,6 +111,8 @@ module GameObjects {
                     result = true;
                 }
                 this.mapX = newX;
+                ////////////////////////////////
+//                result = true;
             }
             return result;
         }
@@ -109,41 +122,73 @@ module GameObjects {
                 this.jumpedFrom = Math.ceil((this.mapY + this.height) / 32) - 1;
             }
         }
-        canPass(x: number, y: number): boolean {
-            var mapFrontX = Math.ceil((x - 4) / 32);
-            var mapBackX = Math.ceil((x - 28) / 32);
-            var mapY = Math.ceil(y / 32) - 1;   // Map grid starts at 1, not 0
-            var topIndex = this.mapData.width * (mapY - 1) + mapFrontX;
-            var bottomFrontIndex = this.mapData.width * (mapY - 0) + mapFrontX;
-            var bottomBackIndex = this.mapData.width * (mapY - 0) + mapBackX;
-
-            var topTile = this.mapData.data[topIndex];
-            var bottomFrontTile = this.mapData.data[bottomFrontIndex];
-            var bottomBackTile = this.mapData.data[bottomBackIndex];
-
-            if (((topTile === constants.AIR_BLOCK) || (topTile === constants.WATER_BLOCK)) &&
-                ((bottomFrontTile === constants.AIR_BLOCK) || (bottomFrontTile === constants.WATER_BLOCK)) &&
-                ((bottomBackTile === constants.AIR_BLOCK) || (bottomBackTile === constants.WATER_BLOCK))) {
+        isPassable(tileID: number): boolean {
+            if ((tileID === constants.AIR_BLOCK) || (tileID === constants.WATER_BLOCK)) {
                 return true;
+            }
+            return false;
+        }
+        testVerticalCollision(direction: string): boolean {
+            var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
+
+            var mapBackX = Math.floor((this.mapX) / 32) + xOffset;
+            var mapFrontX = Math.ceil((this.mapX) / 32) + xOffset;
+            var mapY = Math.floor((this.mapY) / 32);
+
+            var topBackIndex = this.mapData.width * (mapY - 1) + mapBackX;
+            var bottomBackIndex = this.mapData.width * (mapY + 2) + mapBackX;
+            var topFrontIndex = this.mapData.width * (mapY - 1) + mapFrontX;
+            var bottomFrontIndex = this.mapData.width * (mapY + 2) + mapFrontX;
+
+            var topBackTile = this.mapData.data[topBackIndex];
+            var bottomBackTile = this.mapData.data[bottomBackIndex];
+            var topFrontTile = this.mapData.data[topFrontIndex];
+            var bottomFrontTile = this.mapData.data[bottomFrontIndex];
+
+            if (!this.tempShape) {
+                this.tempShape2 = new createjs.Shape();
+                stage.addChild(this.tempShape2);
+            }
+            this.tempShape2.graphics.clear();
+            this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
+
+            if (direction.toLowerCase() === "top") {
+                if (this.isPassable(topBackTile) && this.isPassable(topFrontTile)) {
+                    return true;
+                }
+            } else if (direction.toLowerCase() === "bottom") {
+                if (this.isPassable(bottomBackTile) && this.isPassable(bottomFrontTile)) {
+                    return true;
+                }
             }
 
             return false;
         }
-        testVerticalCollision(x: number, y: number): boolean {
-            var mapFrontX = Math.ceil((x - 4) / 32);
-            var mapBackX = Math.ceil((x - 28) / 32);
-            var mapY = Math.ceil(y / 32) - 1;   // Map grid starts at 1, not 0
-            var topIndex = this.mapData.width * (mapY - 2) + mapFrontX;
-            var bottomFrontIndex = this.mapData.width * (mapY - 0) + mapFrontX;
-            var bottomBackIndex = this.mapData.width * (mapY - 0) + mapBackX;
+        testHorizontal(speed: number): boolean {
+            var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
+
+            var mapX;
+            if (speed >= 0) {
+                mapX = Math.ceil((this.mapX + speed) / 32) + xOffset;
+            } else {
+                mapX = Math.floor((this.mapX + speed) / 32) + xOffset;
+            }
+            var mapY = Math.floor((this.mapY) / 32);
+
+            var topIndex = this.mapData.width * mapY + mapX;
+            var bottomIndex = this.mapData.width * (mapY + 1) + mapX;
 
             var topTile = this.mapData.data[topIndex];
-            var bottomFrontTile = this.mapData.data[bottomFrontIndex];
-            var bottomBackTile = this.mapData.data[bottomBackIndex];
+            var bottomTile = this.mapData.data[bottomIndex];
 
-            if (((topTile === constants.AIR_BLOCK) || (topTile === constants.WATER_BLOCK)) &&
-                ((bottomFrontTile === constants.AIR_BLOCK) || (bottomFrontTile === constants.WATER_BLOCK)) &&
-                ((bottomBackTile === constants.AIR_BLOCK) || (bottomBackTile === constants.WATER_BLOCK))) {
+            if (!this.tempShape) {
+                this.tempShape = new createjs.Shape();
+                stage.addChild(this.tempShape);
+            }
+            this.tempShape.graphics.clear();
+            this.tempShape.graphics.beginStroke("#FF0000").drawRect(mapX * 32, mapY * 32, 32, 64);
+
+            if (this.isPassable(topTile) && this.isPassable(bottomTile)) {
                 return true;
             }
 
@@ -154,14 +199,37 @@ module GameObjects {
             return (this.jumpedFrom - mapY);
         }
         update(): boolean {
+            var passable;
+
+            if (this.spriteUpdate) {
+                stage.removeChild(this.sprite);
+
+                if (this.facing === constants.FACING_LEFT) {
+                    this.sprite = this.sprites["steveStandLeft"].clone();
+                    this.canvasX -= this.width;
+                    this.mapX -= this.width;
+                } else if (this.facing === constants.FACING_RIGHT) {
+                    this.sprite = this.sprites["steveStandRight"].clone();
+                    this.canvasX += this.width;
+                    this.mapX += this.width;
+                }
+
+                this.sprite.x = this.canvasX;
+                this.sprite.y = this.canvasY;
+                stage.addChild(this.sprite);
+
+                this.spriteUpdate = false;
+            }
+
+
             if (this.jumping) {
+                passable = this.testVerticalCollision("top");
                 var newY = this.mapY - constants.MOVE_SPEED;
             } else {
+                passable = this.testVerticalCollision("bottom");
                 var newY = this.mapY + constants.MOVE_SPEED;
             }
 
-//            var passable = this.canPass(this.mapX, newY + this.height);
-            var passable = this.testVerticalCollision(this.mapX, newY + this.height);
             if (passable) {
                 if (this.jumping && (this.findAltitude() >= 4)) {
                     this.jumping = false;
@@ -181,6 +249,7 @@ module GameObjects {
                 }
             }
 
+//            var xOffset = (this.facing === constants.FACING_LEFT) ? -32 : 0;
             this.sprite.x = this.canvasX;
             return false;
         }

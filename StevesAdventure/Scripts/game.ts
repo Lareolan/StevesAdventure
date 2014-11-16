@@ -18,7 +18,7 @@ interface Zlib { };
 
 
 /*
-	stage.mouseX <--- use this
+    stage.mouseX <--- use this
 
 */
 
@@ -107,7 +107,7 @@ function handleProgress(event: ProgressEvent): void {
     text.textBaseline = "middle";
 
     stage.update();
-//    console.log((100 * progress).toFixed(0) + ": " + event.progress);
+    //    console.log((100 * progress).toFixed(0) + ": " + event.progress);
 }
 
 function handleComplete(event: Event): void {
@@ -127,11 +127,13 @@ function gameLoop(event): void {
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
+//            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
+//            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_UP) {
@@ -168,11 +170,11 @@ function gameStart(): void {
 
     cloudManager = new Managers.CloudManager(5);
 
-/*
-    for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
-//        clouds[cloud] = new GameObjects.Cloud();
-    }
-*/
+    /*
+        for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
+    //        clouds[cloud] = new GameObjects.Cloud();
+        }
+    */
 
     map = new GameObjects.GameMap();
 
@@ -190,7 +192,7 @@ $("canvas").click(function () {
     }
 });
 
-$("canvas").mousedown(function (e) {
+$("canvas").mousedown(function (e: Event) {
     var middle = $(window).outerWidth() / 2;
     var rect = this.getBoundingClientRect();
     var mouse = {
@@ -219,7 +221,7 @@ $("canvas").mousedown(function (e) {
     }
 });
 
-$("canvas").mouseup(function (e) {
+$("canvas").mouseup(function (e: Event) {
     input.keyboard.KEY_RIGHT = false;
     input.keyboard.KEY_LEFT = false;
 
@@ -236,7 +238,7 @@ $("canvas").mouseup(function (e) {
     }
 });
 
-$("canvas").mousemove(function (e) {
+$("canvas").mousemove(function (e: Event) {
     var middle = $(window).outerWidth() / 2;
     var rect = this.getBoundingClientRect();
     var mouse = {
@@ -281,7 +283,7 @@ $("canvas").bind("touchstart", function (e: Event) {
     input.touch.TOUCH = true;
 });
 
-$("canvas").bind("touchmove", function (e) {
+$("canvas").bind("touchmove", function (e: Event) {
     var middle = $(window).outerWidth() / 2;
     var touch = e.originalEvent.touches[0];
 
@@ -302,7 +304,7 @@ $("canvas").bind("touchmove", function (e) {
     }
 });
 
-$("canvas").bind("touchend", function (e) {
+$("canvas").bind("touchend", function (e: Event) {
 
     input.keyboard.KEY_RIGHT = false;
     input.keyboard.KEY_LEFT = false;
@@ -310,7 +312,7 @@ $("canvas").bind("touchend", function (e) {
 });
 
 
-$(document).keydown(function (e) {
+$(document).keydown(function (e: Event) {
     switch (e.keyCode) {
         case 27:        // ESC
             break;
@@ -329,7 +331,7 @@ $(document).keydown(function (e) {
     }
 });
 
-$(document).keyup(function (e) {
+$(document).keyup(function (e: Event) {
     switch (e.keyCode) {
         case 27:        // ESC
             break;
@@ -348,7 +350,7 @@ $(document).keyup(function (e) {
     }
 });
 
-$(window).bind("orientationchange", function (e) {
+$(window).bind("orientationchange", function (e: Event) {
     switch (window.orientation) {
         case -90:
             $(document.body).removeClass("turnCW");
@@ -391,7 +393,7 @@ document.addEventListener("msfullscreenchange", function () {
 }, false);
 
 // Find the right method, call on correct element
-function launchIntoFullscreen(element) {
+function launchIntoFullscreen(element: Element) {
     if (element.requestFullscreen) {
         element.requestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
     } else if (element.mozRequestFullScreen) {
@@ -405,7 +407,6 @@ function launchIntoFullscreen(element) {
 
 function exitFullscreen() {
     $("canvas").removeAttr("style").removeClass("fullscreen");
-    ;
 };
 
 /*

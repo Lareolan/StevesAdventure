@@ -89,6 +89,13 @@ var GameObjects;
                 this.map.x -= constants.MOVE_SPEED;
             }
         };
+
+        GameMap.prototype.move = function (x, y) {
+            if ((this.map.x <= 0) || (this.map.x >= -(this.mapWidth - stage.canvas.width))) {
+                //                this.map.x = -x;
+                //                this.map.y = y;
+            }
+        };
         return GameMap;
     })();
     GameObjects.GameMap = GameMap;

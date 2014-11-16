@@ -114,11 +114,13 @@ function gameLoop(event) {
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
+            //            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
+            //            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_UP) {
@@ -389,7 +391,6 @@ function launchIntoFullscreen(element) {
 
 function exitFullscreen() {
     $("canvas").removeAttr("style").removeClass("fullscreen");
-    ;
 }
 ;
 /*

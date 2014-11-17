@@ -44,10 +44,18 @@
             }
         }
         update(): void {
-            var removeIndex = -1;
-
             for (var index = 0; index < this.clouds.length; index++) {
-                var result = this.clouds[index].update();
+                this.clouds[index].update();
+            }
+        }
+        moveLeft() {
+            for (var index = 0; index < this.clouds.length; index++) {
+                this.clouds[index].moveLeft();
+            }
+        }
+        moveRight() {
+            for (var index = 0; index < this.clouds.length; index++) {
+                this.clouds[index].moveRight();
             }
         }
     }

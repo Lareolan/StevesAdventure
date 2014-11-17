@@ -127,9 +127,17 @@ module GameObjects {
             }
         }
         isPassable(tileID: number): boolean {
-            if ((tileID === constants.AIR_BLOCK) || (tileID === constants.WATER_BLOCK)) {
+            if (
+                (tileID === constants.AIR_BLOCK) ||
+                (tileID === constants.WATER_BLOCK) ||
+                (tileID === constants.LAVA_BLOCK)
+                ) {
                 return true;
             }
+            return false;
+        }
+        takeDamage(hearts: number): boolean {
+
             return false;
         }
         testVerticalCollision(direction: string): boolean {

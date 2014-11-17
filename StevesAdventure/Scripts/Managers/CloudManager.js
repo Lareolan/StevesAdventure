@@ -42,14 +42,22 @@
             }
         };
         CloudManager.prototype.update = function () {
-            var removeIndex = -1;
-
             for (var index = 0; index < this.clouds.length; index++) {
-                var result = this.clouds[index].update();
+                this.clouds[index].update();
+            }
+        };
+        CloudManager.prototype.moveLeft = function () {
+            for (var index = 0; index < this.clouds.length; index++) {
+                this.clouds[index].moveLeft();
+            }
+        };
+        CloudManager.prototype.moveRight = function () {
+            for (var index = 0; index < this.clouds.length; index++) {
+                this.clouds[index].moveRight();
             }
         };
         return CloudManager;
     })();
     Managers.CloudManager = CloudManager;
 })(Managers || (Managers = {}));
-//# sourceMappingURL=CloudManager.js.map
+//# sourceMappingURL=cloudmanager.js.map

@@ -62,7 +62,8 @@ var constants = {
     FACING_LEFT: 0,
     FACING_RIGHT: 1,
     AIR_BLOCK: 0,
-    WATER_BLOCK: 206
+    WATER_BLOCK: 206,
+    LAVA_BLOCK: 238
 };
 
 /*
@@ -129,12 +130,14 @@ function gameLoop(event): void {
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
+            cloudManager.moveLeft();
 //            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
+            cloudManager.moveRight();
 //            map.move(player.mapX, player.mapY);
         }
     }
@@ -186,7 +189,7 @@ function gameStart(): void {
 
     gui = new Managers.GUI(player);
 
-    player.health = 7;
+//    player.health = 7;
 }
 
 $("canvas").click(function () {

@@ -104,9 +104,12 @@ var GameObjects;
             }
         };
         Player.prototype.isPassable = function (tileID) {
-            if ((tileID === constants.AIR_BLOCK) || (tileID === constants.WATER_BLOCK)) {
+            if ((tileID === constants.AIR_BLOCK) || (tileID === constants.WATER_BLOCK) || (tileID === constants.LAVA_BLOCK)) {
                 return true;
             }
+            return false;
+        };
+        Player.prototype.takeDamage = function (hearts) {
             return false;
         };
         Player.prototype.testVerticalCollision = function (direction) {

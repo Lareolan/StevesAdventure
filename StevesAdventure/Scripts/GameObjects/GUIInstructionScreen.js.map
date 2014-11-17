@@ -1,0 +1,1 @@
+{"version":3,"file":"GUIInstructionScreen.js","sourceRoot":"","sources":["GUIInstructionScreen.ts"],"names":["GameObjects","GameObjects.GUIInstructionScreen","GameObjects.GUIInstructionScreen.constructor"],"mappings":"AAAA,IAAO,WAAW;AAKjB,CALD,UAAO,WAAW;IACdA;QACIC;QACAC,CAACA;QACLD,4BAACA;IAADA,CAACA,IAAAD;IAHDA,wDAGCA;AACLA,CAACA,qCAAA"}

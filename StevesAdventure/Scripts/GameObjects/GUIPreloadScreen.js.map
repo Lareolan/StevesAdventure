@@ -1,0 +1,1 @@
+{"version":3,"file":"GUIPreloadScreen.js","sourceRoot":"","sources":["GUIPreloadScreen.ts"],"names":["GameObjects","GameObjects.GUIPreloadScreen","GameObjects.GUIPreloadScreen.constructor"],"mappings":"AAAA,IAAO,WAAW;AAGjB,CAHD,UAAO,WAAW;IACdA;QAAAC;QACAC,CAACA;AAAAD,QAADA,wBAACA;IAADA,CAACA,IAAAD;IADDA,gDACCA;AACLA,CAACA,qCAAA"}

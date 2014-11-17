@@ -188,6 +188,7 @@ function gameStart(): void {
     stage.addChild(text);
 
     gui = new Managers.GUI(player);
+    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: this });
 
 //    player.health = 7;
 }

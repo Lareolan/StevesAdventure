@@ -137,8 +137,12 @@ module GameObjects {
             return false;
         }
         takeDamage(hearts: number): boolean {
-
-            return false;
+            this.health -= hearts;
+            if (this.health <= 0) {
+                var event = new createjs.Event("playerDeath", true, false);
+                stage.dispatchEvent(event);
+            }
+            return;
         }
         testVerticalCollision(direction: string): boolean {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
@@ -152,16 +156,27 @@ module GameObjects {
             var topFrontIndex = this.mapData.width * (mapY - 1) + mapFrontX;
             var bottomFrontIndex = this.mapData.width * (mapY + 2) + mapFrontX;
 
+            var charBottomIndex = this.mapData.width * (mapY + 1) + mapFrontX;
+
+
             var topBackTile = this.mapData.data[topBackIndex];
             var bottomBackTile = this.mapData.data[bottomBackIndex];
             var topFrontTile = this.mapData.data[topFrontIndex];
             var bottomFrontTile = this.mapData.data[bottomFrontIndex];
+
+            var charBottomTile = this.mapData.data[charBottomIndex];
+
+            if (charBottomTile === constants.LAVA_BLOCK) {
+                this.takeDamage(10);
+            }
 
             if (!this.tempShape2) {
                 this.tempShape2 = new createjs.Shape();
                 stage.addChild(this.tempShape2);
             }
             this.tempShape2.graphics.clear();
+            mapBackX = Math.floor((this.canvasX) / 32) + xOffset;
+            mapFrontX = Math.ceil((this.canvasX) / 32) + xOffset;
             this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
 
             if (direction.toLowerCase() === "top") {

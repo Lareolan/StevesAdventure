@@ -163,7 +163,10 @@
     <TypeScriptCompile Include="Scripts\GameObjects\Cloud.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Entity.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\GameMap.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\GUIDeathScreen.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\GUIGameScreen.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\GUIPreloadScreen.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\GUIStartScreen.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Layer.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\MapEntities.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Monster.ts" />
@@ -171,6 +174,7 @@
     <TypeScriptCompile Include="Scripts\GameObjects\Sky.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\SpriteObject.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Tileset.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\GUIInstructionScreen.ts" />
     <TypeScriptCompile Include="Scripts\lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\lib\easeljs.d.ts" />
     <TypeScriptCompile Include="Scripts\lib\jquery.d.ts" />

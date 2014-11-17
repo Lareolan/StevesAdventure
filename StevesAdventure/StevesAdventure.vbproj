@@ -86,10 +86,8 @@
     <Content Include="Assets\images\Character-Tileset.png" />
     <Content Include="Assets\images\Cloud_1.png" />
     <Content Include="Assets\images\Cloud_2.png" />
+    <Content Include="Assets\images\GuiComponents.png" />
     <Content Include="Assets\images\MasterTileSet.png" />
-    <Content Include="Assets\images\SteveStand.png" />
-    <Content Include="Assets\images\SteveStep.png" />
-    <Content Include="Assets\images\SteveStepAttack.png" />
     <Content Include="Assets\images\Sky.png" />
     <Content Include="css\app.css" />
     <Content Include="css\normalize.css" />
@@ -99,6 +97,7 @@
     <Content Include="Scripts\lib\easeljs-0.7.1.min.js" />
     <Content Include="Assets\data\Level1.json" />
     <Content Include="Assets\data\Level1.tmx" />
+    <Content Include="font\Minecrafter.Reg.ttf" />
     <None Include="Scripts\lib\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\lib\jquery-2.1.1.js" />
     <Content Include="Scripts\lib\jquery-2.1.1.min.js" />
@@ -164,6 +163,7 @@
     <TypeScriptCompile Include="Scripts\GameObjects\Cloud.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Entity.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\GameMap.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\GUIGameScreen.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Layer.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\MapEntities.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Monster.ts" />
@@ -179,6 +179,7 @@
     <TypeScriptCompile Include="Scripts\lib\tweenjs.d.ts" />
     <TypeScriptCompile Include="Scripts\Managers\Assets.ts" />
     <TypeScriptCompile Include="Scripts\Managers\CloudManager.ts" />
+    <TypeScriptCompile Include="Scripts\Managers\GUI.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

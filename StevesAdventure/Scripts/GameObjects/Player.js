@@ -40,6 +40,9 @@ var GameObjects;
             this.sprite.regY = 0;
 
             stage.addChild(this.sprite);
+
+            this.health = 10;
+            this.spriteUpdate = false;
         }
         Player.prototype.setMapData = function (foreground) {
             this.mapData = foreground;
@@ -123,7 +126,7 @@ var GameObjects;
             var topFrontTile = this.mapData.data[topFrontIndex];
             var bottomFrontTile = this.mapData.data[bottomFrontIndex];
 
-            if (!this.tempShape) {
+            if (!this.tempShape2) {
                 this.tempShape2 = new createjs.Shape();
                 stage.addChild(this.tempShape2);
             }
@@ -229,6 +232,9 @@ var GameObjects;
             //            var xOffset = (this.facing === constants.FACING_LEFT) ? -32 : 0;
             this.sprite.x = this.canvasX;
             return false;
+        };
+        Player.prototype.getHealth = function () {
+            return this.health;
         };
         return Player;
     })();

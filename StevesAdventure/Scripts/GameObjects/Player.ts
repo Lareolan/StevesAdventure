@@ -28,6 +28,7 @@ module GameObjects {
         jumpedFrom: number;
         falling: boolean;
         mapData: GameObjects.Layer;
+        health: number;
 
 
         ///////////////////////////
@@ -62,6 +63,9 @@ module GameObjects {
             this.sprite.regY = 0;
 
             stage.addChild(this.sprite);
+
+            this.health = 10;
+            this.spriteUpdate = false;
         }
         setMapData(foreground: GameObjects.Layer): void {
             this.mapData = foreground;
@@ -145,7 +149,7 @@ module GameObjects {
             var topFrontTile = this.mapData.data[topFrontIndex];
             var bottomFrontTile = this.mapData.data[bottomFrontIndex];
 
-            if (!this.tempShape) {
+            if (!this.tempShape2) {
                 this.tempShape2 = new createjs.Shape();
                 stage.addChild(this.tempShape2);
             }
@@ -252,6 +256,9 @@ module GameObjects {
 //            var xOffset = (this.facing === constants.FACING_LEFT) ? -32 : 0;
             this.sprite.x = this.canvasX;
             return false;
+        }
+        getHealth(): number {
+            return this.health;
         }
     }
 } 

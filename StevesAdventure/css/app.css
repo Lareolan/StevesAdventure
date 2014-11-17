@@ -14,3 +14,14 @@
     -ms-transform: rotate(90);
 }
 
+@font-face {
+    font-family: "Minecrafter.Reg";
+    src: url("../font/Minecrafter.Reg.ttf") format("truetype");
+}
+
+body {
+    font-family: "Minecrafter.Reg";
+    font-size: 24pt;
+    color: red;
+}
+

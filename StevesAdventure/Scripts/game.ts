@@ -3,6 +3,7 @@
 /// <reference path="managers/cloudmanager.ts" />
 /// <reference path="gameobjects/gamemap.ts" />
 /// <reference path="gameobjects/player.ts" />
+/// <reference path="managers/gui.ts" />
 
 
 
@@ -34,6 +35,7 @@ var sky: GameObjects.Sky;
 var cloudManager: Managers.CloudManager;
 var player: GameObjects.Player;
 var map: GameObjects.GameMap;
+var gui: Managers.GUI;
 
 // Input state
 var input = {
@@ -154,6 +156,7 @@ function gameLoop(event): void {
     }
 */
     player.update();
+    gui.update();
     stage.update();
 }
 
@@ -170,16 +173,20 @@ function gameStart(): void {
 
     cloudManager = new Managers.CloudManager(5);
 
-    /*
-        for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
-    //        clouds[cloud] = new GameObjects.Cloud();
-        }
-    */
-
     map = new GameObjects.GameMap();
 
     player = new GameObjects.Player(map.entities.getEntity("Steve"));
     player.setMapData(map.getLayer("Foreground"));
+
+    text = new createjs.Text("Minecraft Text Testing", "Minecrafter.Reg", "Blue");
+    text.scaleX = 4;
+    text.scaleY = 4;
+    text.font = "serif";
+    stage.addChild(text);
+
+    gui = new Managers.GUI(player);
+
+    player.health = 7;
 }
 
 $("canvas").click(function () {

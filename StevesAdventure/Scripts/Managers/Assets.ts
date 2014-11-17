@@ -2,6 +2,7 @@
     export class Assets {
         static loader: createjs.LoadQueue;
         static characters: createjs.SpriteSheet;
+        static guiComponents: createjs.SpriteSheet;
 
         static assetList = [
             { id: "sky", src: "Assets/images/Sky.png" },
@@ -9,7 +10,8 @@
             { id: "cloud2", src: "Assets/images/Cloud_2.png" },
             { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png", type: createjs.LoadQueue.IMAGE, data: 102955 },
             { id: "Character-Tileset", src: "Assets/images/MasterTileSet.png" },
-            { id: "Level1Map", src: "Assets/data/Level1.tmx", type: createjs.LoadQueue.XML }
+            { id: "Level1Map", src: "Assets/data/Level1.tmx", type: createjs.LoadQueue.XML },
+            { id: "GuiComponents", src: "Assets/images/GuiComponents.png" }
         ];
 
         static characterSpriteSheet = {
@@ -32,6 +34,23 @@
             }
         };
 
+        static guiSpriteSheet = {
+            images: ["Assets/images/GuiComponents.png"],
+            frames: [
+                [324, 2, 32, 32],
+                [358, 2, 32, 32],
+                [392, 2, 32, 32],
+                [2, 2, 320, 32]
+            ],
+            animations: {
+                FullFood: [0],
+                FullHeart: [1],
+                HalfHeart: [2],
+                MeterBackground: [3]
+            }
+        };
+
+
         static init() {
             this.loader = new createjs.LoadQueue();
             this.loader.installPlugin(createjs.Sound);
@@ -40,6 +59,7 @@
 //            this.loader.addEventListener("complete", handleComplete);
             this.loader.loadManifest(this.assetList);
             this.characters = new createjs.SpriteSheet(this.characterSpriteSheet);
+            this.guiComponents = new createjs.SpriteSheet(this.guiSpriteSheet);
         }
     }
 }

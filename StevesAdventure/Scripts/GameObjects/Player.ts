@@ -3,11 +3,6 @@
 module GameObjects {
     // Player Class
     export class Player extends GameObjects.Entity {
-/*
-        sprites: Array<createjs.Sprite>;
-        sprite: createjs.Sprite;
-        spriteID: string;
-*/
         spriteNames: Array<string> = [
             "steveStandRight",
             "steveStepRight",
@@ -18,30 +13,8 @@ module GameObjects {
             "steveStandLeftAttack",
             "steveStepLeftAttack"
         ];
-        /*
-                canvasX: number;
-                canvasY: number;
-                mapX: number;
-                mapY: number;
-                height: number;
-                width: number;
-                facing: number;
-                facingChanged: boolean;
-                spriteUpdate: boolean;
-                jumping: boolean;
-                jumpedFrom: number;
-                falling: boolean;
-                mapData: GameObjects.Layer;
-                health: number;
-                runDistance: number;
-        */
         attackFlag: boolean;
         attackCounter: number;
-
-
-        ///////////////////////////
-        tempShape: createjs.Shape;
-        tempShape2: createjs.Shape;
 
 
         constructor(Steve: Object, foreground: GameObjects.Layer) {
@@ -76,6 +49,8 @@ module GameObjects {
 
             stage.addChild(this.sprite);
 */
+
+
             var spriteName: string;
             for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
                 spriteName = this.spriteNames[frameID];

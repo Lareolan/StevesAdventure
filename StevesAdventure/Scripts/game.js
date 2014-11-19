@@ -26,6 +26,7 @@ var player;
 var map;
 var gui;
 var sound;
+var mobs;
 
 // Input state
 var input = {
@@ -47,6 +48,7 @@ var input = {
 
 // Game Constants
 var constants = {
+    FOREGROUND_LAYER_NAME: "Foreground",
     MAX_CLOUDS: 5,
     CLOUDS: ["cloud1", "cloud2"],
     MOVE_SPEED: 8,
@@ -122,6 +124,7 @@ function gameLoop(event) {
             map.moveLeft();
             cloudManager.moveLeft();
             sound.playerWalk();
+            mobs.shiftRight();
             //            map.move(player.mapX, player.mapY);
         }
     }
@@ -130,6 +133,7 @@ function gameLoop(event) {
             map.moveRight();
             cloudManager.moveRight();
             sound.playerWalk();
+            mobs.shiftLeft();
             //            map.move(player.mapX, player.mapY);
         }
     }
@@ -138,6 +142,7 @@ function gameLoop(event) {
     }
 
     cloudManager.update();
+    mobs.update();
     player.update();
     gui.update();
     stage.update();
@@ -160,7 +165,9 @@ function gameStart() {
 
     map = new GameObjects.GameMap();
 
-    player = new GameObjects.Player(map.entities.getEntity("Steve"), map.getLayer("Foreground"));
+    mobs = new Managers.Mobs(map.entities.getEntitiesByType("Mob"), map.getLayer(constants.FOREGROUND_LAYER_NAME));
+
+    player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME));
     stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
 
     text = new createjs.Text();

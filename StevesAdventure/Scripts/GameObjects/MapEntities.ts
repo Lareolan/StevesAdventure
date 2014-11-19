@@ -21,13 +21,27 @@ module GameObjects {
                 entityList.push(obj);
             });
         }
-        getEntity(entityName: string): Object {
+        getEntityByName(entityName: string): Object {
             for (var index = 0; index < this.entityList.length; index++) {
                 if (this.entityList[index]["name"] === entityName) {
                     return this.entityList[index];
                 }
             }
             return null;
+        }
+        getEntitiesByType(entityType: string): Array<Object> {
+            var entityList: Array<Object> = null;
+
+            for (var index = 0; index < this.entityList.length; index++) {
+                if (this.entityList[index]["type"] === entityType) {
+                    if (!entityList) {
+                        entityList = [];
+                    }
+//                    return this.entityList[index];
+                    entityList.push(this.entityList[index]);
+                }
+            }
+            return entityList;
         }
     }
 } 

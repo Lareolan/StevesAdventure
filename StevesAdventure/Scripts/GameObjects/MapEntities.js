@@ -19,13 +19,28 @@ var GameObjects;
                 entityList.push(obj);
             });
         }
-        MapEntities.prototype.getEntity = function (entityName) {
+        MapEntities.prototype.getEntityByName = function (entityName) {
             for (var index = 0; index < this.entityList.length; index++) {
                 if (this.entityList[index]["name"] === entityName) {
                     return this.entityList[index];
                 }
             }
             return null;
+        };
+        MapEntities.prototype.getEntitiesByType = function (entityType) {
+            var entityList = null;
+
+            for (var index = 0; index < this.entityList.length; index++) {
+                if (this.entityList[index]["type"] === entityType) {
+                    if (!entityList) {
+                        entityList = [];
+                    }
+
+                    //                    return this.entityList[index];
+                    entityList.push(this.entityList[index]);
+                }
+            }
+            return entityList;
         };
         return MapEntities;
     })();

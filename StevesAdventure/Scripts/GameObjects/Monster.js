@@ -8,8 +8,8 @@ var GameObjects;
 (function (GameObjects) {
     var Monster = (function (_super) {
         __extends(Monster, _super);
-        function Monster() {
-            _super.call(this);
+        function Monster(monster, foreground) {
+            _super.call(this, monster, foreground);
         }
         return Monster;
     })(GameObjects.Entity);

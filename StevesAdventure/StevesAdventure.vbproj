@@ -109,7 +109,6 @@
     <Content Include="Scripts\game.js" />
     <Content Include="Scripts\lib\base64.js" />
     <Content Include="Scripts\lib\easeljs-0.7.1.min.js" />
-    <Content Include="Assets\data\Level1.json" />
     <Content Include="Assets\data\Level1.tmx" />
     <Content Include="Assets\font\Minecrafter.Reg.ttf" />
     <None Include="Scripts\lib\jquery-2.1.1.intellisense.js" />
@@ -183,6 +182,7 @@
     <TypeScriptCompile Include="Scripts\GameObjects\GUIStartScreen.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Layer.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\MapEntities.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\Mobs\Zombie.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Monster.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Player.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Sky.ts" />
@@ -198,6 +198,7 @@
     <TypeScriptCompile Include="Scripts\Managers\Assets.ts" />
     <TypeScriptCompile Include="Scripts\Managers\CloudManager.ts" />
     <TypeScriptCompile Include="Scripts\Managers\GUI.ts" />
+    <TypeScriptCompile Include="Scripts\Managers\Mobs.ts" />
     <TypeScriptCompile Include="Scripts\Managers\Sound.ts" />
   </ItemGroup>
   <ItemGroup />

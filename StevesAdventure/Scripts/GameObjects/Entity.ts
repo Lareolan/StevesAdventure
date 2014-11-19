@@ -3,18 +3,7 @@
         sprites: Array<createjs.Sprite>;
         sprite: createjs.Sprite;
         spriteID: string;
-/*
-        spriteNames: Array<string> = [
-            "steveStandRight",
-            "steveStepRight",
-            "steveStandRightAttack",
-            "steveStepRightAttack",
-            "steveStandLeft",
-            "steveStepLeft",
-            "steveStandLeftAttack",
-            "steveStepLeftAttack"
-        ];
-*/
+        
         canvasX: number;
         canvasY: number;
         mapX: number;
@@ -186,8 +175,22 @@
             return false;
         }
 
+        shiftRight(): void {
+            this.canvasX += constants.MOVE_SPEED;
+        }
+
+        shiftLeft(): void {
+            this.canvasX -= constants.MOVE_SPEED;
+        }
+
         getHealth(): number {
             return this.health;
+        }
+
+        update(): boolean {
+            this.sprite.x = this.canvasX;
+            this.sprite.y = this.canvasY;
+            return false;
         }
     }
 } 

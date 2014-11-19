@@ -147,8 +147,22 @@
             return false;
         };
 
+        Entity.prototype.shiftRight = function () {
+            this.canvasX += constants.MOVE_SPEED;
+        };
+
+        Entity.prototype.shiftLeft = function () {
+            this.canvasX -= constants.MOVE_SPEED;
+        };
+
         Entity.prototype.getHealth = function () {
             return this.health;
+        };
+
+        Entity.prototype.update = function () {
+            this.sprite.x = this.canvasX;
+            this.sprite.y = this.canvasY;
+            return false;
         };
         return Entity;
     })();

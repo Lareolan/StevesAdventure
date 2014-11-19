@@ -12,11 +12,6 @@ var GameObjects;
         __extends(Player, _super);
         function Player(Steve, foreground) {
             _super.call(this, Steve, foreground);
-            /*
-            sprites: Array<createjs.Sprite>;
-            sprite: createjs.Sprite;
-            spriteID: string;
-            */
             this.spriteNames = [
                 "steveStandRight",
                 "steveStepRight",

@@ -3,9 +3,11 @@
 module GameObjects {
     // Player Class
     export class Player extends GameObjects.Entity {
+/*
         sprites: Array<createjs.Sprite>;
         sprite: createjs.Sprite;
         spriteID: string;
+*/
         spriteNames: Array<string> = [
             "steveStandRight",
             "steveStepRight",
@@ -16,21 +18,23 @@ module GameObjects {
             "steveStandLeftAttack",
             "steveStepLeftAttack"
         ];
-        canvasX: number;
-        canvasY: number;
-        mapX: number;
-        mapY: number;
-        height: number;
-        width: number;
-        facing: number;
-        facingChanged: boolean;
-        spriteUpdate: boolean;
-        jumping: boolean;
-        jumpedFrom: number;
-        falling: boolean;
-        mapData: GameObjects.Layer;
-        health: number;
-        runDistance: number;
+        /*
+                canvasX: number;
+                canvasY: number;
+                mapX: number;
+                mapY: number;
+                height: number;
+                width: number;
+                facing: number;
+                facingChanged: boolean;
+                spriteUpdate: boolean;
+                jumping: boolean;
+                jumpedFrom: number;
+                falling: boolean;
+                mapData: GameObjects.Layer;
+                health: number;
+                runDistance: number;
+        */
         attackFlag: boolean;
         attackCounter: number;
 
@@ -41,7 +45,8 @@ module GameObjects {
 
 
         constructor(Steve: Object, foreground: GameObjects.Layer) {
-            super();
+            super(Steve, foreground);
+/*
             this.mapData = foreground;
 
             var spriteName: string;
@@ -70,14 +75,33 @@ module GameObjects {
             this.sprite.regY = 0;
 
             stage.addChild(this.sprite);
+*/
+            var spriteName: string;
+            for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
+                spriteName = this.spriteNames[frameID];
+                this.sprites[spriteName] = new createjs.Sprite(Managers.Assets.characters, spriteName);
+            }
+            this.sprites.length = this.spriteNames.length;
+
+            this.facing = constants.FACING_RIGHT;
+            this.falling = true;
+            this.jumping = false;
+            this.sprite = this.sprites[this.spriteNames[0]].clone();
+            this.sprite.x = this.canvasX;
+            this.sprite.y = this.canvasY;
+            this.sprite.regX = 0;
+            this.sprite.regY = 0;
+
+            stage.addChild(this.sprite);
 
             this.health = 10;
-            this.spriteUpdate = false;
-            this.runDistance = 0;
+//            this.spriteUpdate = false;
+//            this.runDistance = 0;
             this.attackCounter = 0;
+            this.runDistanceIncrements = 4;
+            this.useXOffsetHack = true;
         }
-        setMapData(foreground: GameObjects.Layer): void {
-        }
+/*
         moveRight(): boolean {
             var result = false;
             if (this.facing !== constants.FACING_RIGHT) {
@@ -96,15 +120,13 @@ module GameObjects {
                     this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
                     result = false;
                 } else {
-//                    this.canvasX = (stage.canvas.width / 2);
                     this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
                     result = true;
                 }
                 this.mapX = newX;
-                ////////////////////////////////
-//                result = true;
+
                 this.runDistance++;
-                if ((this.runDistance % 4) === 0) {
+                if ((this.runDistance % this.runDistanceIncrements) === 0) {
                     this.spriteUpdate = true;
                 }
             }
@@ -132,25 +154,26 @@ module GameObjects {
                     result = true;
                 }
                 this.mapX = newX;
-                ////////////////////////////////
-//                result = true;
+
                 this.runDistance++;
-                if ((this.runDistance % 4) === 0) {
+                if ((this.runDistance % this.runDistanceIncrements) === 0) {
                     this.spriteUpdate = true;
                 }
             }
             return result;
         }
+*/
         jump(): void {
             if ((!this.jumping) && (!this.falling)) {
                 this.jumping = true;
                 this.jumpedFrom = Math.ceil((this.mapY + this.height) / 32) - 1;
             }
         }
-        attack(): void {
+        attack(event: Event): void {
             this.instance.attackFlag = true;
             this.instance.spriteUpdate = true;
         }
+/*
         isPassable(tileID: number): boolean {
             if (
                 (tileID === constants.AIR_BLOCK) ||
@@ -161,6 +184,7 @@ module GameObjects {
             }
             return false;
         }
+*/
         takeDamage(hearts: number): boolean {
             this.health -= hearts;
             if (this.health <= 0) {
@@ -169,6 +193,20 @@ module GameObjects {
             }
             return;
         }
+
+/*
+        testVerticalCollision(direction: string): boolean {
+            var response = super.testVerticalCollision(direction);
+
+            var mapFrontX = Math.ceil((this.mapX) / 32) + xOffset;
+            var mapY = Math.floor((this.mapY) / 32);
+            var charBottomIndex = this.mapData.width * (mapY + 1) + mapFrontX;
+
+            return response;
+        }
+*/
+
+/*
         testVerticalCollision(direction: string): boolean {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
 //            var xOffset = 0;
@@ -217,6 +255,9 @@ module GameObjects {
 
             return false;
         }
+*/
+
+/*
         testHorizontal(speed: number): boolean {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
 //            var xOffset = 0;
@@ -235,11 +276,12 @@ module GameObjects {
             var topTile = this.mapData.data[topIndex];
             var bottomTile = this.mapData.data[bottomIndex];
 
-            if (!this.tempShape) {
-                this.tempShape = new createjs.Shape();
-                stage.addChild(this.tempShape);
-            }
-            this.tempShape.graphics.clear();
+
+//            if (!this.tempShape) {
+//                this.tempShape = new createjs.Shape();
+//                stage.addChild(this.tempShape);
+//            }
+//            this.tempShape.graphics.clear();
 //            this.tempShape.graphics.beginStroke("#FF0000").drawRect(mapX * 32, mapY * 32, 32, 64);
 
             if (this.isPassable(topTile) && this.isPassable(bottomTile)) {
@@ -248,12 +290,14 @@ module GameObjects {
 
             return false;
         }
+*/
         findAltitude(): number {
             var mapY = Math.ceil((this.mapY + this.height) / 32) - 1;
             return (this.jumpedFrom - mapY);
         }
         update(): boolean {
-            var passable;
+            var passable,
+                result = false;
 
             if (!input.keyboard.KEY_LEFT && !input.keyboard.KEY_RIGHT) {
                 this.runDistance = 0;
@@ -273,7 +317,7 @@ module GameObjects {
                 stage.removeChild(this.sprite);
 
                 if (this.facing === constants.FACING_LEFT) {
-                    if (Math.floor((this.runDistance % 16) / 8)) {
+                    if (Math.floor((this.runDistance % (this.runDistanceIncrements * 4)) / this.runDistanceIncrements * 2)) {
                         if (this.attackFlag) {
                             this.sprite = this.sprites["steveStepLeftAttack"].clone();
                         } else {
@@ -293,7 +337,7 @@ module GameObjects {
 //                    this.mapX -= this.width;
 //                    this.sprite.x = this.canvasX-32;
                 } else if (this.facing === constants.FACING_RIGHT) {
-                    if (Math.floor((this.runDistance % 16) / 8)) {
+                    if (Math.floor((this.runDistance % (this.runDistanceIncrements * 4)) / (this.runDistanceIncrements * 2))) {
                         if (this.attackFlag) {
                             this.sprite = this.sprites["steveStepRightAttack"].clone();
                         } else {
@@ -340,7 +384,7 @@ module GameObjects {
                 this.canvasY = newY;
                 this.sprite.y = this.canvasY;
                 this.sprite.x = this.canvasX;
-               return true;
+                result = true;
             } else {
                 if (this.jumping) {
                     this.jumping = false;
@@ -349,12 +393,26 @@ module GameObjects {
                 }
             }
 
-//            var xOffset = (this.facing === constants.FACING_LEFT) ? -32 : 0;
             this.sprite.x = this.canvasX;
-            return false;
-        }
-        getHealth(): number {
-            return this.health;
+
+            // Test if player falls into lava
+            var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
+            if (this.useXOffsetHack) {
+                xOffset = 0;
+            }
+
+            var mapFrontX = Math.ceil((this.mapX) / 32) + xOffset;
+            var mapY = Math.floor((this.canvasY) / 32);
+            var charBottomIndex = this.mapData.width * (mapY + 1) + mapFrontX;
+            var charBottomTile = this.mapData.data[charBottomIndex];
+
+            if (charBottomTile === constants.LAVA_BLOCK) {
+                this.takeDamage(10);
+                result = false;
+            }
+
+
+            return result;
         }
     }
 } 

@@ -60,7 +60,7 @@ module GameObjects {
                         tilesetInfo = this.tileset.getTileInfo(tileID);
 
                         if (tile) {
-                            // If processing a background layer, then darken it by 25% to
+                            // If processing a background layer, then darken it by 40% to
                             // differentiate it from the foreground.
                             if (layer !== this.layers.length - 1) {
                                 var color = new createjs.ColorFilter(0.60, 0.60, 0.60, 1, 0, 0, 0, 0);

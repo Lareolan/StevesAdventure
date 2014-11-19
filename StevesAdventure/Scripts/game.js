@@ -161,8 +161,6 @@ function gameStart() {
     map = new GameObjects.GameMap();
 
     player = new GameObjects.Player(map.entities.getEntity("Steve"), map.getLayer("Foreground"));
-
-    //    player.setMapData(map.getLayer("Foreground"));
     stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
 
     text = new createjs.Text();
@@ -181,7 +179,6 @@ function gameStart() {
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: player });
 
     sound = new Managers.Sound();
-    //    player.health = 7;
 }
 
 $("canvas").click(function () {

@@ -51,7 +51,6 @@
             var mapData = map.getLayer("Foreground");
             var halfStage = (stage.canvas.width / 2) * 2;
 
-//            for (var index = 0; index < mapData.data.length; index++) {
             var screenTileWidth = Math.floor(stage.canvas.width / 32) * 2;
             var screenTileHeight = mapData.height;
             var totalScreenTiles = screenTileWidth * screenTileHeight;

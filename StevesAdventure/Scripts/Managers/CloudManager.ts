@@ -39,7 +39,7 @@
             if (index !== undefined) {
                 var res = stage.removeChild(event.target);
                 instance.clouds.splice(index, 1);
-                console.log("Cloud #" + index + " is off screen");
+//                console.log("Cloud #" + index + " is off screen");
                 instance.initClouds();
             }
         }

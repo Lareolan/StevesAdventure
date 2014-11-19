@@ -94,6 +94,7 @@
     <Content Include="Assets\sounds\piano3.ogg" />
     <Content Include="Assets\sounds\stone1.ogg" />
     <Content Include="Assets\sounds\stone2.ogg" />
+    <Content Include="Assets\sounds\water.ogg" />
     <Content Include="Assets\sounds\zombie\death.ogg" />
     <Content Include="Assets\sounds\zombie\hurt1.ogg" />
     <Content Include="Assets\sounds\zombie\hurt2.ogg" />

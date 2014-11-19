@@ -151,10 +151,11 @@ function gameLoop(event): void {
     }
 
     cloudManager.update();
-
     player.update();
     gui.update();
     stage.update();
+
+    sound.update(player, map);
 }
 
 // Level Class

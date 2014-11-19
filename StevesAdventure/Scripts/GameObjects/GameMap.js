@@ -53,7 +53,7 @@ var GameObjects;
                             // If processing a background layer, then darken it by 25% to
                             // differentiate it from the foreground.
                             if (layer !== this.layers.length - 1) {
-                                var color = new createjs.ColorFilter(0.75, 0.75, 0.75, 1, 0, 0, 0, 0);
+                                var color = new createjs.ColorFilter(0.60, 0.60, 0.60, 1, 0, 0, 0, 0);
                                 tile.filters = [color];
                                 tile.cache(0, 0, tilesetInfo["width"], tilesetInfo["height"]);
                             }

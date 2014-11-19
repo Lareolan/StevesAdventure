@@ -15,12 +15,12 @@
 }
 
 @font-face {
-    font-family: "Minecrafter.Reg";
+    font-family: "Minecrafter";
     src: url("../font/Minecrafter.Reg.ttf") format("truetype");
 }
 
 body {
-    font-family: "Minecrafter.Reg";
+    font-family: "Minecrafter";
     font-size: 24pt;
     color: red;
 }

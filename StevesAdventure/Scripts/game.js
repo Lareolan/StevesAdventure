@@ -17,6 +17,7 @@ var queue;
 // Game objects
 var progressBar;
 var text;
+var text2;
 var sky;
 
 //var clouds: Array<GameObjects.Cloud> = [];
@@ -30,7 +31,8 @@ var input = {
     keyboard: {
         KEY_LEFT: false,
         KEY_RIGHT: false,
-        KEY_UP: false
+        KEY_UP: false,
+        KEY_SPACE: false
     },
     mouse: {
         LEFT_BUTTON: false,
@@ -134,17 +136,6 @@ function gameLoop(event) {
 
     cloudManager.update();
 
-    /*
-    for (var cloud = 0; cloud < constants.MAX_CLOUDS; cloud++) {
-    clouds[cloud].update();
-    if (input.keyboard.KEY_LEFT) {
-    clouds[cloud].moveLeft();
-    }
-    if (input.keyboard.KEY_RIGHT) {
-    clouds[cloud].moveRight();
-    }
-    }
-    */
     player.update();
     gui.update();
     stage.update();
@@ -167,15 +158,22 @@ function gameStart() {
 
     player = new GameObjects.Player(map.entities.getEntity("Steve"));
     player.setMapData(map.getLayer("Foreground"));
+    stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
 
-    text = new createjs.Text("Minecraft Text Testing", "Minecrafter.Reg", "Blue");
-    text.scaleX = 4;
-    text.scaleY = 4;
-    text.font = "serif";
+    text = new createjs.Text();
+
+    //    text2.scaleX = 4;
+    //    text2.scaleY = 4;
+    text.font = "32px Minecrafter";
+
+    //    text2.text = "Minecraft Text Testing";
+    text.text = "Kill Count: 0";
+    text.y = 640 + 16;
+    text.textBaseline = "middle";
     stage.addChild(text);
 
     gui = new Managers.GUI(player);
-    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: this });
+    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: player });
     //    player.health = 7;
 }
 
@@ -323,6 +321,13 @@ $(document).keydown(function (e) {
         case 87:
             input.keyboard.KEY_UP = true;
             break;
+        case 32:
+            if (!input.keyboard.KEY_SPACE) {
+                input.keyboard.KEY_SPACE = true;
+                var event = new createjs.Event("playerAttack", true, false);
+                stage.dispatchEvent(event);
+            }
+            break;
     }
 });
 
@@ -341,6 +346,9 @@ $(document).keyup(function (e) {
         case 38:
         case 87:
             input.keyboard.KEY_UP = false;
+            break;
+        case 32:
+            input.keyboard.KEY_SPACE = false;
             break;
     }
 });

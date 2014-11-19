@@ -1,9 +1,17 @@
 ﻿/// <reference path="../managers/assets.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var GameObjects;
 (function (GameObjects) {
     // Player Class
-    var Player = (function () {
+    var Player = (function (_super) {
+        __extends(Player, _super);
         function Player(Steve) {
+            _super.call(this);
             this.spriteNames = [
                 "steveStandRight",
                 "steveStepRight",
@@ -14,6 +22,7 @@ var GameObjects;
                 "steveStandLeftAttack",
                 "steveStepLeftAttack"
             ];
+
             var spriteName;
             this.sprites = [];
 
@@ -43,6 +52,8 @@ var GameObjects;
 
             this.health = 10;
             this.spriteUpdate = false;
+            this.runDistance = 0;
+            this.attackCounter = 0;
         }
         Player.prototype.setMapData = function (foreground) {
             this.mapData = foreground;
@@ -52,6 +63,8 @@ var GameObjects;
             if (this.facing !== constants.FACING_RIGHT) {
                 this.facing = constants.FACING_RIGHT;
                 this.spriteUpdate = true;
+                this.runDistance = 0;
+                this.facingChanged = true;
             }
 
             var newX = this.mapX + constants.MOVE_SPEED;
@@ -63,12 +76,18 @@ var GameObjects;
                     this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
                     result = false;
                 } else {
-                    this.canvasX = (stage.canvas.width / 2);
+                    //                    this.canvasX = (stage.canvas.width / 2);
+                    this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
                     result = true;
                 }
                 this.mapX = newX;
+
                 ////////////////////////////////
                 //                result = true;
+                this.runDistance++;
+                if ((this.runDistance % 4) === 0) {
+                    this.spriteUpdate = true;
+                }
             }
             return result;
         };
@@ -77,6 +96,8 @@ var GameObjects;
             if (this.facing !== constants.FACING_LEFT) {
                 this.facing = constants.FACING_LEFT;
                 this.spriteUpdate = true;
+                this.runDistance = 0;
+                this.facingChanged = true;
             }
 
             var newX = this.mapX - constants.MOVE_SPEED;
@@ -88,12 +109,17 @@ var GameObjects;
                     this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
                     result = false;
                 } else {
-                    this.canvasX = (stage.canvas.width / 2);
+                    this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
                     result = true;
                 }
                 this.mapX = newX;
+
                 ////////////////////////////////
                 //                result = true;
+                this.runDistance++;
+                if ((this.runDistance % 4) === 0) {
+                    this.spriteUpdate = true;
+                }
             }
             return result;
         };
@@ -102,6 +128,10 @@ var GameObjects;
                 this.jumping = true;
                 this.jumpedFrom = Math.ceil((this.mapY + this.height) / 32) - 1;
             }
+        };
+        Player.prototype.attack = function () {
+            this.instance.attackFlag = true;
+            this.instance.spriteUpdate = true;
         };
         Player.prototype.isPassable = function (tileID) {
             if ((tileID === constants.AIR_BLOCK) || (tileID === constants.WATER_BLOCK) || (tileID === constants.LAVA_BLOCK)) {
@@ -120,6 +150,7 @@ var GameObjects;
         Player.prototype.testVerticalCollision = function (direction) {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
 
+            //            var xOffset = 0;
             var mapBackX = Math.floor((this.mapX) / 32) + xOffset;
             var mapFrontX = Math.ceil((this.mapX) / 32) + xOffset;
             var mapY = Math.floor((this.mapY) / 32);
@@ -147,8 +178,8 @@ var GameObjects;
                 stage.addChild(this.tempShape2);
             }
             this.tempShape2.graphics.clear();
-            mapBackX = Math.floor((this.canvasX) / 32) + xOffset;
-            mapFrontX = Math.ceil((this.canvasX) / 32) + xOffset;
+            mapBackX = -map.map.x - (Math.floor((this.mapX) / 32) + xOffset);
+            mapFrontX = (Math.ceil((this.mapX) / 32) + xOffset) + map.map.x;
             this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
 
             if (direction.toLowerCase() === "top") {
@@ -166,6 +197,7 @@ var GameObjects;
         Player.prototype.testHorizontal = function (speed) {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
 
+            //            var xOffset = 0;
             var mapX;
             if (speed >= 0) {
                 mapX = Math.ceil((this.mapX + speed) / 32) + xOffset;
@@ -200,17 +232,63 @@ var GameObjects;
         Player.prototype.update = function () {
             var passable;
 
+            if (!input.keyboard.KEY_LEFT && !input.keyboard.KEY_RIGHT) {
+                this.runDistance = 0;
+                this.spriteUpdate = true;
+            }
+            if (this.attackFlag) {
+                if (this.attackCounter >= 8) {
+                    this.spriteUpdate = true;
+                    this.attackCounter = 0;
+                    this.attackFlag = false;
+                } else {
+                    this.attackCounter++;
+                }
+            }
+
             if (this.spriteUpdate) {
                 stage.removeChild(this.sprite);
 
                 if (this.facing === constants.FACING_LEFT) {
-                    this.sprite = this.sprites["steveStandLeft"].clone();
-                    this.canvasX -= this.width;
-                    this.mapX -= this.width;
+                    if (Math.floor((this.runDistance % 16) / 8)) {
+                        if (this.attackFlag) {
+                            this.sprite = this.sprites["steveStepLeftAttack"].clone();
+                        } else {
+                            this.sprite = this.sprites["steveStepLeft"].clone();
+                        }
+                    } else {
+                        if (this.attackFlag) {
+                            this.sprite = this.sprites["steveStandLeftAttack"].clone();
+                        } else {
+                            this.sprite = this.sprites["steveStandLeft"].clone();
+                        }
+                    }
+                    if (this.facingChanged) {
+                        this.canvasX -= this.width;
+                        this.facingChanged = false;
+                    }
+                    //                    this.mapX -= this.width;
+                    //                    this.sprite.x = this.canvasX-32;
                 } else if (this.facing === constants.FACING_RIGHT) {
-                    this.sprite = this.sprites["steveStandRight"].clone();
-                    this.canvasX += this.width;
-                    this.mapX += this.width;
+                    if (Math.floor((this.runDistance % 16) / 8)) {
+                        if (this.attackFlag) {
+                            this.sprite = this.sprites["steveStepRightAttack"].clone();
+                        } else {
+                            this.sprite = this.sprites["steveStepRight"].clone();
+                        }
+                    } else {
+                        if (this.attackFlag) {
+                            this.sprite = this.sprites["steveStandRightAttack"].clone();
+                        } else {
+                            this.sprite = this.sprites["steveStandRight"].clone();
+                        }
+                    }
+                    if (this.facingChanged) {
+                        this.canvasX += this.width;
+                        this.facingChanged = false;
+                    }
+                    //                    this.mapX += this.width;
+                    //                    this.sprite.x = this.canvasX;
                 }
 
                 this.sprite.x = this.canvasX;
@@ -255,7 +333,7 @@ var GameObjects;
             return this.health;
         };
         return Player;
-    })();
+    })(GameObjects.Entity);
     GameObjects.Player = Player;
 })(GameObjects || (GameObjects = {}));
 //# sourceMappingURL=Player.js.map

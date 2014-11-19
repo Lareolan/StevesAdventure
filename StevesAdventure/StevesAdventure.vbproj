@@ -89,6 +89,7 @@
     <Content Include="Assets\images\GuiComponents.png" />
     <Content Include="Assets\images\MasterTileSet.png" />
     <Content Include="Assets\images\Sky.png" />
+    <Content Include="Assets\sounds\hit1.ogg" />
     <Content Include="Assets\sounds\lava.ogg" />
     <Content Include="Assets\sounds\lavapop.ogg" />
     <Content Include="Assets\sounds\piano3.ogg" />

@@ -1,8 +1,9 @@
 ﻿var Managers;
 (function (Managers) {
     var GUI = (function () {
-        function GUI(player) {
+        function GUI(player, stage) {
             this.player = player;
+            this.stage = stage;
 
             this.preloadScreen = new GameObjects.GUIPreloadScreen();
             this.startScreen = new GameObjects.GUIStartScreen();
@@ -12,6 +13,14 @@
         }
         GUI.prototype.update = function () {
             this.gameScreen.update();
+        };
+
+        GUI.prototype.playerHit = function (e) {
+            this.gameScreen.playerHit(this.instance.stage);
+            //            var stage = this.instance.stage;
+            //            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
+            //            stage.filters = [color];
+            //            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
         };
 
         GUI.prototype.playerDeath = function (e) {

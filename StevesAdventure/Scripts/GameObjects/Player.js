@@ -10,7 +10,7 @@ var GameObjects;
     // Player Class
     var Player = (function (_super) {
         __extends(Player, _super);
-        function Player(Steve, foreground) {
+        function Player(Steve, foreground, sound) {
             _super.call(this, Steve, foreground);
             this.spriteNames = [
                 "steveStandRight",
@@ -54,6 +54,7 @@ var GameObjects;
             stage.addChild(this.sprite);
             */
             this.name = "Steve";
+            this.sound = sound;
 
             var spriteName;
             for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
@@ -82,6 +83,16 @@ var GameObjects;
             this.useXOffsetHack = true;
             this.baseMovementSpeed = constants.MOVE_SPEED;
         }
+        Player.prototype.moveRight = function () {
+            this.sound.playerWalk();
+            return _super.prototype.moveRight.call(this);
+        };
+
+        Player.prototype.moveLeft = function () {
+            this.sound.playerWalk();
+            return _super.prototype.moveLeft.call(this);
+        };
+
         /*
         moveRight(): boolean {
         var result = false;
@@ -172,8 +183,11 @@ var GameObjects;
             if (this.health <= 0) {
                 var event = new createjs.Event("playerDeath", true, false);
                 stage.dispatchEvent(event);
+            } else {
+                var event = new createjs.Event("playerHit", true, false);
+                stage.dispatchEvent(event);
             }
-            return;
+            return true;
         };
 
         /*

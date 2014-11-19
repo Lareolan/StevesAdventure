@@ -2,12 +2,12 @@
     export class Mobs {
         mobs: Array<GameObjects.Monster>;
 
-        constructor(mobList: Array<Object>, foreground: GameObjects.Layer) {
+        constructor(mobList: Array<Object>, foreground: GameObjects.Layer, sound: Managers.Sound, player: GameObjects.Player) {
             this.mobs = [];
 
             for (var index = 0; index < mobList.length; index++) {
                 if (mobList[index]["name"] === "Zombie") {
-                    this.mobs.push(new GameObjects.Mobs.Zombie(mobList[index], foreground));
+                    this.mobs.push(new GameObjects.Mobs.Zombie(mobList[index], foreground, sound, player));
                 }
             }
         }

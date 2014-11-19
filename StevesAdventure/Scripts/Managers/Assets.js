@@ -28,6 +28,7 @@
             { id: "lava", src: "Assets/sounds/lava.ogg" },
             { id: "lavapop", src: "Assets/sounds/lavapop.ogg" },
             { id: "water", src: "Assets/sounds/water.ogg" },
+            { id: "hit", src: "Assets/sounds/hit1.ogg" },
             { id: "zombie_step1", src: "Assets/sounds/zombie/step1.ogg" },
             { id: "zombie_step2", src: "Assets/sounds/zombie/step2.ogg" },
             { id: "zombie_say1", src: "Assets/sounds/zombie/say1.ogg" },

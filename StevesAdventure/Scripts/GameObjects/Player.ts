@@ -15,9 +15,10 @@ module GameObjects {
         ];
         attackFlag: boolean;
         attackCounter: number;
+        sound: Managers.Sound;
 
 
-        constructor(Steve: Object, foreground: GameObjects.Layer) {
+        constructor(Steve: Object, foreground: GameObjects.Layer, sound: Managers.Sound) {
             super(Steve, foreground);
             /*
                         this.mapData = foreground;
@@ -51,6 +52,7 @@ module GameObjects {
             */
 
             this.name = "Steve";
+            this.sound = sound;
 
             var spriteName: string;
             for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
@@ -78,6 +80,17 @@ module GameObjects {
             this.useXOffsetHack = true;
             this.baseMovementSpeed = constants.MOVE_SPEED;
         }
+
+        moveRight(): boolean {
+            this.sound.playerWalk();
+            return super.moveRight();
+        }
+
+        moveLeft(): boolean {
+            this.sound.playerWalk();
+            return super.moveLeft();
+        }
+
 /*
         moveRight(): boolean {
             var result = false;
@@ -167,8 +180,11 @@ module GameObjects {
             if (this.health <= 0) {
                 var event = new createjs.Event("playerDeath", true, false);
                 stage.dispatchEvent(event);
+            } else {
+                var event = new createjs.Event("playerHit", true, false);
+                stage.dispatchEvent(event);
             }
-            return;
+            return true;
         }
 
 /*

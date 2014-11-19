@@ -3,6 +3,7 @@
         healthBar: createjs.Sprite;
         healthSprites: Array<createjs.Sprite>;
         player: GameObjects.Player;
+        active: boolean;
 
         constructor(player: GameObjects.Player) {
             this.healthSprites = [];
@@ -19,6 +20,8 @@
                 this.healthSprites[i].y = 640;
                 stage.addChild(this.healthSprites[i]);
             }
+
+            this.active = true;
         }
 
         update() {
@@ -30,6 +33,16 @@
                     this.healthSprites.length = i;
                 }
             }
+        }
+
+        playerHit(stage: createjs.Stage) {
+            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
+            stage.filters = [color];
+            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
+        }
+
+        isActive() {
+            return this.active;
         }
     }
 } 

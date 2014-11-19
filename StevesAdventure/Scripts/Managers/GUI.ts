@@ -6,9 +6,11 @@
         instructionScreen: GameObjects.GUIInstructionScreen;
         gameScreen: GameObjects.GUIGameScreen;
         deathScreen: GameObjects.GUIDeathScreen;
+        stage: createjs.Stage;
 
-        constructor(player: GameObjects.Player) {
+        constructor(player: GameObjects.Player, stage: createjs.Stage) {
             this.player = player;
+            this.stage = stage;
 
             this.preloadScreen = new GameObjects.GUIPreloadScreen();
             this.startScreen = new GameObjects.GUIStartScreen();
@@ -19,6 +21,15 @@
 
         update() {
             this.gameScreen.update();
+        }
+
+        playerHit(e: Event) {
+            this.gameScreen.playerHit(this.instance.stage);
+
+//            var stage = this.instance.stage;
+//            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
+//            stage.filters = [color];
+//            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
         }
 
         playerDeath(e: Event) {

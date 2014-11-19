@@ -16,6 +16,8 @@
                 this.healthSprites[i].y = 640;
                 stage.addChild(this.healthSprites[i]);
             }
+
+            this.active = true;
         }
         GUIGameScreen.prototype.update = function () {
             var health = this.player.getHealth();
@@ -26,6 +28,16 @@
                     this.healthSprites.length = i;
                 }
             }
+        };
+
+        GUIGameScreen.prototype.playerHit = function (stage) {
+            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
+            stage.filters = [color];
+            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
+        };
+
+        GUIGameScreen.prototype.isActive = function () {
+            return this.active;
         };
         return GUIGameScreen;
     })();

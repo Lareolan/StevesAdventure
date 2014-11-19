@@ -127,18 +127,14 @@ function gameLoop(event) {
         if (player.moveLeft()) {
             map.moveLeft();
             cloudManager.moveLeft();
-            sound.playerWalk();
             mobs.shiftRight();
-            //            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
             cloudManager.moveRight();
-            sound.playerWalk();
             mobs.shiftLeft();
-            //            map.move(player.mapX, player.mapY);
         }
     }
     if (input.keyboard.KEY_UP) {
@@ -163,16 +159,15 @@ var Level = (function () {
 
 // Initialize game images
 function gameStart() {
+    sound = new Managers.Sound();
     sky = new GameObjects.Sky();
-
     cloudManager = new Managers.CloudManager(5);
-
     map = new GameObjects.GameMap();
 
-    mobs = new Managers.Mobs(map.entities.getEntitiesByType("Mob"), map.getLayer(constants.FOREGROUND_LAYER_NAME));
-
-    player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME));
+    player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound);
     stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
+
+    mobs = new Managers.Mobs(map.entities.getEntitiesByType("Mob"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound, player);
 
     text = new createjs.Text();
 
@@ -186,10 +181,9 @@ function gameStart() {
     text.textBaseline = "middle";
     stage.addChild(text);
 
-    gui = new Managers.GUI(player);
+    gui = new Managers.GUI(player, stage);
+    stage.addEventListener("playerHit", { handleEvent: gui.playerHit, instance: player });
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: player });
-
-    sound = new Managers.Sound();
 }
 
 $("canvas").click(function () {

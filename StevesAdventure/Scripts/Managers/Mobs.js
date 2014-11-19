@@ -1,12 +1,12 @@
 ﻿var Managers;
 (function (Managers) {
     var Mobs = (function () {
-        function Mobs(mobList, foreground) {
+        function Mobs(mobList, foreground, sound, player) {
             this.mobs = [];
 
             for (var index = 0; index < mobList.length; index++) {
                 if (mobList[index]["name"] === "Zombie") {
-                    this.mobs.push(new GameObjects.Mobs.Zombie(mobList[index], foreground));
+                    this.mobs.push(new GameObjects.Mobs.Zombie(mobList[index], foreground, sound, player));
                 }
             }
         }

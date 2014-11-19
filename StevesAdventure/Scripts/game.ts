@@ -193,8 +193,8 @@ function gameStart(): void {
     stage.addChild(text);
 
     gui = new Managers.GUI(player, stage);
-    stage.addEventListener("playerHit", { handleEvent: gui.playerHit, instance: player });
-    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: player });
+    stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
+    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player });
 }
 
 $("canvas").click(function () {

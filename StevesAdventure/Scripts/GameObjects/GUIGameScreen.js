@@ -17,6 +17,9 @@
                 stage.addChild(this.healthSprites[i]);
             }
 
+            this.hitShape = new createjs.Shape();
+            this.hitShape.graphics.beginFill("rgba(255,0,0,0.5)").drawRect(0, 0, stage.canvas.width, stage.canvas.height - 32);
+
             this.active = true;
         }
         GUIGameScreen.prototype.update = function () {
@@ -30,10 +33,12 @@
             }
         };
 
-        GUIGameScreen.prototype.playerHit = function (stage) {
-            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
-            stage.filters = [color];
-            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
+        GUIGameScreen.prototype.playerHit = function (stage, instance) {
+            stage.addChild(instance.hitShape);
+            setTimeout(function () {
+                stage.removeChild(instance.hitShape);
+                stage.update();
+            }, 100);
         };
 
         GUIGameScreen.prototype.isActive = function () {

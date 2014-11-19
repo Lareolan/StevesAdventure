@@ -2,6 +2,7 @@
     export class GUIGameScreen {
         healthBar: createjs.Sprite;
         healthSprites: Array<createjs.Sprite>;
+        hitShape: createjs.Shape;
         player: GameObjects.Player;
         active: boolean;
 
@@ -21,6 +22,9 @@
                 stage.addChild(this.healthSprites[i]);
             }
 
+            this.hitShape = new createjs.Shape();
+            this.hitShape.graphics.beginFill("rgba(255,0,0,0.5)").drawRect(0, 0, stage.canvas.width, stage.canvas.height - 32);
+
             this.active = true;
         }
 
@@ -35,10 +39,13 @@
             }
         }
 
-        playerHit(stage: createjs.Stage) {
-            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
-            stage.filters = [color];
-            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
+        playerHit(stage: createjs.Stage, instance: GameObjects.GUIGameScreen) {
+            stage.addChild(instance.hitShape);
+            setTimeout(function () {
+                stage.removeChild(instance.hitShape);
+                stage.update();
+            }, 100);
+            
         }
 
         isActive() {

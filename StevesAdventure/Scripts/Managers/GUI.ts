@@ -24,7 +24,7 @@
         }
 
         playerHit(e: Event) {
-            this.gameScreen.playerHit(this.instance.stage);
+            this.gui.gameScreen.playerHit(this.gui.stage, this.gui.gameScreen);
 
 //            var stage = this.instance.stage;
 //            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);

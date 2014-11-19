@@ -11,7 +11,20 @@
             { id: "MasterTileSet", src: "Assets/images/MasterTileSet.png", type: createjs.LoadQueue.IMAGE, data: 102955 },
             { id: "Character-Tileset", src: "Assets/images/MasterTileSet.png" },
             { id: "Level1Map", src: "Assets/data/Level1.tmx", type: createjs.LoadQueue.XML },
-            { id: "GuiComponents", src: "Assets/images/GuiComponents.png" }
+            { id: "GuiComponents", src: "Assets/images/GuiComponents.png" },
+            { id: "stone1", src: "Assets/sounds/stone1.ogg" },
+            { id: "stone2", src: "Assets/sounds/stone2.ogg" },
+            { id: "piano3", src: "Assets/sounds/piano3.ogg" },
+            { id: "lava", src: "Assets/sounds/lava.ogg" },
+            { id: "lavapop", src: "Assets/sounds/lavapop.ogg" },
+            { id: "zombie_step1", src: "Assets/sounds/zombie/step1.ogg" },
+            { id: "zombie_step2", src: "Assets/sounds/zombie/step2.ogg" },
+            { id: "zombie_say1", src: "Assets/sounds/zombie/say1.ogg" },
+            { id: "zombie_say2", src: "Assets/sounds/zombie/say2.ogg" },
+            { id: "zombie_say3", src: "Assets/sounds/zombie/say3.ogg" },
+            { id: "zombie_hurt1", src: "Assets/sounds/zombie/hurt1.ogg" },
+            { id: "zombie_hurt2", src: "Assets/sounds/zombie/hurt2.ogg" },
+            { id: "zombie_death", src: "Assets/sounds/zombie/death.ogg" }
         ];
 
         static characterSpriteSheet = {

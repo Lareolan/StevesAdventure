@@ -40,8 +40,9 @@ module GameObjects {
         tempShape2: createjs.Shape;
 
 
-        constructor(Steve: Object) {
+        constructor(Steve: Object, foreground: GameObjects.Layer) {
             super();
+            this.mapData = foreground;
 
             var spriteName: string;
             this.sprites = [];
@@ -76,7 +77,6 @@ module GameObjects {
             this.attackCounter = 0;
         }
         setMapData(foreground: GameObjects.Layer): void {
-            this.mapData = foreground;
         }
         moveRight(): boolean {
             var result = false;
@@ -203,7 +203,7 @@ module GameObjects {
             this.tempShape2.graphics.clear();
             mapBackX = -map.map.x - (Math.floor((this.mapX) / 32) + xOffset);
             mapFrontX = (Math.ceil((this.mapX) / 32) + xOffset) + map.map.x;
-            this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
+//            this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
 
             if (direction.toLowerCase() === "top") {
                 if (this.isPassable(topBackTile) && this.isPassable(topFrontTile)) {
@@ -240,7 +240,7 @@ module GameObjects {
                 stage.addChild(this.tempShape);
             }
             this.tempShape.graphics.clear();
-            this.tempShape.graphics.beginStroke("#FF0000").drawRect(mapX * 32, mapY * 32, 32, 64);
+//            this.tempShape.graphics.beginStroke("#FF0000").drawRect(mapX * 32, mapY * 32, 32, 64);
 
             if (this.isPassable(topTile) && this.isPassable(bottomTile)) {
                 return true;

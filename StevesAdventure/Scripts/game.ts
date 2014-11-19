@@ -37,6 +37,7 @@ var cloudManager: Managers.CloudManager;
 var player: GameObjects.Player;
 var map: GameObjects.GameMap;
 var gui: Managers.GUI;
+var sound: Managers.Sound;
 
 // Input state
 var input = {
@@ -133,6 +134,7 @@ function gameLoop(event): void {
         if (player.moveLeft()) {
             map.moveLeft();
             cloudManager.moveLeft();
+            sound.playerWalk();
 //            map.move(player.mapX, player.mapY);
         }
     }
@@ -140,6 +142,7 @@ function gameLoop(event): void {
         if (player.moveRight()) {
             map.moveRight();
             cloudManager.moveRight();
+            sound.playerWalk();
 //            map.move(player.mapX, player.mapY);
         }
     }
@@ -169,8 +172,8 @@ function gameStart(): void {
 
     map = new GameObjects.GameMap();
 
-    player = new GameObjects.Player(map.entities.getEntity("Steve"));
-    player.setMapData(map.getLayer("Foreground"));
+    player = new GameObjects.Player(map.entities.getEntity("Steve"), map.getLayer("Foreground"));
+//    player.setMapData(map.getLayer("Foreground"));
     stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
 
     text = new createjs.Text();
@@ -185,6 +188,8 @@ function gameStart(): void {
 
     gui = new Managers.GUI(player);
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, instance: player });
+
+    sound = new Managers.Sound();
 
 //    player.health = 7;
 }

@@ -10,7 +10,7 @@ var GameObjects;
     // Player Class
     var Player = (function (_super) {
         __extends(Player, _super);
-        function Player(Steve) {
+        function Player(Steve, foreground) {
             _super.call(this);
             this.spriteNames = [
                 "steveStandRight",
@@ -22,6 +22,7 @@ var GameObjects;
                 "steveStandLeftAttack",
                 "steveStepLeftAttack"
             ];
+            this.mapData = foreground;
 
             var spriteName;
             this.sprites = [];
@@ -56,7 +57,6 @@ var GameObjects;
             this.attackCounter = 0;
         }
         Player.prototype.setMapData = function (foreground) {
-            this.mapData = foreground;
         };
         Player.prototype.moveRight = function () {
             var result = false;
@@ -180,8 +180,8 @@ var GameObjects;
             this.tempShape2.graphics.clear();
             mapBackX = -map.map.x - (Math.floor((this.mapX) / 32) + xOffset);
             mapFrontX = (Math.ceil((this.mapX) / 32) + xOffset) + map.map.x;
-            this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
 
+            //            this.tempShape2.graphics.beginStroke("#0000FF").drawRect(mapBackX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapBackX * 32, (mapY + 2) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY - 1) * 32, 32, 32).drawRect(mapFrontX * 32, (mapY + 2) * 32, 32, 32);
             if (direction.toLowerCase() === "top") {
                 if (this.isPassable(topBackTile) && this.isPassable(topFrontTile)) {
                     return true;
@@ -217,8 +217,8 @@ var GameObjects;
                 stage.addChild(this.tempShape);
             }
             this.tempShape.graphics.clear();
-            this.tempShape.graphics.beginStroke("#FF0000").drawRect(mapX * 32, mapY * 32, 32, 64);
 
+            //            this.tempShape.graphics.beginStroke("#FF0000").drawRect(mapX * 32, mapY * 32, 32, 64);
             if (this.isPassable(topTile) && this.isPassable(bottomTile)) {
                 return true;
             }

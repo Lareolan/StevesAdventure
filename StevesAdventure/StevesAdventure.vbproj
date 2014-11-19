@@ -89,6 +89,19 @@
     <Content Include="Assets\images\GuiComponents.png" />
     <Content Include="Assets\images\MasterTileSet.png" />
     <Content Include="Assets\images\Sky.png" />
+    <Content Include="Assets\sounds\lava.ogg" />
+    <Content Include="Assets\sounds\lavapop.ogg" />
+    <Content Include="Assets\sounds\piano3.ogg" />
+    <Content Include="Assets\sounds\stone1.ogg" />
+    <Content Include="Assets\sounds\stone2.ogg" />
+    <Content Include="Assets\sounds\zombie\death.ogg" />
+    <Content Include="Assets\sounds\zombie\hurt1.ogg" />
+    <Content Include="Assets\sounds\zombie\hurt2.ogg" />
+    <Content Include="Assets\sounds\zombie\say1.ogg" />
+    <Content Include="Assets\sounds\zombie\say2.ogg" />
+    <Content Include="Assets\sounds\zombie\say3.ogg" />
+    <Content Include="Assets\sounds\zombie\step1.ogg" />
+    <Content Include="Assets\sounds\zombie\step2.ogg" />
     <Content Include="css\app.css" />
     <Content Include="css\normalize.css" />
     <Content Include="index.html" />
@@ -97,7 +110,7 @@
     <Content Include="Scripts\lib\easeljs-0.7.1.min.js" />
     <Content Include="Assets\data\Level1.json" />
     <Content Include="Assets\data\Level1.tmx" />
-    <Content Include="font\Minecrafter.Reg.ttf" />
+    <Content Include="Assets\font\Minecrafter.Reg.ttf" />
     <None Include="Scripts\lib\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\lib\jquery-2.1.1.js" />
     <Content Include="Scripts\lib\jquery-2.1.1.min.js" />
@@ -184,7 +197,9 @@
     <TypeScriptCompile Include="Scripts\Managers\Assets.ts" />
     <TypeScriptCompile Include="Scripts\Managers\CloudManager.ts" />
     <TypeScriptCompile Include="Scripts\Managers\GUI.ts" />
+    <TypeScriptCompile Include="Scripts\Managers\Sound.ts" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

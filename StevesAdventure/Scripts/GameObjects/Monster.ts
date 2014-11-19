@@ -1,4 +1,7 @@
 ﻿module GameObjects {
-    export class Monster {
+    export class Monster extends GameObjects.Entity {
+        constructor() {
+            super();
+        }
     }
 }

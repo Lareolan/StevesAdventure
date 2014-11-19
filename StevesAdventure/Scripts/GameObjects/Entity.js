@@ -16,6 +16,7 @@
 
             this.spriteUpdate = false;
             this.runDistance = 0;
+            this.baseMovementSpeed = 0;
         }
         Entity.prototype.moveRight = function () {
             var result = false;
@@ -26,16 +27,21 @@
                 this.facingChanged = true;
             }
 
-            var newX = this.mapX + constants.MOVE_SPEED;
-            if (this.testHorizontal(constants.MOVE_SPEED)) {
-                if (this.mapX <= (stage.canvas.width / 2)) {
-                    this.canvasX = this.mapX;
-                    result = false;
-                } else if (this.mapX >= (this.mapData.width * 32) - (stage.canvas.width / 2)) {
-                    this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
-                    result = false;
+            var newX = this.mapX + this.baseMovementSpeed;
+            if (this.testHorizontal(this.baseMovementSpeed)) {
+                if (this instanceof GameObjects.Player) {
+                    if (this.mapX <= (stage.canvas.width / 2)) {
+                        this.canvasX = this.mapX;
+                        result = false;
+                    } else if (this.mapX >= (this.mapData.width * 32) - (stage.canvas.width / 2)) {
+                        this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
+                        result = false;
+                    } else {
+                        this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
+                        result = true;
+                    }
                 } else {
-                    this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
+                    this.canvasX += this.baseMovementSpeed;
                     result = true;
                 }
                 this.mapX = newX;
@@ -57,16 +63,21 @@
                 this.facingChanged = true;
             }
 
-            var newX = this.mapX - constants.MOVE_SPEED;
-            if (this.testHorizontal(-constants.MOVE_SPEED)) {
-                if (this.mapX <= (stage.canvas.width / 2)) {
-                    this.canvasX = this.mapX;
-                    result = false;
-                } else if (this.mapX >= (this.mapData.width * 32) - (stage.canvas.width / 2)) {
-                    this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
-                    result = false;
+            var newX = this.mapX - this.baseMovementSpeed;
+            if (this.testHorizontal(-this.baseMovementSpeed)) {
+                if (this instanceof GameObjects.Player) {
+                    if (this.mapX <= (stage.canvas.width / 2)) {
+                        this.canvasX = this.mapX;
+                        result = false;
+                    } else if (this.mapX >= (this.mapData.width * 32) - (stage.canvas.width / 2)) {
+                        this.canvasX = (stage.canvas.width) - ((this.mapData.width * 32) - this.mapX);
+                        result = false;
+                    } else {
+                        this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
+                        result = true;
+                    }
                 } else {
-                    this.canvasX = Math.floor((stage.canvas.width / 2) / 32) * 32;
+                    this.canvasX -= this.baseMovementSpeed;
                     result = true;
                 }
                 this.mapX = newX;
@@ -88,7 +99,7 @@
 
         Entity.prototype.testHorizontal = function (speed) {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
-            if (this.useXOffsetHack) {
+            if (!this.useXOffsetHack) {
                 xOffset = 0;
             }
 
@@ -116,7 +127,7 @@
 
         Entity.prototype.testVerticalCollision = function (direction) {
             var xOffset = (this.facing === constants.FACING_LEFT) ? 1 : 0;
-            if (this.useXOffsetHack) {
+            if (!this.useXOffsetHack) {
                 xOffset = 0;
             }
 

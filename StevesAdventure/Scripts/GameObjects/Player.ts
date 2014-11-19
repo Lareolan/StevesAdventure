@@ -19,37 +19,38 @@ module GameObjects {
 
         constructor(Steve: Object, foreground: GameObjects.Layer) {
             super(Steve, foreground);
-/*
-            this.mapData = foreground;
+            /*
+                        this.mapData = foreground;
 
-            var spriteName: string;
-            this.sprites = [];
+                        var spriteName: string;
+                        this.sprites = [];
 
-            this.height = parseInt(Steve["height"]);
-            this.width = parseInt(Steve["width"]);
-            this.canvasX = parseInt(Steve["x"]);
-            this.canvasY = parseInt(Steve["y"]) - this.height;
-            this.mapX = this.canvasX;
-            this.mapY = this.canvasY;
+                        this.height = parseInt(Steve["height"]);
+                        this.width = parseInt(Steve["width"]);
+                        this.canvasX = parseInt(Steve["x"]);
+                        this.canvasY = parseInt(Steve["y"]) - this.height;
+                        this.mapX = this.canvasX;
+                        this.mapY = this.canvasY;
 
-            for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
-                spriteName = this.spriteNames[frameID];
-                this.sprites[spriteName] = new createjs.Sprite(Managers.Assets.characters, spriteName);
-            }
-            this.sprites.length = this.spriteNames.length;
+                        for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
+                            spriteName = this.spriteNames[frameID];
+                            this.sprites[spriteName] = new createjs.Sprite(Managers.Assets.characters, spriteName);
+                        }
+                        this.sprites.length = this.spriteNames.length;
 
-            this.facing = constants.FACING_RIGHT;
-            this.falling = true;
-            this.jumping = false;
-            this.sprite = this.sprites["steveStandRight"].clone();
-            this.sprite.x = this.canvasX;
-            this.sprite.y = this.canvasY;
-            this.sprite.regX = 0;
-            this.sprite.regY = 0;
+                        this.facing = constants.FACING_RIGHT;
+                        this.falling = true;
+                        this.jumping = false;
+                        this.sprite = this.sprites["steveStandRight"].clone();
+                        this.sprite.x = this.canvasX;
+                        this.sprite.y = this.canvasY;
+                        this.sprite.regX = 0;
+                        this.sprite.regY = 0;
 
-            stage.addChild(this.sprite);
-*/
+                        stage.addChild(this.sprite);
+            */
 
+            this.name = "Steve";
 
             var spriteName: string;
             for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
@@ -75,6 +76,7 @@ module GameObjects {
             this.attackCounter = 0;
             this.runDistanceIncrements = 4;
             this.useXOffsetHack = true;
+            this.baseMovementSpeed = constants.MOVE_SPEED;
         }
 /*
         moveRight(): boolean {
@@ -343,10 +345,10 @@ module GameObjects {
 
             if (this.jumping) {
                 passable = this.testVerticalCollision("top");
-                var newY = this.mapY - constants.MOVE_SPEED;
+                var newY = this.mapY - this.baseMovementSpeed;
             } else {
                 passable = this.testVerticalCollision("bottom");
-                var newY = this.mapY + constants.MOVE_SPEED;
+                var newY = this.mapY + this.baseMovementSpeed;
             }
 
             if (passable) {

@@ -53,6 +53,8 @@ var GameObjects;
             
             stage.addChild(this.sprite);
             */
+            this.name = "Steve";
+
             var spriteName;
             for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
                 spriteName = this.spriteNames[frameID];
@@ -78,6 +80,7 @@ var GameObjects;
             this.attackCounter = 0;
             this.runDistanceIncrements = 4;
             this.useXOffsetHack = true;
+            this.baseMovementSpeed = constants.MOVE_SPEED;
         }
         /*
         moveRight(): boolean {
@@ -343,10 +346,10 @@ var GameObjects;
 
             if (this.jumping) {
                 passable = this.testVerticalCollision("top");
-                var newY = this.mapY - constants.MOVE_SPEED;
+                var newY = this.mapY - this.baseMovementSpeed;
             } else {
                 passable = this.testVerticalCollision("bottom");
-                var newY = this.mapY + constants.MOVE_SPEED;
+                var newY = this.mapY + this.baseMovementSpeed;
             }
 
             if (passable) {

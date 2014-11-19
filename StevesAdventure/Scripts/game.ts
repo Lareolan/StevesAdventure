@@ -68,7 +68,11 @@ var constants = {
     FACING_RIGHT: 1,
     AIR_BLOCK: 0,
     WATER_BLOCK: 206,
-    LAVA_BLOCK: 238
+    LAVA_BLOCK: 238,
+    AI_ACTION_IDLE: 0,
+    AI_ACTION_MOVE_RIGHT: 1,
+    AI_ACTION_MOVE_LEFT: 2,
+    AI_ACTION_ATTACK: 3
 };
 
 /*

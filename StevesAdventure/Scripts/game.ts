@@ -30,15 +30,17 @@ var queue;
 // Game objects
 var progressBar: createjs.Shape;
 var text: createjs.Text;
-var text2: createjs.Text;
+//var text2: createjs.Text;
 var sky: GameObjects.Sky;
-//var clouds: Array<GameObjects.Cloud> = [];
 var cloudManager: Managers.CloudManager;
 var player: GameObjects.Player;
 var map: GameObjects.GameMap;
 var gui: Managers.GUI;
 var sound: Managers.Sound;
 var mobs: Managers.Mobs;
+var gameState: number;
+var startButton: Array<createjs.DisplayObject>;
+var instructionsButton: Array<createjs.DisplayObject>;
 
 // Input state
 var input = {
@@ -72,21 +74,20 @@ var constants = {
     AI_ACTION_IDLE: 0,
     AI_ACTION_MOVE_RIGHT: 1,
     AI_ACTION_MOVE_LEFT: 2,
-    AI_ACTION_ATTACK: 3
+    AI_ACTION_ATTACK: 3,
+    GAME_STATE_START: 1,
+    GAME_STATE_INSTRUCTIONS: 2,
+    GAME_STATE_PLAY: 3,
+    GAME_STATE_DEATH: 4,
+    GAME_STATE_WIN: 5
 };
-
-/*
-var PLAYER = {
-    FRAMES: {
-        STAND: "SteveStand",
-        STEP: "SteveStep",
-        ATTACK: "SteveStepAttack"
-    }
-};
-*/
 
 // Preload function
 function preload(): void {
+    gui = new Managers.GUI(document.getElementById("canvas"));
+
+
+
     stage = new createjs.Stage(document.getElementById("canvas"));
     progressBar = new createjs.Shape();
     text = new createjs.Text();
@@ -119,11 +120,13 @@ function handleProgress(event: ProgressEvent): void {
     text.textBaseline = "middle";
 
     stage.update();
-    //    console.log((100 * progress).toFixed(0) + ": " + event.progress);
 }
 
 function handleComplete(event: Event): void {
     setTimeout(init, 500);
+
+
+    gui.preloadComplete();
 }
 
 function init(): void {
@@ -131,11 +134,35 @@ function init(): void {
     stage.enableMouseOver(20);
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", gameLoop);
-    gameStart();
+
+    initGameStart();
+//    initGamePlay();
+
+    gameState = constants.GAME_STATE_START;
 }
 
 // Game Loop
 function gameLoop(event): void {
+    switch (gameState) {
+        case constants.GAME_STATE_PLAY:
+            playGame();
+            break;
+        case constants.GAME_STATE_START:
+            startMenu();
+            break;
+        case constants.GAME_STATE_INSTRUCTIONS:
+            instructionsScreen();
+            break;
+        case constants.GAME_STATE_DEATH:
+            deathScreen();
+            break;
+        case constants.GAME_STATE_WIN:
+            winScreen();
+            break;
+    }
+}
+
+function playGame(): void {
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
@@ -163,20 +190,155 @@ function gameLoop(event): void {
     sound.update(player, map);
 }
 
+function startMenu(): void {
+    cloudManager.update();
+    stage.update();
+}
+
+function instructionsScreen(): void {
+    stage.update();
+}
+
+function deathScreen(): void {
+    stage.update();
+}
+
+function winScreen(): void {
+    stage.update();
+}
+
+
+/*
 // Level Class
 class Level {
     levelData: JSON;
     constructor() {
     }
 }
+*/
 
-// Initialize game images
-function gameStart(): void {
+
+function initGameStart(): void {
     sound = new Managers.Sound();
     sky = new GameObjects.Sky();
     cloudManager = new Managers.CloudManager(5);
     map = new GameObjects.GameMap();
 
+    var buttonWidth = 400;
+    var buttonHeight = 80;
+    var button = new createjs.Shape();
+    button.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
+    button.x = (stage.canvas.width / 2) - (buttonWidth / 2);
+    button.y = (stage.canvas.height / 2) - (buttonHeight * 2);
+    var buttonText = new createjs.Text();
+    buttonText.font = "32px Minecrafter";
+    buttonText.text = "Start Game";
+    buttonText.x = (stage.canvas.width / 2);
+    buttonText.y = button.y + buttonHeight / 2;
+    buttonText.textBaseline = "middle";
+    buttonText.textAlign = "center";
+
+    var color = new createjs.ColorFilter(1, 1, 1, 1);
+    button.filters = [color];
+    button.cache(0, 0, buttonWidth, buttonHeight);
+    var buttonFade = "down";
+    var buttonTimer;
+    button.addEventListener("mouseover", function () {
+        buttonTimer = setTimeout(tick, 200);
+        function tick() {
+            if (buttonFade === "down") {
+                button.alpha -= 0.025;
+                if (button.alpha <= 0.4) {
+                    buttonFade = "up";
+                }
+            } else {
+                button.alpha += 0.025;
+                if (button.alpha >= 1) {
+                    buttonFade = "down";
+                }
+            }
+            button.updateCache();
+            buttonTimer = setTimeout(tick, 50);
+        }
+    });
+    button.addEventListener("mouseout", function () {
+        button.alpha = 1;
+        button.updateCache();
+        clearTimeout(buttonTimer);
+    });
+    button.addEventListener("click", function () {
+        stage.removeChild(button);
+        stage.removeChild(buttonText);
+        stage.removeChild(button2);
+        stage.removeChild(button2Text);
+        gameState = constants.GAME_STATE_PLAY;
+        initGamePlay();
+    });
+
+    var button2 = new createjs.Shape();
+    button2.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
+    button2.x = (stage.canvas.width / 2) - (buttonWidth / 2);
+    button2.y = (stage.canvas.height / 2);
+    var button2Text = new createjs.Text();
+    button2Text.font = "32px Minecrafter";
+    button2Text.text = "Instructions";
+    button2Text.x = (stage.canvas.width / 2);
+    button2Text.y = button2.y + buttonHeight / 2;
+    button2Text.textBaseline = "middle";
+    button2Text.textAlign = "center";
+    var color = new createjs.ColorFilter(1, 1, 1, 1);
+    button2.filters = [color];
+    button2.cache(0, 0, buttonWidth, buttonHeight);
+    button2.addEventListener("mouseover", function () {
+        buttonTimer = setTimeout(tick, 200);
+        function tick() {
+            if (buttonFade === "down") {
+                button2.alpha -= 0.025;
+                if (button2.alpha <= 0.4) {
+                    buttonFade = "up";
+                }
+            } else {
+                button2.alpha += 0.025;
+                if (button2.alpha >= 1) {
+                    buttonFade = "down";
+                }
+            }
+            button2.updateCache();
+            buttonTimer = setTimeout(tick, 50);
+        }
+    });
+    button2.addEventListener("mouseout", function () {
+        button2.alpha = 1;
+        button2.updateCache();
+        clearTimeout(buttonTimer);
+    });
+    button2.addEventListener("click", function () {
+        stage.removeChild(button);
+        stage.removeChild(buttonText);
+        stage.removeChild(button2);
+        stage.removeChild(button2Text);
+        gameState = constants.GAME_STATE_INSTRUCTIONS;
+        initInstructionScreen();
+    });
+
+
+//    startButton = [];
+//    startButton.push(new createjs.Shape());
+
+//    instructionsButton = [];
+
+    stage.addChild(button);
+    stage.addChild(buttonText);
+    stage.addChild(button2);
+    stage.addChild(button2Text);
+}
+
+function initInstructionScreen() {
+    gui.show(constants.GAME_STATE_INSTRUCTIONS);
+}
+
+// Initialize game play time elements
+function initGamePlay(): void {
     player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound);
     stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
 
@@ -192,18 +354,22 @@ function gameStart(): void {
     text.textBaseline = "middle";
     stage.addChild(text);
 
-    gui = new Managers.GUI(player, stage);
+//    gui = new Managers.GUI(document.getElementById("canvas"));
+    gui.preloadComplete();
+    gui.setPlayer(player);
+    gui.setStage(stage);
     stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player });
 }
 
-$("canvas").click(function () {
+$("#fullscreen").click(function () {
     if (!isFullscreen()) {
-        launchIntoFullscreen(this);
+        var $canvas = $("canvas");
+        launchIntoFullscreen($canvas[0]);
         var width = $(window).outerWidth();
-        var scale = width / $(this).innerWidth();
-        $(this).attr("style", "transform: scale(" + scale + ")");
-        $(this).addClass("fullscreen");
+        var scale = width / $canvas.innerWidth();
+        $canvas.attr("style", "transform: scale(" + scale + ")");
+        $canvas.addClass("fullscreen");
     }
 });
 

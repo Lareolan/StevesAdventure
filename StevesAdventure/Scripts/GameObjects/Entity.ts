@@ -205,5 +205,17 @@
             this.sprite.y = this.canvasY;
             return false;
         }
+
+        show(): void {
+            if (this.sprite) {
+                stage.addChild(this.sprite);
+            }
+        }
+
+        hide(): void {
+            if (this.sprite) {
+                stage.removeChild(this.sprite);
+            }
+        }
     }
 } 

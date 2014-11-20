@@ -96,6 +96,14 @@ var GameObjects;
                 //                this.map.y = y;
             }
         };
+
+        GameMap.prototype.show = function () {
+            stage.addChild(this.map);
+        };
+
+        GameMap.prototype.hide = function () {
+            stage.removeChild(this.map);
+        };
         return GameMap;
     })();
     GameObjects.GameMap = GameMap;

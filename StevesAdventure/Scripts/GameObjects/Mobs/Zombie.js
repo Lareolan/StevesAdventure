@@ -163,11 +163,14 @@ var GameObjects;
                 // zombie is facing the right direction, and hasn't hit the player for long enough
                 // and hits a random number equal to chance to hit (50%).
                 if (time >= this.attackTimer) {
-                    var distance = Math.floor(this.mapX - this.player.mapX);
-                    if (Math.abs(distance) <= 40) {
-                        if (((this.facing == constants.FACING_RIGHT) && (distance < 0)) || ((this.facing == constants.FACING_LEFT) && (distance >= 0))) {
-                            if (Math.random() <= this.AIActions[constants.AI_ACTION_ATTACK]) {
-                                this.attack();
+                    var distanceH = Math.floor(this.mapX - this.player.mapX);
+                    if (Math.abs(distanceH) <= 40) {
+                        if (((this.facing == constants.FACING_RIGHT) && (distanceH < 0)) || ((this.facing == constants.FACING_LEFT) && (distanceH >= 0))) {
+                            var distanceV = Math.abs(Math.floor(this.mapY - this.player.mapY));
+                            if (distanceV <= this.height / 2) {
+                                if (Math.random() <= this.AIActions[constants.AI_ACTION_ATTACK]) {
+                                    this.attack();
+                                }
                             }
                         }
                     }

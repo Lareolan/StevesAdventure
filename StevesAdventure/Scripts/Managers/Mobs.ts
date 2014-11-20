@@ -41,5 +41,17 @@
                 this.mobs[index].update();
             }
         }
+
+        show(): void {
+            for (var index = 0; index < this.mobs.length; index++) {
+                this.mobs[index].show();
+            }
+        }
+
+        hide(): void {
+            for (var index = 0; index < this.mobs.length; index++) {
+                this.mobs[index].hide();
+            }
+        }
     }
 } 

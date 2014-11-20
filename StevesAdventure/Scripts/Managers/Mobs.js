@@ -39,6 +39,18 @@
                 this.mobs[index].update();
             }
         };
+
+        Mobs.prototype.show = function () {
+            for (var index = 0; index < this.mobs.length; index++) {
+                this.mobs[index].show();
+            }
+        };
+
+        Mobs.prototype.hide = function () {
+            for (var index = 0; index < this.mobs.length; index++) {
+                this.mobs[index].hide();
+            }
+        };
         return Mobs;
     })();
     Managers.Mobs = Mobs;

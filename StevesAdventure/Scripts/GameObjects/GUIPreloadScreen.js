@@ -9,6 +9,8 @@ var GameObjects;
     var GUIPreloadScreen = (function (_super) {
         __extends(GUIPreloadScreen, _super);
         function GUIPreloadScreen() {
+            //        constructor(stage: createjs.Stage) {
+            //            super(stage);
             _super.call(this);
         }
         return GUIPreloadScreen;

@@ -62,16 +62,30 @@
         Assets.guiSpriteSheet = {
             images: ["Assets/images/GuiComponents.png"],
             frames: [
-                [324, 2, 32, 32],
-                [358, 2, 32, 32],
-                [392, 2, 32, 32],
-                [2, 2, 320, 32]
+                [518, 2, 32, 32],
+                [552, 2, 32, 32],
+                [586, 2, 32, 32],
+                [620, 2, 32, 32],
+                [654, 2, 32, 32],
+                [688, 2, 32, 32],
+                [2, 2, 320, 32],
+                [722, 2, 32, 32],
+                [324, 2, 192, 32],
+                [756, 2, 32, 32],
+                [790, 2, 32, 32]
             ],
             animations: {
-                FullFood: [0],
-                FullHeart: [1],
-                HalfHeart: [2],
-                MeterBackground: [3]
+                "AKey": [0],
+                "DKey": [1],
+                "FullFood": [2],
+                "FullHeart": [3],
+                "HalfHeart": [4],
+                "LeftArrowKey": [5],
+                "MeterBackground": [6],
+                "RightArrowKey": [7],
+                "SpaceBar": [8],
+                "UpArrowKey": [9],
+                "WKey": [10]
             }
         };
         return Assets;

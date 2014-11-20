@@ -107,5 +107,13 @@ module GameObjects {
 //                this.map.y = y;
             }
         }
+
+        show(): void {
+            stage.addChild(this.map);
+        }
+
+        hide(): void {
+            stage.removeChild(this.map);
+        }
     }
 } 

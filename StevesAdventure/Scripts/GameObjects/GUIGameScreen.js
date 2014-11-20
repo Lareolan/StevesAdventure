@@ -27,8 +27,6 @@ var GameObjects;
 
             this.hitShape = new createjs.Shape();
             this.hitShape.graphics.beginFill("rgba(255,0,0,0.5)").drawRect(0, 0, stage.canvas.width, stage.canvas.height - 32);
-
-            this.active = true;
         }
         GUIGameScreen.prototype.update = function () {
             var health = this.player.getHealth();

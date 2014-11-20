@@ -175,6 +175,18 @@
             this.sprite.y = this.canvasY;
             return false;
         };
+
+        Entity.prototype.show = function () {
+            if (this.sprite) {
+                stage.addChild(this.sprite);
+            }
+        };
+
+        Entity.prototype.hide = function () {
+            if (this.sprite) {
+                stage.removeChild(this.sprite);
+            }
+        };
         return Entity;
     })();
     GameObjects.Entity = Entity;

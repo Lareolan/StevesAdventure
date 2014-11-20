@@ -1,12 +1,12 @@
 ﻿module GameObjects {
-    export class GUIGameScreen {
+    export class GUIGameScreen extends GameObjects.Screen {
         healthBar: createjs.Sprite;
         healthSprites: Array<createjs.Sprite>;
         hitShape: createjs.Shape;
         player: GameObjects.Player;
-        active: boolean;
 
         constructor(player: GameObjects.Player) {
+            super();
             this.healthSprites = [];
             this.player = player;
 
@@ -46,10 +46,6 @@
                 stage.update();
             }, 100);
             
-        }
-
-        isActive() {
-            return this.active;
         }
     }
 } 

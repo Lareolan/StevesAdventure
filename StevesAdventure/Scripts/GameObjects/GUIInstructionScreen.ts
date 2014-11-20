@@ -1,6 +1,7 @@
 ﻿module GameObjects {
-    export class GUIInstructionScreen {
+    export class GUIInstructionScreen extends GameObjects.Screen {
         constructor() {
+            super();
         }
     }
 }  

@@ -1,7 +1,15 @@
-﻿var GameObjects;
+﻿var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var GameObjects;
 (function (GameObjects) {
-    var GUIGameScreen = (function () {
+    var GUIGameScreen = (function (_super) {
+        __extends(GUIGameScreen, _super);
         function GUIGameScreen(player) {
+            _super.call(this);
             this.healthSprites = [];
             this.player = player;
 
@@ -40,12 +48,8 @@
                 stage.update();
             }, 100);
         };
-
-        GUIGameScreen.prototype.isActive = function () {
-            return this.active;
-        };
         return GUIGameScreen;
-    })();
+    })(GameObjects.Screen);
     GameObjects.GUIGameScreen = GUIGameScreen;
 })(GameObjects || (GameObjects = {}));
 //# sourceMappingURL=GUIGameScreen.js.map

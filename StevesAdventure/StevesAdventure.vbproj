@@ -186,6 +186,7 @@
     <TypeScriptCompile Include="Scripts\GameObjects\Mobs\Zombie.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Monster.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Player.ts" />
+    <TypeScriptCompile Include="Scripts\GameObjects\Screen.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Sky.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\SpriteObject.ts" />
     <TypeScriptCompile Include="Scripts\GameObjects\Tileset.ts" />

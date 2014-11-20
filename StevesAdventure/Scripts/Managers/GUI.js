@@ -17,13 +17,14 @@
 
         GUI.prototype.playerHit = function (e) {
             this.gui.gameScreen.playerHit(this.gui.stage, this.gui.gameScreen);
-            //            var stage = this.instance.stage;
-            //            var color = new createjs.ColorFilter(1.0, 0.5, 0.5, 1, 0, 0, 0, 0);
-            //            stage.filters = [color];
-            //            stage.cache(0, 0, stage.canvas.width, stage.canvas.height);
         };
 
         GUI.prototype.playerDeath = function (e) {
+            this.gui.show(this.gui.deathScreen, this.gui);
+        };
+
+        GUI.prototype.show = function (screen, gui) {
+            gui.activeScreen = screen;
         };
         return GUI;
     })();

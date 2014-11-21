@@ -46,6 +46,8 @@ var GameObjects;
             ];
 
             this.text = [];
+        }
+        GUIInstructionScreen.prototype.init = function () {
             var textLine, index, textSize = 32;
 
             for (index = 0; index < this.intro.length; index++) {
@@ -75,13 +77,22 @@ var GameObjects;
                 resource.y = instructionData.y;
                 this.screenObjects.push(resource);
             }
-
+            var btnX = stage.canvas.width - 240, btnY = stage.canvas.height - 128;
+            var btn = new GameObjects.Button("Back", 160, 64, btnX, btnY, GameObjects.Button.ROUNDED, "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
+            btn.setFadeEffect();
+            btn.setClickHandler(function () {
+                gameState = constants.GAME_STATE_START;
+                initGameStart();
+            });
+            this.screenObjects.push(btn);
+            /*
             var shape = new createjs.Shape();
             shape.graphics.beginFill("#FF0000").drawRoundRect(0, 0, 160, 64, 32);
             shape.x = stage.canvas.width - 160 - 64;
             shape.y = stage.canvas.height - 128;
             this.screenObjects.push(shape);
-
+            
+            
             textLine = new createjs.Text();
             textLine.font = textSize + "px Minecrafter";
             textLine.text = "Back";
@@ -90,7 +101,14 @@ var GameObjects;
             textLine.textBaseline = "middle";
             textLine.textAlign = "center";
             this.screenObjects.push(textLine);
-        }
+            */
+        };
+
+        GUIInstructionScreen.prototype.show = function () {
+            _super.prototype.show.call(this);
+            //            sky.show();
+            //            cloudManager.show();
+        };
         return GUIInstructionScreen;
     })(GameObjects.Screen);
     GameObjects.GUIInstructionScreen = GUIInstructionScreen;

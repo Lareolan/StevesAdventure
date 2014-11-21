@@ -10,24 +10,29 @@
             super(cloudName, index);
             createjs.EventDispatcher.initialize(this);
         }
-        update() {
+
+        update(): void {
             this.x += this.dx;
             if (this.x > (this.width + stage.canvas.width)) {
                 var event = new createjs.Event("cloudOffScreen", true, false);
                 this.dispatchEvent(event);
             }
         }
-        setPosition(x: number, y: number) {
+
+        setPosition(x: number, y: number): void {
             this.x = x;
             this.y = y;
         }
-        setSpeed(speed: number) {
+
+        setSpeed(speed: number): void {
             this.dx = speed;
         }
-        moveLeft() {
+
+        moveLeft(): void {
             this.x += constants.MOVE_SPEED;
         }
-        moveRight() {
+
+        moveRight(): void {
             this.x -= constants.MOVE_SPEED;
         }
     }

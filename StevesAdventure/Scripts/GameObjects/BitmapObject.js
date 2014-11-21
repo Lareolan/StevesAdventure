@@ -23,6 +23,17 @@ var GameObjects;
                 stage.addChild(this);
             }
         }
+        BitmapObject.prototype.getImage = function () {
+            return this;
+        };
+
+        BitmapObject.prototype.show = function () {
+            stage.addChild(this);
+        };
+
+        BitmapObject.prototype.hide = function () {
+            stage.removeChild(this);
+        };
         return BitmapObject;
     })(createjs.Bitmap);
     GameObjects.BitmapObject = BitmapObject;

@@ -3,6 +3,7 @@
 /// <reference path="managers/cloudmanager.ts" />
 /// <reference path="gameobjects/gamemap.ts" />
 /// <reference path="gameobjects/player.ts" />
+/// <reference path="gameobjects/button.ts" />
 /// <reference path="managers/gui.ts" />
 
 
@@ -192,18 +193,23 @@ function playGame(): void {
 
 function startMenu(): void {
     cloudManager.update();
+//    gui.update();
     stage.update();
 }
 
 function instructionsScreen(): void {
+    cloudManager.update();
+//    gui.update();
     stage.update();
 }
 
 function deathScreen(): void {
+//    gui.update();
     stage.update();
 }
 
 function winScreen(): void {
+//    gui.update();
     stage.update();
 }
 
@@ -219,13 +225,28 @@ class Level {
 
 
 function initGameStart(): void {
-    sound = new Managers.Sound();
-    sky = new GameObjects.Sky();
-    cloudManager = new Managers.CloudManager(5);
-    map = new GameObjects.GameMap();
+    gui.show(constants.GAME_STATE_START);
+
+    if (!sound) {
+        sound = new Managers.Sound();
+    }
+
+    if (!sky) {
+        sky = new GameObjects.Sky();
+    }
+
+    if (!cloudManager) {
+        cloudManager = new Managers.CloudManager(5);
+    }
+
+    if (!map) {
+        map = new GameObjects.GameMap();
+    }
+
 
     var buttonWidth = 400;
     var buttonHeight = 80;
+/*
     var button = new createjs.Shape();
     button.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
     button.x = (stage.canvas.width / 2) - (buttonWidth / 2);
@@ -244,7 +265,7 @@ function initGameStart(): void {
     var buttonFade = "down";
     var buttonTimer;
     button.addEventListener("mouseover", function () {
-        buttonTimer = setTimeout(tick, 200);
+        buttonTimer = setTimeout(tick, 50);
         function tick() {
             if (buttonFade === "down") {
                 button.alpha -= 0.025;
@@ -320,29 +341,61 @@ function initGameStart(): void {
         gameState = constants.GAME_STATE_INSTRUCTIONS;
         initInstructionScreen();
     });
+*/
+    var btnX =  (stage.canvas.width / 2) - (buttonWidth / 2),
+        btnY = (stage.canvas.height / 2) - (buttonHeight * 2);
 
+    var startBtn = new GameObjects.Button("Start Game", buttonWidth, buttonHeight, btnX, btnY, GameObjects.Button.ROUNDED,
+        "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
+    startBtn.setFadeEffect();
+    startBtn.setClickHandler(function () {
+        // TODO: Fix this later
+        stage.removeChild(startBtn);
+        stage.removeChild(instructBtn);
+
+        gameState = constants.GAME_STATE_PLAY;
+        initGamePlay();
+    });
+    stage.addChild(startBtn);
+
+    btnY += buttonHeight * 2;
+    var instructBtn = new GameObjects.Button("Instructions", buttonWidth, buttonHeight, btnX, btnY, GameObjects.Button.ROUNDED,
+        "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
+    instructBtn.setFadeEffect();
+    instructBtn.setClickHandler(function () {
+        stage.removeChild(startBtn);
+        stage.removeChild(instructBtn);
+
+        gameState = constants.GAME_STATE_INSTRUCTIONS;
+        initInstructionScreen();
+    });
+    stage.addChild(instructBtn);
 
 //    startButton = [];
 //    startButton.push(new createjs.Shape());
 
 //    instructionsButton = [];
 
+/*
     stage.addChild(button);
     stage.addChild(buttonText);
     stage.addChild(button2);
     stage.addChild(button2Text);
+*/
 }
 
 function initInstructionScreen() {
+//    map.hide();
     gui.show(constants.GAME_STATE_INSTRUCTIONS);
 }
 
 // Initialize game play time elements
 function initGamePlay(): void {
     player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound);
-    stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
-
     mobs = new Managers.Mobs(map.entities.getEntitiesByType("Mob"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound, player);
+
+    stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
+
 
     text = new createjs.Text();
 //    text2.scaleX = 4;

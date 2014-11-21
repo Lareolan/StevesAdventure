@@ -22,5 +22,13 @@
                 stage.addChild(this.screenObjects[index]);
             }
         }
+
+        addChild(image: createjs.DisplayObject): void {
+            this.screenObjects.push(image);
+        }
+
+        addChildArray(images: Array<createjs.DisplayObject>): void {
+            this.screenObjects.concat(images);
+        }
     }
 }

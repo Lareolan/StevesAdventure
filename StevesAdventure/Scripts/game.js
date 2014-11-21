@@ -3,6 +3,7 @@
 /// <reference path="managers/cloudmanager.ts" />
 /// <reference path="gameobjects/gamemap.ts" />
 /// <reference path="gameobjects/player.ts" />
+/// <reference path="gameobjects/button.ts" />
 /// <reference path="managers/gui.ts" />
 
 ;
@@ -177,18 +178,25 @@ function playGame() {
 
 function startMenu() {
     cloudManager.update();
+
+    //    gui.update();
     stage.update();
 }
 
 function instructionsScreen() {
+    cloudManager.update();
+
+    //    gui.update();
     stage.update();
 }
 
 function deathScreen() {
+    //    gui.update();
     stage.update();
 }
 
 function winScreen() {
+    //    gui.update();
     stage.update();
 }
 
@@ -201,13 +209,28 @@ constructor() {
 }
 */
 function initGameStart() {
-    sound = new Managers.Sound();
-    sky = new GameObjects.Sky();
-    cloudManager = new Managers.CloudManager(5);
-    map = new GameObjects.GameMap();
+    gui.show(constants.GAME_STATE_START);
+
+    if (!sound) {
+        sound = new Managers.Sound();
+    }
+
+    if (!sky) {
+        sky = new GameObjects.Sky();
+    }
+
+    if (!cloudManager) {
+        cloudManager = new Managers.CloudManager(5);
+    }
+
+    if (!map) {
+        map = new GameObjects.GameMap();
+    }
 
     var buttonWidth = 400;
     var buttonHeight = 80;
+
+    /*
     var button = new createjs.Shape();
     button.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
     button.x = (stage.canvas.width / 2) - (buttonWidth / 2);
@@ -219,44 +242,44 @@ function initGameStart() {
     buttonText.y = button.y + buttonHeight / 2;
     buttonText.textBaseline = "middle";
     buttonText.textAlign = "center";
-
+    
     var color = new createjs.ColorFilter(1, 1, 1, 1);
     button.filters = [color];
     button.cache(0, 0, buttonWidth, buttonHeight);
     var buttonFade = "down";
     var buttonTimer;
     button.addEventListener("mouseover", function () {
-        buttonTimer = setTimeout(tick, 200);
-        function tick() {
-            if (buttonFade === "down") {
-                button.alpha -= 0.025;
-                if (button.alpha <= 0.4) {
-                    buttonFade = "up";
-                }
-            } else {
-                button.alpha += 0.025;
-                if (button.alpha >= 1) {
-                    buttonFade = "down";
-                }
-            }
-            button.updateCache();
-            buttonTimer = setTimeout(tick, 50);
-        }
+    buttonTimer = setTimeout(tick, 50);
+    function tick() {
+    if (buttonFade === "down") {
+    button.alpha -= 0.025;
+    if (button.alpha <= 0.4) {
+    buttonFade = "up";
+    }
+    } else {
+    button.alpha += 0.025;
+    if (button.alpha >= 1) {
+    buttonFade = "down";
+    }
+    }
+    button.updateCache();
+    buttonTimer = setTimeout(tick, 50);
+    }
     });
     button.addEventListener("mouseout", function () {
-        button.alpha = 1;
-        button.updateCache();
-        clearTimeout(buttonTimer);
+    button.alpha = 1;
+    button.updateCache();
+    clearTimeout(buttonTimer);
     });
     button.addEventListener("click", function () {
-        stage.removeChild(button);
-        stage.removeChild(buttonText);
-        stage.removeChild(button2);
-        stage.removeChild(button2Text);
-        gameState = constants.GAME_STATE_PLAY;
-        initGamePlay();
+    stage.removeChild(button);
+    stage.removeChild(buttonText);
+    stage.removeChild(button2);
+    stage.removeChild(button2Text);
+    gameState = constants.GAME_STATE_PLAY;
+    initGamePlay();
     });
-
+    
     var button2 = new createjs.Shape();
     button2.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
     button2.x = (stage.canvas.width / 2) - (buttonWidth / 2);
@@ -272,56 +295,84 @@ function initGameStart() {
     button2.filters = [color];
     button2.cache(0, 0, buttonWidth, buttonHeight);
     button2.addEventListener("mouseover", function () {
-        buttonTimer = setTimeout(tick, 200);
-        function tick() {
-            if (buttonFade === "down") {
-                button2.alpha -= 0.025;
-                if (button2.alpha <= 0.4) {
-                    buttonFade = "up";
-                }
-            } else {
-                button2.alpha += 0.025;
-                if (button2.alpha >= 1) {
-                    buttonFade = "down";
-                }
-            }
-            button2.updateCache();
-            buttonTimer = setTimeout(tick, 50);
-        }
+    buttonTimer = setTimeout(tick, 200);
+    function tick() {
+    if (buttonFade === "down") {
+    button2.alpha -= 0.025;
+    if (button2.alpha <= 0.4) {
+    buttonFade = "up";
+    }
+    } else {
+    button2.alpha += 0.025;
+    if (button2.alpha >= 1) {
+    buttonFade = "down";
+    }
+    }
+    button2.updateCache();
+    buttonTimer = setTimeout(tick, 50);
+    }
     });
     button2.addEventListener("mouseout", function () {
-        button2.alpha = 1;
-        button2.updateCache();
-        clearTimeout(buttonTimer);
+    button2.alpha = 1;
+    button2.updateCache();
+    clearTimeout(buttonTimer);
     });
     button2.addEventListener("click", function () {
-        stage.removeChild(button);
-        stage.removeChild(buttonText);
-        stage.removeChild(button2);
-        stage.removeChild(button2Text);
+    stage.removeChild(button);
+    stage.removeChild(buttonText);
+    stage.removeChild(button2);
+    stage.removeChild(button2Text);
+    gameState = constants.GAME_STATE_INSTRUCTIONS;
+    initInstructionScreen();
+    });
+    */
+    var btnX = (stage.canvas.width / 2) - (buttonWidth / 2), btnY = (stage.canvas.height / 2) - (buttonHeight * 2);
+
+    var startBtn = new GameObjects.Button("Start Game", buttonWidth, buttonHeight, btnX, btnY, GameObjects.Button.ROUNDED, "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
+    startBtn.setFadeEffect();
+    startBtn.setClickHandler(function () {
+        // TODO: Fix this later
+        stage.removeChild(startBtn);
+        stage.removeChild(instructBtn);
+
+        gameState = constants.GAME_STATE_PLAY;
+        initGamePlay();
+    });
+    stage.addChild(startBtn);
+
+    btnY += buttonHeight * 2;
+    var instructBtn = new GameObjects.Button("Instructions", buttonWidth, buttonHeight, btnX, btnY, GameObjects.Button.ROUNDED, "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
+    instructBtn.setFadeEffect();
+    instructBtn.setClickHandler(function () {
+        stage.removeChild(startBtn);
+        stage.removeChild(instructBtn);
+
         gameState = constants.GAME_STATE_INSTRUCTIONS;
         initInstructionScreen();
     });
-
+    stage.addChild(instructBtn);
     //    startButton = [];
     //    startButton.push(new createjs.Shape());
     //    instructionsButton = [];
+    /*
     stage.addChild(button);
     stage.addChild(buttonText);
     stage.addChild(button2);
     stage.addChild(button2Text);
+    */
 }
 
 function initInstructionScreen() {
+    //    map.hide();
     gui.show(constants.GAME_STATE_INSTRUCTIONS);
 }
 
 // Initialize game play time elements
 function initGamePlay() {
     player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound);
-    stage.addEventListener("playerAttack", { handleEvent: player.attack, instance: player });
-
     mobs = new Managers.Mobs(map.entities.getEntitiesByType("Mob"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound, player);
+
+    stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
 
     text = new createjs.Text();
 

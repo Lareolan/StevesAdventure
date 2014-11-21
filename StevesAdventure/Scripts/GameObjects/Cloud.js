@@ -21,16 +21,20 @@ var GameObjects;
                 this.dispatchEvent(event);
             }
         };
+
         Cloud.prototype.setPosition = function (x, y) {
             this.x = x;
             this.y = y;
         };
+
         Cloud.prototype.setSpeed = function (speed) {
             this.dx = speed;
         };
+
         Cloud.prototype.moveLeft = function () {
             this.x += constants.MOVE_SPEED;
         };
+
         Cloud.prototype.moveRight = function () {
             this.x -= constants.MOVE_SPEED;
         };

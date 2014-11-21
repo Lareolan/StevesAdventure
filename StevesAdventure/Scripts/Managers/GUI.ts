@@ -45,6 +45,7 @@
         }
 
         playerDeath(e: Event): void {
+            gameState = constants.GAME_STATE_DEATH;
 //            this.gui.show(this.gui.deathScreen, this.gui);
         }
 /*
@@ -56,7 +57,22 @@
             switch (gameState) {
                 case constants.GAME_STATE_INSTRUCTIONS:
                     this.activeScreen.hide();
+
+                    this.instructionScreen.addChild(sky.getImage());
+                    this.instructionScreen.addChildArray(cloudManager.getImages());
+
+                    this.instructionScreen.init();
                     this.activeScreen = this.instructionScreen;
+                    this.activeScreen.show();
+                    break;
+                case constants.GAME_STATE_START:
+                    this.activeScreen.hide();
+                    this.activeScreen = this.startScreen;
+                    this.activeScreen.show();
+                    break;
+                case constants.GAME_STATE_DEATH:
+                    this.activeScreen.hide();
+                    this.activeScreen = this.deathScreen;
                     this.activeScreen.show();
                     break;
             }

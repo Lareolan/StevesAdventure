@@ -19,6 +19,14 @@
                 stage.addChild(this.screenObjects[index]);
             }
         };
+
+        Screen.prototype.addChild = function (image) {
+            this.screenObjects.push(image);
+        };
+
+        Screen.prototype.addChildArray = function (images) {
+            this.screenObjects.concat(images);
+        };
         return Screen;
     })();
     GameObjects.Screen = Screen;

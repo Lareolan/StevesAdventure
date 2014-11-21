@@ -18,5 +18,17 @@
                 stage.addChild(this);
             }
         }
+
+        getImage(): createjs.Bitmap {
+            return this;
+        }
+
+        show(): void {
+            stage.addChild(this);
+        }
+
+        hide(): void {
+            stage.removeChild(this);
+        }
     }
 }  

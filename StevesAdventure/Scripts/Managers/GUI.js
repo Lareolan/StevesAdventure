@@ -37,6 +37,8 @@
 
         GUI.prototype.playerDeath = function (e) {
             gameState = constants.GAME_STATE_DEATH;
+            this.player.die();
+            this.gui.show(constants.GAME_STATE_DEATH);
             //            this.gui.show(this.gui.deathScreen, this.gui);
         };
 
@@ -64,6 +66,11 @@
                     break;
                 case constants.GAME_STATE_DEATH:
                     this.activeScreen.hide();
+
+                    this.deathScreen.addChild(sky.getImage());
+                    this.deathScreen.addChildArray(cloudManager.getImages());
+
+                    this.deathScreen.init(this.player.getKillcount());
                     this.activeScreen = this.deathScreen;
                     this.activeScreen.show();
                     break;

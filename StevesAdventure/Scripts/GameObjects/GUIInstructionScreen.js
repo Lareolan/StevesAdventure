@@ -44,8 +44,7 @@ var GameObjects;
                 "SpaceBar",
                 "AttackText"
             ];
-
-            this.text = [];
+            //            this.text = [];
         }
         GUIInstructionScreen.prototype.init = function () {
             var textLine, index, textSize = 32;

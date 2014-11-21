@@ -191,6 +191,8 @@ function instructionsScreen() {
 }
 
 function deathScreen() {
+    cloudManager.update();
+
     //    gui.update();
     stage.update();
 }
@@ -374,24 +376,23 @@ function initGamePlay() {
 
     stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
 
+    /*
     text = new createjs.Text();
-
     //    text2.scaleX = 4;
     //    text2.scaleY = 4;
     text.font = "32px Minecrafter";
-
     //    text2.text = "Minecraft Text Testing";
     text.text = "Kill Count: 0";
     text.y = 640 + 16;
     text.textBaseline = "middle";
     stage.addChild(text);
-
+    */
     //    gui = new Managers.GUI(document.getElementById("canvas"));
     gui.preloadComplete();
     gui.setPlayer(player);
     gui.setStage(stage);
     stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
-    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player });
+    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player, gui: gui });
 }
 
 $("#fullscreen").click(function () {

@@ -204,6 +204,7 @@ function instructionsScreen(): void {
 }
 
 function deathScreen(): void {
+    cloudManager.update();
 //    gui.update();
     stage.update();
 }
@@ -396,7 +397,7 @@ function initGamePlay(): void {
 
     stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
 
-
+/*
     text = new createjs.Text();
 //    text2.scaleX = 4;
 //    text2.scaleY = 4;
@@ -406,13 +407,14 @@ function initGamePlay(): void {
     text.y = 640 + 16;
     text.textBaseline = "middle";
     stage.addChild(text);
+*/
 
 //    gui = new Managers.GUI(document.getElementById("canvas"));
     gui.preloadComplete();
     gui.setPlayer(player);
     gui.setStage(stage);
     stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
-    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player });
+    stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player, gui: gui });
 }
 
 $("#fullscreen").click(function () {

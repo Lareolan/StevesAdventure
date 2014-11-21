@@ -1,6 +1,6 @@
 ﻿module GameObjects {
     export class GUIInstructionScreen extends GameObjects.Screen {
-        text: Array<createjs.Text>;
+//        text: Array<createjs.Text>;
         images: Array<createjs.Sprite>;
         intro: Array<string> = [
             "To play the game you must navigate your",
@@ -40,7 +40,7 @@
         constructor() {
             super();
 
-            this.text = [];
+//            this.text = [];
         }
 
         init(): void {

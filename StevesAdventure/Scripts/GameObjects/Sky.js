@@ -10,7 +10,7 @@ var GameObjects;
     var Sky = (function (_super) {
         __extends(Sky, _super);
         function Sky() {
-            _super.call(this, "sky", 0);
+            _super.call(this, "sky", null, 0);
             this.name = "Sky";
         }
         Sky.prototype.show = function () {

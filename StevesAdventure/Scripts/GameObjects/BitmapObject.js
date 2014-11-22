@@ -8,8 +8,16 @@ var GameObjects;
 (function (GameObjects) {
     var BitmapObject = (function (_super) {
         __extends(BitmapObject, _super);
-        function BitmapObject(imageAsset, positionIndex) {
-            _super.call(this, Managers.Assets.loader.getResult(imageAsset));
+        //        constructor(bitmapAsset: createjs.Bitmap, positionIndex: number = null);
+        function BitmapObject(imageAsset, bitmapAsset, positionIndex) {
+            if (typeof positionIndex === "undefined") { positionIndex = null; }
+            if (imageAsset) {
+                _super.call(this, Managers.Assets.loader.getResult(imageAsset));
+            } else if (bitmapAsset) {
+                _super.call(this, bitmapAsset.image);
+            } else {
+                return;
+            }
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
             this.regX = this.width * 0.5;
@@ -17,7 +25,7 @@ var GameObjects;
             this.x = this.regX;
             this.y = this.regY;
 
-            if (positionIndex !== undefined) {
+            if (positionIndex !== null) {
                 stage.addChildAt(this, positionIndex);
             } else {
                 stage.addChild(this);

@@ -10,7 +10,7 @@ var GameObjects;
     var Cloud = (function (_super) {
         __extends(Cloud, _super);
         function Cloud(cloudName, index) {
-            _super.call(this, cloudName, index);
+            _super.call(this, cloudName, null, index);
             this.name = "Cloud";
             createjs.EventDispatcher.initialize(this);
         }

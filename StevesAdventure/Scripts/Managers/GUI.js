@@ -2,14 +2,7 @@
 (function (Managers) {
     var GUI = (function () {
         function GUI(canvas) {
-            //            this.player = player;
-            //            this.stage = stage;
             this.preloadScreen = new GameObjects.GUIPreloadScreen();
-
-            //            this.startScreen = new GameObjects.GUIStartScreen();
-            //            this.instructionScreen = new GameObjects.GUIInstructionScreen();
-            //            this.gameScreen = new GameObjects.GUIGameScreen(player);
-            //            this.deathScreen = new GameObjects.GUIDeathScreen();
             this.activeScreen = this.preloadScreen;
         }
         GUI.prototype.preloadComplete = function () {
@@ -17,6 +10,7 @@
             this.instructionScreen = new GameObjects.GUIInstructionScreen();
             this.gameScreen = new GameObjects.GUIGameScreen(player);
             this.deathScreen = new GameObjects.GUIDeathScreen();
+            this.victoryScreen = new GameObjects.GUIVictoryScreen();
         };
 
         GUI.prototype.setPlayer = function (player) {
@@ -39,14 +33,8 @@
             gameState = constants.GAME_STATE_DEATH;
             this.player.die();
             this.gui.show(constants.GAME_STATE_DEATH);
-            //            this.gui.show(this.gui.deathScreen, this.gui);
         };
 
-        /*
-        show(screen: GameObjects.Screen, gui: Managers.GUI): void {
-        gui.activeScreen = screen;
-        }
-        */
         GUI.prototype.show = function (gameState) {
             switch (gameState) {
                 case constants.GAME_STATE_INSTRUCTIONS:
@@ -72,6 +60,27 @@
 
                     this.deathScreen.init(this.player.getKillcount());
                     this.activeScreen = this.deathScreen;
+                    this.activeScreen.show();
+                    break;
+                case constants.GAME_STATE_VICTORY:
+                    this.activeScreen.hide();
+
+                    this.victoryScreen.addChild(sky.getImage());
+                    this.victoryScreen.addChildArray(cloudManager.getImages());
+
+                    this.victoryScreen.init(this.player.getKillcount(), worldTimer);
+                    this.activeScreen = this.victoryScreen;
+                    this.activeScreen.show();
+                    break;
+                case constants.GAME_STATE_PLAY:
+                    worldTimer = new Date().getTime();
+                    this.activeScreen.hide();
+
+                    this.gameScreen.addChild(sky.getImage());
+                    this.gameScreen.addChildArray(cloudManager.getImages());
+                    this.gameScreen.addChild(map.getImage());
+
+                    this.activeScreen = this.gameScreen;
                     this.activeScreen.show();
                     break;
             }

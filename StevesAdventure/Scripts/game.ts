@@ -40,6 +40,8 @@ var gui: Managers.GUI;
 var sound: Managers.Sound;
 var mobs: Managers.Mobs;
 var gameState: number;
+var worldTimer: number;
+var gameObjects: Managers.Objects;
 var startButton: Array<createjs.DisplayObject>;
 var instructionsButton: Array<createjs.DisplayObject>;
 
@@ -80,7 +82,7 @@ var constants = {
     GAME_STATE_INSTRUCTIONS: 2,
     GAME_STATE_PLAY: 3,
     GAME_STATE_DEATH: 4,
-    GAME_STATE_WIN: 5
+    GAME_STATE_VICTORY: 5
 };
 
 // Preload function
@@ -157,8 +159,8 @@ function gameLoop(event): void {
         case constants.GAME_STATE_DEATH:
             deathScreen();
             break;
-        case constants.GAME_STATE_WIN:
-            winScreen();
+        case constants.GAME_STATE_VICTORY:
+            victoryScreen();
             break;
     }
 }
@@ -167,6 +169,7 @@ function playGame(): void {
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
+            gameObjects.moveLeft()
             cloudManager.moveLeft();
             mobs.shiftRight();
         }
@@ -174,6 +177,7 @@ function playGame(): void {
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
+            gameObjects.moveRight()
             cloudManager.moveRight();
             mobs.shiftLeft();
         }
@@ -209,7 +213,7 @@ function deathScreen(): void {
     stage.update();
 }
 
-function winScreen(): void {
+function victoryScreen(): void {
 //    gui.update();
     stage.update();
 }
@@ -355,6 +359,7 @@ function initGameStart(): void {
         stage.removeChild(instructBtn);
 
         gameState = constants.GAME_STATE_PLAY;
+        gui.show(constants.GAME_STATE_PLAY);
         initGamePlay();
     });
     stage.addChild(startBtn);
@@ -371,6 +376,8 @@ function initGameStart(): void {
         initInstructionScreen();
     });
     stage.addChild(instructBtn);
+
+
 
 //    startButton = [];
 //    startButton.push(new createjs.Shape());
@@ -397,17 +404,8 @@ function initGamePlay(): void {
 
     stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
 
-/*
-    text = new createjs.Text();
-//    text2.scaleX = 4;
-//    text2.scaleY = 4;
-    text.font = "32px Minecrafter";
-//    text2.text = "Minecraft Text Testing";
-    text.text = "Kill Count: 0";
-    text.y = 640 + 16;
-    text.textBaseline = "middle";
-    stage.addChild(text);
-*/
+    gameObjects = new Managers.Objects(map.entities.getAllEntities(), map.tileset);
+
 
 //    gui = new Managers.GUI(document.getElementById("canvas"));
     gui.preloadComplete();
@@ -415,6 +413,9 @@ function initGamePlay(): void {
     gui.setStage(stage);
     stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player, gui: gui });
+
+
+    player.mapX = 15000;
 }
 
 $("#fullscreen").click(function () {

@@ -21,6 +21,7 @@ module GameObjects {
                 entityList.push(obj);
             });
         }
+
         getEntityByName(entityName: string): Object {
             for (var index = 0; index < this.entityList.length; index++) {
                 if (this.entityList[index]["name"] === entityName) {
@@ -29,6 +30,7 @@ module GameObjects {
             }
             return null;
         }
+
         getEntitiesByType(entityType: string): Array<Object> {
             var entityList: Array<Object> = null;
 
@@ -37,11 +39,15 @@ module GameObjects {
                     if (!entityList) {
                         entityList = [];
                     }
-//                    return this.entityList[index];
+                    //                    return this.entityList[index];
                     entityList.push(this.entityList[index]);
                 }
             }
             return entityList;
+        }
+
+        getAllEntities(): Array<Object> {
+            return this.entityList;
         }
     }
 } 

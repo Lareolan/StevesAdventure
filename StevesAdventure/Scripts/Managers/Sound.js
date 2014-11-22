@@ -83,6 +83,33 @@
             }
         };
 
+        Sound.prototype.zombieHurt = function (zombie, player) {
+            var distance, volume, pan;
+            var halfScreenWidth = stage.canvas.width / 2;
+
+            distance = zombie.mapX - player.mapX;
+            pan = distance / halfScreenWidth;
+            volume = Math.abs(pan) * 0.8;
+            var soundID;
+            if (Math.floor(Math.random() * 2) == 0) {
+                soundID = SoundsList.ZOMBIE_HURT1;
+            } else {
+                soundID = SoundsList.ZOMBIE_HURT2;
+            }
+
+            this.zombieSpeakInstance = createjs.Sound.play(soundID, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
+        };
+
+        Sound.prototype.zombieDeath = function (zombie, player) {
+            var distance, volume, pan;
+            var halfScreenWidth = stage.canvas.width / 2;
+
+            distance = zombie.mapX - player.mapX;
+            pan = distance / halfScreenWidth;
+            volume = Math.abs(pan) * 0.8;
+            this.zombieSpeakInstance = createjs.Sound.play(SoundsList.ZOMBIE_DEATH, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
+        };
+
         Sound.prototype.update = function (player, map) {
             var lavaX, relativeDistance, volume, pan, index, lavaFound, waterFound;
             var mapData = map.getLayer("Foreground");

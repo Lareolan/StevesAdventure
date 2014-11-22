@@ -25,6 +25,7 @@
         attackFlag: boolean;
         attackCounter: number;
         useXOffsetHack: boolean;
+        dead: boolean;
 
         constructor(entity: Object, foreground: GameObjects.Layer) {
             this.mapData = foreground;

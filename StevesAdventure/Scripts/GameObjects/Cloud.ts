@@ -7,7 +7,7 @@
         name: string = "Cloud";
 
         constructor(cloudName: string, index: number) {
-            super(cloudName, index);
+            super(cloudName, null, index);
             createjs.EventDispatcher.initialize(this);
         }
 

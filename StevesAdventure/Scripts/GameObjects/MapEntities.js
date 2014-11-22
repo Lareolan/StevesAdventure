@@ -27,6 +27,7 @@ var GameObjects;
             }
             return null;
         };
+
         MapEntities.prototype.getEntitiesByType = function (entityType) {
             var entityList = null;
 
@@ -41,6 +42,10 @@ var GameObjects;
                 }
             }
             return entityList;
+        };
+
+        MapEntities.prototype.getAllEntities = function () {
+            return this.entityList;
         };
         return MapEntities;
     })();

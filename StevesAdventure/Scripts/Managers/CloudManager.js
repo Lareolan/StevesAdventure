@@ -83,6 +83,11 @@
             }
             return cloudImages;
         };
+
+        CloudManager.prototype.reset = function () {
+            this.clouds = [];
+            this.initClouds();
+        };
         return CloudManager;
     })();
     Managers.CloudManager = CloudManager;

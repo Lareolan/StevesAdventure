@@ -28,6 +28,8 @@ var gui;
 var sound;
 var mobs;
 var gameState;
+var worldTimer;
+var gameObjects;
 var startButton;
 var instructionsButton;
 
@@ -68,7 +70,7 @@ var constants = {
     GAME_STATE_INSTRUCTIONS: 2,
     GAME_STATE_PLAY: 3,
     GAME_STATE_DEATH: 4,
-    GAME_STATE_WIN: 5
+    GAME_STATE_VICTORY: 5
 };
 
 // Preload function
@@ -142,8 +144,8 @@ function gameLoop(event) {
         case constants.GAME_STATE_DEATH:
             deathScreen();
             break;
-        case constants.GAME_STATE_WIN:
-            winScreen();
+        case constants.GAME_STATE_VICTORY:
+            victoryScreen();
             break;
     }
 }
@@ -152,6 +154,7 @@ function playGame() {
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
+            gameObjects.moveLeft();
             cloudManager.moveLeft();
             mobs.shiftRight();
         }
@@ -159,6 +162,7 @@ function playGame() {
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
+            gameObjects.moveRight();
             cloudManager.moveRight();
             mobs.shiftLeft();
         }
@@ -197,7 +201,7 @@ function deathScreen() {
     stage.update();
 }
 
-function winScreen() {
+function victoryScreen() {
     //    gui.update();
     stage.update();
 }
@@ -338,6 +342,7 @@ function initGameStart() {
         stage.removeChild(instructBtn);
 
         gameState = constants.GAME_STATE_PLAY;
+        gui.show(constants.GAME_STATE_PLAY);
         initGamePlay();
     });
     stage.addChild(startBtn);
@@ -376,23 +381,16 @@ function initGamePlay() {
 
     stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
 
-    /*
-    text = new createjs.Text();
-    //    text2.scaleX = 4;
-    //    text2.scaleY = 4;
-    text.font = "32px Minecrafter";
-    //    text2.text = "Minecraft Text Testing";
-    text.text = "Kill Count: 0";
-    text.y = 640 + 16;
-    text.textBaseline = "middle";
-    stage.addChild(text);
-    */
+    gameObjects = new Managers.Objects(map.entities.getAllEntities(), map.tileset);
+
     //    gui = new Managers.GUI(document.getElementById("canvas"));
     gui.preloadComplete();
     gui.setPlayer(player);
     gui.setStage(stage);
     stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player, gui: gui });
+
+    player.mapX = 15000;
 }
 
 $("#fullscreen").click(function () {

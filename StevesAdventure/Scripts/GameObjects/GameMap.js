@@ -67,6 +67,7 @@ var GameObjects;
 
             bitmapStage.update();
             this.map = new createjs.Bitmap(canvas);
+            this.map.name = "Map";
             stage.addChild(this.map);
         }
         GameMap.prototype.getLayer = function (name) {
@@ -103,6 +104,15 @@ var GameObjects;
 
         GameMap.prototype.hide = function () {
             stage.removeChild(this.map);
+        };
+
+        GameMap.prototype.getImage = function () {
+            return this.map;
+        };
+
+        GameMap.prototype.reset = function () {
+            this.map.x = 0;
+            this.map.y = 0;
         };
         return GameMap;
     })();

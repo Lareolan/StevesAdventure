@@ -10,7 +10,7 @@ var GameObjects;
         var Zombie = (function (_super) {
             __extends(Zombie, _super);
             function Zombie(zombie, foreground, sound, player) {
-                _super.call(this, zombie, foreground);
+                _super.call(this, zombie, foreground, player);
                 this.spriteNames = [
                     "zombieStandRight",
                     "zombieStepRight",
@@ -22,7 +22,6 @@ var GameObjects;
 
                 this.name = "Zombie";
                 this.sound = sound;
-                this.player = player;
 
                 var spriteName;
                 for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
@@ -62,10 +61,16 @@ var GameObjects;
             */
             Zombie.prototype.speak = function () {
                 if (Math.floor(Math.random() * 240) == 0) {
-                    this.sound.zombieSpeak(this, player);
+                    this.sound.zombieSpeak(this, this.player);
                 }
             };
 
+            /*
+            die(): void {
+            super.die();
+            this.sound.zombieDeath(this, this.player);
+            }
+            */
             /*
             * This function handles all the updates for the zombie. Animating its movements,
             * determining AI actions and executing those actions as well as falling down

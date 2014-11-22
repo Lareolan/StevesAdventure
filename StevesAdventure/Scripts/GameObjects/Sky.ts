@@ -4,7 +4,7 @@
         name: string = "Sky";
 
         constructor() {
-            super("sky", 0);
+            super("sky", null, 0);
         }
 
         show(): void {

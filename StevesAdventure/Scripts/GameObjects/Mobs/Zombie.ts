@@ -7,23 +7,19 @@
                 "zombieStandLeft",
                 "zombieStepLeft"
             ];
-//            attackFlag: boolean;
-//            attackCounter: number;
             attackTimer: number;
             sound: Managers.Sound;
             currentAIAction: number;
             currentAITimer: number;
             AIActions: Array<number> = [0.4, 0.7, 1.0, 0.5];
             damage: number = 2;
-            player: GameObjects.Player;
 
 
             constructor(zombie: Object, foreground: GameObjects.Layer, sound: Managers.Sound, player: GameObjects.Player) {
-                super(zombie, foreground);
+                super(zombie, foreground, player);
                 
                 this.name = "Zombie";
                 this.sound = sound;
-                this.player = player;
 
                 var spriteName: string;
                 for (var frameID = 0; frameID < this.spriteNames.length; frameID++) {
@@ -52,7 +48,7 @@
                 this.currentAITimer = new Date().getTime() + 1000;
             }
 
-            attack() {
+            attack(): void {
                 this.player.takeDamage(this.damage);
                 this.attackTimer = new Date().getTime() + 1000;
                 this.sound.playerHit();
@@ -62,11 +58,17 @@
              * This function makes zombies "speak" at random with a rough median of
              * approximately every 4 seconds
              */
-            speak() {
+            speak(): void {
                 if (Math.floor(Math.random() * 240) == 0) {
-                    this.sound.zombieSpeak(this, player);
+                    this.sound.zombieSpeak(this, this.player);
                 }
             }
+/*
+            die(): void {
+                super.die();
+                this.sound.zombieDeath(this, this.player);
+            }
+*/
 
             /*
              * This function handles all the updates for the zombie. Animating its movements,

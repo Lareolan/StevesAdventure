@@ -43,7 +43,7 @@
             if (index !== undefined) {
                 var res = stage.removeChild(event.target);
                 instance.clouds.splice(index, 1);
-//                console.log("Cloud #" + index + " is off screen");
+                //                console.log("Cloud #" + index + " is off screen");
                 instance.initClouds();
             }
         }
@@ -84,6 +84,11 @@
                 cloudImages.push(this.clouds[index].getImage());
             }
             return cloudImages;
+        }
+
+        reset(): void {
+            this.clouds = [];
+            this.initClouds();
         }
     }
 } 

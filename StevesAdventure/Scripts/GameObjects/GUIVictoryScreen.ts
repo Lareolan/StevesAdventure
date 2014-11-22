@@ -1,12 +1,10 @@
 ﻿module GameObjects {
-    export class GUIDeathScreen extends GameObjects.Screen {
-        redOverlay: createjs.Shape;
-
+    export class GUIVictoryScreen extends GameObjects.Screen {
         epilogue: Object = {
-            line1: { text: "Despite your best efforts, Steve is dead.", textSize: 32, color: "#000000", x: 128, y: 64 },
-            line2: { text: "You have Failed Steve after all...", textSize: 32, color: "#000000", x: 128, y: 128 },
-            line3: { text: "R.I.P Steve", textSize: 32, color: "#ff0000", x: 128, y: 192 },
-            line4: { text: "Game Over", textSize: 128, color: "#ff0000", x: stage.canvas.width / 2, y: 256 }
+            line1: { text: "Due to your heroic efforts, Steve made it through...", textSize: 32, color: "#000000", x: 128, y: 64 },
+            line2: { text: "...alive!", textSize: 32, color: "#000000", x: 128, y: 128 },
+            line3: { text: "Great job Steve!", textSize: 32, color: "#ff0000", x: 128, y: 192 },
+            line4: { text: "FIN?", textSize: 128, color: "#ff0000", x: stage.canvas.width / 2, y: 256 }
         };
         epilogueList: Array<string> = [
             "line1",
@@ -19,17 +17,11 @@
             super();
         }
 
-        init(killCount: number): void {
+        init(killCount: number, time: number): void {
             var textLine,
                 lineData,
                 index,
                 textSize = 32;
-
-
-
-            this.redOverlay = new createjs.Shape();
-            this.redOverlay.graphics.beginFill("rgba(255,0,0,0.5)").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
-            this.screenObjects.push(this.redOverlay);
 
             for (index = 0; index < this.epilogueList.length; index++) {
                 lineData = this.epilogue[this.epilogueList[index]];
@@ -44,7 +36,10 @@
             }
             textLine.textAlign = "center";
 
-            textLine = new createjs.Text("On the bright side, at least you killed " + killCount + " zombies!", "32px Minecrafter", "#000000");
+
+            var time = Math.floor((new Date().getTime() - worldTimer) / 1000);
+            var timeString = Math.floor(time / 60) + " min " + (time % 60) + " sec";
+            textLine = new createjs.Text("Oh by the way, you killed " + killCount + " zombies in " + timeString + "!", "32px Minecrafter", "#000000");
             textLine.x = 128;
             textLine.y = 512;
             this.screenObjects.push(textLine);
@@ -66,5 +61,5 @@
         show(): void {
             super.show();
         }
-   }
-}  
+    }
+}

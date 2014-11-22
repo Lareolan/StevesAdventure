@@ -77,6 +77,7 @@ module GameObjects {
 
             bitmapStage.update();
             this.map = new createjs.Bitmap(canvas);
+            this.map.name = "Map";
             stage.addChild(this.map);
         }
 
@@ -114,6 +115,15 @@ module GameObjects {
 
         hide(): void {
             stage.removeChild(this.map);
+        }
+
+        getImage(): createjs.Bitmap {
+            return this.map;
+        }
+
+        reset(): void {
+            this.map.x = 0;
+            this.map.y = 0;
         }
     }
 } 

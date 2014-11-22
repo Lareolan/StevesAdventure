@@ -1,4 +1,13 @@
-﻿module Managers {
+﻿/**
+ * This file contains game's sound manager
+ * Author:              Konstantin Koton
+ * Filename:            Sound.ts
+ * Last Modified By:    Konstantin Koton
+ * Date Last Modified:  Nov. 22, 2014
+ * Revision History:    Too numerous to mention
+ */
+module Managers {
+    // An internal class containing static names of the various sound assets.
     export class SoundsList {
         static WALK1: string = "stone1";
         static WALK2: string = "stone2";
@@ -17,7 +26,9 @@
         static ZOMBIE_DEATH: string = "zombie_death";
     }
 
+    // Sound manager class
     export class Sound {
+        // Internal variables
         private background: createjs.SoundInstance;
         private playerWalkSound: string;
         private playerWalkInstance: createjs.SoundInstance;
@@ -28,6 +39,7 @@
         private lavaPopInstance: createjs.SoundInstance;
         private waterInstance: createjs.SoundInstance;
 
+        // The constructor
         constructor() {
             this.background = createjs.Sound.play(SoundsList.BACKGROUND, createjs.Sound.INTERRUPT_NONE, 0, 0, -1, 1, 0);
             this.lavaInstance = createjs.Sound.createInstance(SoundsList.LAVA);
@@ -36,6 +48,7 @@
             this.playerHitInstance = createjs.Sound.createInstance(SoundsList.HIT);
         }
 
+        // Play a random walk sound whenever player's avatar is moving
         playerWalk() {
             if (!this.playerWalkSound) {
                 this.playerWalkSound = SoundsList.WALK1;
@@ -51,10 +64,15 @@
             }
         }
 
+        // Play sound when player is getting hit
         playerHit() {
             this.playerHitInstance.play(createjs.Sound.INTERRUPT_NONE, 0, 0, 0, 1, 0);
         }
 
+        /*
+         * Play a random "speak" sound for zombies at random intervals. This function also calculates
+         * the relative distance from the player, and calculates volume and pan accordingly.
+         */
         zombieSpeak(zombie: GameObjects.Mobs.Zombie, player: GameObjects.Player) {
             var distance, volume, pan;
             var halfScreenWidth = stage.canvas.width / 2;
@@ -72,7 +90,6 @@
                 this.zombieSpeakSound = SoundsList.ZOMBIE_TALK1;
                 this.zombieSpeakInstance = createjs.Sound.play(this.zombieSpeakSound, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
             } else {
-//            if (this.zombieSpeakInstance.playState === createjs.Sound.PLAY_FINISHED) {
                 var sound = Math.floor(Math.random() * 3);
                 switch (sound) {
                     case 0:
@@ -85,11 +102,14 @@
                         this.zombieSpeakSound = SoundsList.ZOMBIE_TALK3;
                         break;
                 }
-
-            this.zombieSpeakInstance = createjs.Sound.play(this.zombieSpeakSound, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
+                this.zombieSpeakInstance = createjs.Sound.play(this.zombieSpeakSound, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
             }
         }
 
+        /*
+         * Play a random "hurt" sound for zombies when they get hit by the player. This function also
+         * calculates the relative distance from the player, and calculates volume and pan accordingly.
+         */
         zombieHurt(zombie: GameObjects.Mobs.Zombie, player: GameObjects.Player) {
             var distance, volume, pan;
             var halfScreenWidth = stage.canvas.width / 2;
@@ -108,6 +128,10 @@
             this.zombieSpeakInstance = createjs.Sound.play(soundID, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
         }
 
+        /*
+         * Play a random "hurt" sound for zombies when they get hit by the player. This function also
+         * calculates the relative distance from the player, and calculates volume and pan accordingly.
+         */
         zombieDeath(zombie: GameObjects.Mobs.Zombie, player: GameObjects.Player) {
             var distance, volume, pan;
             var halfScreenWidth = stage.canvas.width / 2;
@@ -119,6 +143,11 @@
             this.zombieSpeakInstance = createjs.Sound.play(SoundsList.ZOMBIE_DEATH, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
         }
 
+        /*
+         * This function checks if there are any lava or water blocks near the player. If there are, then it plays
+         * water and/or lava sounds. This function also calculates the relative distance to calculate panning
+         * and volume of the sounds.
+         */
         update(player: GameObjects.Player, map: GameObjects.GameMap) {
             var lavaX, relativeDistance, volume, pan, index, lavaFound, waterFound;
             var mapData = map.getLayer("Foreground");
@@ -132,9 +161,11 @@
                 xOffset = 0;
             }
 
+            // Check only the tiles that are near the player
             for (var tileCount = 0; tileCount < totalScreenTiles; tileCount++) {
                 index = xOffset + (tileCount % screenTileWidth) + Math.floor(tileCount / screenTileWidth) * mapData.width;
 
+                // If lava is nearby, set lava flag
                 if (mapData.data[index] === constants.LAVA_BLOCK) {
                     lavaX = (index % mapData.width) * 32;
                     relativeDistance = lavaX - player.mapX;
@@ -150,6 +181,7 @@
                         lavaFound = true;
                         break;
                     }
+                // If water is nearby, set water flag
                 } else if (mapData.data[index] === constants.WATER_BLOCK) {
                     lavaX = (index % mapData.width) * 32;
                     relativeDistance = lavaX - player.mapX;
@@ -168,6 +200,7 @@
                 }
             }
 
+            // If lava blocks were found, play lava sounds
             if (lavaFound) {
                 if (this.lavaInstance.playState !== createjs.Sound.PLAY_SUCCEEDED) {
                     this.lavaInstance.play(createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
@@ -176,6 +209,8 @@
                     this.lavaPopInstance.play(createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);
                 }
             }
+
+            // If water blocks were found, play water sounds
             if (waterFound) {
                 if (this.waterInstance.playState !== createjs.Sound.PLAY_SUCCEEDED) {
                     this.waterInstance.play(createjs.Sound.INTERRUPT_NONE, 0, 0, 0, volume, pan);

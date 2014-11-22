@@ -8,18 +8,15 @@
 
 ;
 
-/*
-stage.mouseX <--- use this
-*/
 // Global object references
+// TODO: Get rid of these in next version
 var stage;
 var queue;
 
 // Game objects
-var progressBar;
+// TODO: Get rid of these in next version
 var text;
-
-//var text2: createjs.Text;
+var progressBar;
 var sky;
 var cloudManager;
 var player;
@@ -33,7 +30,7 @@ var gameObjects;
 var startButton;
 var instructionsButton;
 
-// Input state
+// This JavaScript Object holds user input states
 var input = {
     keyboard: {
         KEY_LEFT: false,
@@ -73,7 +70,7 @@ var constants = {
     GAME_STATE_VICTORY: 5
 };
 
-// Preload function
+// Preload function used to load all the data and display progress report
 function preload() {
     gui = new Managers.GUI(document.getElementById("canvas"));
 
@@ -91,6 +88,7 @@ function preload() {
     Managers.Assets.loader.addEventListener("complete", handleComplete);
 }
 
+// Display a loading progress bar
 function handleProgress(event) {
     var x = stage.canvas.width / 2 - 200;
     var y = stage.canvas.height / 2 - 25;
@@ -111,12 +109,13 @@ function handleProgress(event) {
     stage.update();
 }
 
+// Once loading is done, initialize the game and load main screen
 function handleComplete(event) {
     setTimeout(init, 500);
-
     gui.preloadComplete();
 }
 
+// Initialize the stage and start the game
 function init() {
     stage = new createjs.Stage(document.getElementById("canvas"));
     stage.enableMouseOver(20);
@@ -125,11 +124,10 @@ function init() {
 
     initGameStart();
 
-    //    initGamePlay();
     gameState = constants.GAME_STATE_START;
 }
 
-// Game Loop
+// Primary Game Loop, executes the correct function depending on game state
 function gameLoop(event) {
     switch (gameState) {
         case constants.GAME_STATE_PLAY:
@@ -150,7 +148,13 @@ function gameLoop(event) {
     }
 }
 
+/*
+* This function runs the primary game play sequences. Checking input states, and reacting accordingly as well
+* as update all game assets, such as move clouds, map, mobs, game objects and run their update() functions
+* to update their states.
+*/
 function playGame() {
+    // If player moves left, shift all drawn assets to the right
     if (input.keyboard.KEY_LEFT) {
         if (player.moveLeft()) {
             map.moveLeft();
@@ -159,6 +163,8 @@ function playGame() {
             mobs.shiftRight();
         }
     }
+
+    // If player moves right, shift all drawn assets to the left
     if (input.keyboard.KEY_RIGHT) {
         if (player.moveRight()) {
             map.moveRight();
@@ -167,171 +173,81 @@ function playGame() {
             mobs.shiftLeft();
         }
     }
+
+    // If player is jumping, handle the jump
     if (input.keyboard.KEY_UP) {
         player.jump();
     }
 
+    // Update all assets each tick
     cloudManager.update();
     mobs.update();
     player.update();
     gui.update();
     stage.update();
-
     sound.update(player, map);
 }
 
+/*
+* This function runs each tick while in the start menu state. Updates clouds and image assets.
+*/
 function startMenu() {
     cloudManager.update();
-
-    //    gui.update();
-    stage.update();
-}
-
-function instructionsScreen() {
-    cloudManager.update();
-
-    //    gui.update();
-    stage.update();
-}
-
-function deathScreen() {
-    cloudManager.update();
-
-    //    gui.update();
-    stage.update();
-}
-
-function victoryScreen() {
-    //    gui.update();
     stage.update();
 }
 
 /*
-// Level Class
-class Level {
-levelData: JSON;
-constructor() {
+* This function runs each tick while in the instruction screen state. Updates clouds and image assets.
+*/
+function instructionsScreen() {
+    cloudManager.update();
+    stage.update();
 }
+
+/*
+* This function runs each tick while in the death screen state. Updates clouds and image assets.
+*/
+function deathScreen() {
+    cloudManager.update();
+    stage.update();
 }
+
+/*
+* This function runs each tick while in the victory screen state. Updates image assets.
+*/
+function victoryScreen() {
+    stage.update();
+}
+
+/*
+* This function initializes game start screen and all game assets.
 */
 function initGameStart() {
     gui.show(constants.GAME_STATE_START);
 
+    // Initialize sound manager
     if (!sound) {
         sound = new Managers.Sound();
     }
 
+    // Initialize sky
     if (!sky) {
         sky = new GameObjects.Sky();
     }
 
+    // Initialize cloud manager
     if (!cloudManager) {
         cloudManager = new Managers.CloudManager(5);
     }
 
+    // Initialize map manager
     if (!map) {
         map = new GameObjects.GameMap();
     }
 
+    // Create "Start Game" button, and bind a click handler function to change state when clicked
     var buttonWidth = 400;
     var buttonHeight = 80;
-
-    /*
-    var button = new createjs.Shape();
-    button.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
-    button.x = (stage.canvas.width / 2) - (buttonWidth / 2);
-    button.y = (stage.canvas.height / 2) - (buttonHeight * 2);
-    var buttonText = new createjs.Text();
-    buttonText.font = "32px Minecrafter";
-    buttonText.text = "Start Game";
-    buttonText.x = (stage.canvas.width / 2);
-    buttonText.y = button.y + buttonHeight / 2;
-    buttonText.textBaseline = "middle";
-    buttonText.textAlign = "center";
-    
-    var color = new createjs.ColorFilter(1, 1, 1, 1);
-    button.filters = [color];
-    button.cache(0, 0, buttonWidth, buttonHeight);
-    var buttonFade = "down";
-    var buttonTimer;
-    button.addEventListener("mouseover", function () {
-    buttonTimer = setTimeout(tick, 50);
-    function tick() {
-    if (buttonFade === "down") {
-    button.alpha -= 0.025;
-    if (button.alpha <= 0.4) {
-    buttonFade = "up";
-    }
-    } else {
-    button.alpha += 0.025;
-    if (button.alpha >= 1) {
-    buttonFade = "down";
-    }
-    }
-    button.updateCache();
-    buttonTimer = setTimeout(tick, 50);
-    }
-    });
-    button.addEventListener("mouseout", function () {
-    button.alpha = 1;
-    button.updateCache();
-    clearTimeout(buttonTimer);
-    });
-    button.addEventListener("click", function () {
-    stage.removeChild(button);
-    stage.removeChild(buttonText);
-    stage.removeChild(button2);
-    stage.removeChild(button2Text);
-    gameState = constants.GAME_STATE_PLAY;
-    initGamePlay();
-    });
-    
-    var button2 = new createjs.Shape();
-    button2.graphics.beginStroke("#5533DD").beginFill("rgba(100, 60, 200, 0.8)").drawRoundRect(0, 0, buttonWidth, buttonHeight, 40);
-    button2.x = (stage.canvas.width / 2) - (buttonWidth / 2);
-    button2.y = (stage.canvas.height / 2);
-    var button2Text = new createjs.Text();
-    button2Text.font = "32px Minecrafter";
-    button2Text.text = "Instructions";
-    button2Text.x = (stage.canvas.width / 2);
-    button2Text.y = button2.y + buttonHeight / 2;
-    button2Text.textBaseline = "middle";
-    button2Text.textAlign = "center";
-    var color = new createjs.ColorFilter(1, 1, 1, 1);
-    button2.filters = [color];
-    button2.cache(0, 0, buttonWidth, buttonHeight);
-    button2.addEventListener("mouseover", function () {
-    buttonTimer = setTimeout(tick, 200);
-    function tick() {
-    if (buttonFade === "down") {
-    button2.alpha -= 0.025;
-    if (button2.alpha <= 0.4) {
-    buttonFade = "up";
-    }
-    } else {
-    button2.alpha += 0.025;
-    if (button2.alpha >= 1) {
-    buttonFade = "down";
-    }
-    }
-    button2.updateCache();
-    buttonTimer = setTimeout(tick, 50);
-    }
-    });
-    button2.addEventListener("mouseout", function () {
-    button2.alpha = 1;
-    button2.updateCache();
-    clearTimeout(buttonTimer);
-    });
-    button2.addEventListener("click", function () {
-    stage.removeChild(button);
-    stage.removeChild(buttonText);
-    stage.removeChild(button2);
-    stage.removeChild(button2Text);
-    gameState = constants.GAME_STATE_INSTRUCTIONS;
-    initInstructionScreen();
-    });
-    */
     var btnX = (stage.canvas.width / 2) - (buttonWidth / 2), btnY = (stage.canvas.height / 2) - (buttonHeight * 2);
 
     var startBtn = new GameObjects.Button("Start Game", buttonWidth, buttonHeight, btnX, btnY, GameObjects.Button.ROUNDED, "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
@@ -347,6 +263,7 @@ function initGameStart() {
     });
     stage.addChild(startBtn);
 
+    // Create "Instructions" button, and bind a click handler function to change state when clicked
     btnY += buttonHeight * 2;
     var instructBtn = new GameObjects.Button("Instructions", buttonWidth, buttonHeight, btnX, btnY, GameObjects.Button.ROUNDED, "black", "#5533DD", "rgba(100, 60, 200, 0.8)");
     instructBtn.setFadeEffect();
@@ -358,41 +275,38 @@ function initGameStart() {
         initInstructionScreen();
     });
     stage.addChild(instructBtn);
-    //    startButton = [];
-    //    startButton.push(new createjs.Shape());
-    //    instructionsButton = [];
-    /*
-    stage.addChild(button);
-    stage.addChild(buttonText);
-    stage.addChild(button2);
-    stage.addChild(button2Text);
-    */
 }
 
+/*
+* This function initializes the game's instruction screen
+*/
 function initInstructionScreen() {
-    //    map.hide();
     gui.show(constants.GAME_STATE_INSTRUCTIONS);
 }
 
-// Initialize game play time elements
+// Initialize game play components
 function initGamePlay() {
+    // Initializes player object
     player = new GameObjects.Player(map.entities.getEntityByName("Steve"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound);
+
+    // Initializes mob manager object
     mobs = new Managers.Mobs(map.entities.getEntitiesByType("Mob"), map.getLayer(constants.FOREGROUND_LAYER_NAME), sound, player);
 
-    stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
-
+    // Initializes the static game object manager
     gameObjects = new Managers.Objects(map.entities.getAllEntities(), map.tileset);
 
-    //    gui = new Managers.GUI(document.getElementById("canvas"));
+    // Initialize gui components and sets up internal references
     gui.preloadComplete();
     gui.setPlayer(player);
     gui.setStage(stage);
+
+    // Initializes event listeners listening for player attack, player being hit and player being killed
+    stage.addEventListener("playerAttack", { handleEvent: player.attack, player: player, mobs: mobs });
     stage.addEventListener("playerHit", { handleEvent: gui.playerHit, player: player, gui: gui });
     stage.addEventListener("playerDeath", { handleEvent: gui.playerDeath, player: player, gui: gui });
-
-    player.mapX = 15000;
 }
 
+// If fullscreen button is clicked, initialize fullscreen mode
 $("#fullscreen").click(function () {
     if (!isFullscreen()) {
         var $canvas = $("canvas");
@@ -404,6 +318,9 @@ $("#fullscreen").click(function () {
     }
 });
 
+// TODO: Change this code to use stage.mouseX/stage.mouseY and other stage mouse hooks.
+// TODO: Ensure mouse and touch operations are fully functional in next version of the game
+// Bind mousedown event on canvas and update input states accordingly.
 $("canvas").mousedown(function (e) {
     var middle = $(window).outerWidth() / 2;
     var rect = this.getBoundingClientRect();
@@ -433,6 +350,7 @@ $("canvas").mousedown(function (e) {
     }
 });
 
+// Bind mouseup event on canvas and update input states accordingly.
 $("canvas").mouseup(function (e) {
     input.keyboard.KEY_RIGHT = false;
     input.keyboard.KEY_LEFT = false;
@@ -450,6 +368,10 @@ $("canvas").mouseup(function (e) {
     }
 });
 
+/*  Bind mousemove event on canvas and update input states accordingly.
+* (This ensures that if player moves from left to right, the character starts moving right
+* and not continues moving left)
+*/
 $("canvas").mousemove(function (e) {
     var middle = $(window).outerWidth() / 2;
     var rect = this.getBoundingClientRect();
@@ -469,6 +391,9 @@ $("canvas").mousemove(function (e) {
     }
 });
 
+/* Bind touchstart event on canvas and update input states accordingly.
+* Essentially the same as the mousedown above but for touch enabled devices.
+*/
 $("canvas").bind("touchstart", function (e) {
     var middle = $(window).outerWidth() / 2;
     var touch = e.originalEvent.touches[0];
@@ -487,14 +412,18 @@ $("canvas").bind("touchstart", function (e) {
         input.keyboard.KEY_LEFT = true;
     }
 
+    /*
     if (input.touch.TOUCH) {
-        var touch2 = e.originalEvent.touches[1];
-        alert("Second touch event at (" + touch2.clientX + ", " + touch2.clientY + ")\n Touches: " + e.originalEvent.touches.length);
+    var touch2 = e.originalEvent.touches[1];
+    alert("Second touch event at (" + touch2.clientX + ", " + touch2.clientY + ")\n Touches: " + e.originalEvent.touches.length);
     }
-
+    */
     input.touch.TOUCH = true;
 });
 
+/* Bind touchmove event on canvas and update input states accordingly.
+* Essentially the same as the mousemove above but for touch enabled devices.
+*/
 $("canvas").bind("touchmove", function (e) {
     var middle = $(window).outerWidth() / 2;
     var touch = e.originalEvent.touches[0];
@@ -516,12 +445,16 @@ $("canvas").bind("touchmove", function (e) {
     }
 });
 
+/* Bind touchend event on canvas and update input states accordingly.
+* Essentially the same as the mouseup above but for touch enabled devices.
+*/
 $("canvas").bind("touchend", function (e) {
     input.keyboard.KEY_RIGHT = false;
     input.keyboard.KEY_LEFT = false;
     input.touch.TOUCH = false;
 });
 
+// Bind document-wide keydown event, and update key states accordingly for keyboard input
 $(document).keydown(function (e) {
     switch (e.keyCode) {
         case 27:
@@ -548,6 +481,7 @@ $(document).keydown(function (e) {
     }
 });
 
+// Bind document-wide keyup event, and update key states accordingly for keyboard input
 $(document).keyup(function (e) {
     switch (e.keyCode) {
         case 27:
@@ -570,6 +504,10 @@ $(document).keyup(function (e) {
     }
 });
 
+/*
+* This function was supposed to rotate view on mobile devices to ensure that the game was always in
+* landscape mode even if user turns their device to portrait mode direction. However it doesn't seem to work.
+*/
 $(window).bind("orientationchange", function (e) {
     switch (window.orientation) {
         case -90:
@@ -584,28 +522,38 @@ $(window).bind("orientationchange", function (e) {
     }
 });
 
+/*
+* This function determines if the game is in fullscreen mode and returns a boolean indicator.
+* @returns true if game is fullscreen, otherwise false.
+*/
 function isFullscreen() {
-    return document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen || document.webkitIsFullScreen;
+    return document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenElement;
 }
 
+// Because fullscreen mode for browsers is still a new feature, the following 4 functions
+// bind vendor-specific event listeners to find out if user exited fullscreen mode.
+// Default version of the event that is getting standardized across newer browsers.
 document.addEventListener("fullscreenchange", function () {
     if (!document.fullscreen) {
         exitFullscreen();
     }
 }, false);
 
+// Mozilla version of the event, for older Firefox browsers
 document.addEventListener("mozfullscreenchange", function () {
     if (!document.mozFullScreen) {
         exitFullscreen();
     }
 }, false);
 
+// Webkit version of the event, for older webkit-based browsers
 document.addEventListener("webkitfullscreenchange", function () {
     if (!document.webkitIsFullScreen) {
         exitFullscreen();
     }
 }, false);
 
+// Microsoft version of the event, for older IE browsers
 document.addEventListener("msfullscreenchange", function () {
     if (!document.msFullscreenElement) {
         exitFullscreen();
@@ -625,11 +573,16 @@ function launchIntoFullscreen(element) {
     }
 }
 
+/*
+* This function re-enables the mouse cursor when exiting fullscreen.
+*/
 function exitFullscreen() {
     $("canvas").removeAttr("style").removeClass("fullscreen");
 }
 ;
 /*
+* This code was disabled, planning to enable it when I add an exit fullscreen
+* button (hopefully in next version).
 // Whack fullscreen
 function exitFullscreen() {
 if (document.exitFullscreen) {
@@ -640,8 +593,5 @@ document.mozCancelFullScreen();
 document.webkitExitFullscreen();
 }
 }
-Step 1: Query the window.orientation property to see if you're in landscape or portrait mode
-Step 2: If you're in portrait mode use a -webkit-transform rotate (-90) on a div that's wrapping your entire page to force it into a landscape layout.
-<body onorientationchange="testOrientation();" onload="testOrientation();">
 */
 //# sourceMappingURL=game.js.map

@@ -41,7 +41,7 @@ var GameObjects;
 
             var time = Math.floor((new Date().getTime() - worldTimer) / 1000);
             var timeString = Math.floor(time / 60) + " min " + (time % 60) + " sec";
-            textLine = new createjs.Text("Oh by the way, you killed " + killCount + " zombies in " + timeString + "!", "32px Minecrafter", "#000000");
+            textLine = new createjs.Text("Oh! By the way, you killed " + killCount + " zombies in " + timeString + "!", "32px Minecrafter", "#000000");
             textLine.x = 128;
             textLine.y = 512;
             this.screenObjects.push(textLine);
@@ -54,6 +54,7 @@ var GameObjects;
                 cloudManager.reset();
                 player.reset();
                 map.reset();
+                gameObjects.reset();
                 mobs.reset();
                 gui.gameScreen.reset();
             });

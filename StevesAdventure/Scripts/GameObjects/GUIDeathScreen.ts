@@ -57,6 +57,7 @@
                 cloudManager.reset();
                 player.reset();
                 map.reset();
+                gameObjects.reset();
                 mobs.reset();
                 gui.gameScreen.reset();
             });

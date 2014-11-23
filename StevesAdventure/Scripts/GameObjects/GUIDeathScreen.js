@@ -4,10 +4,20 @@
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+/**
+* This file contains the game's game death/losing screen object
+* Author:              Konstantin Koton
+* Filename:            GUIDeathScreen.ts
+* Last Modified By:    Konstantin Koton
+* Date Last Modified:  Nov. 22, 2014
+* Revision History:    Too numerous to mention
+*/
 var GameObjects;
 (function (GameObjects) {
+    // GUIDeathScreen Class
     var GUIDeathScreen = (function (_super) {
         __extends(GUIDeathScreen, _super);
+        // Constructor simply calls the super class constructor
         function GUIDeathScreen() {
             _super.call(this);
             this.epilogue = {
@@ -23,6 +33,10 @@ var GameObjects;
                 "line4"
             ];
         }
+        /*
+        * Initializes all the screen data. Accepts Steve's kill count.
+        * @param killCount The number of monsters Steve killed
+        */
         GUIDeathScreen.prototype.init = function (killCount) {
             var textLine, lineData, index, textSize = 32;
 
@@ -63,6 +77,7 @@ var GameObjects;
             this.screenObjects.push(btn);
         };
 
+        // Shows the victory screen
         GUIDeathScreen.prototype.show = function () {
             _super.prototype.show.call(this);
         };

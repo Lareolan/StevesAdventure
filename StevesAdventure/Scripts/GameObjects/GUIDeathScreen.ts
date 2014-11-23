@@ -1,5 +1,15 @@
-﻿module GameObjects {
+﻿/**
+ * This file contains the game's game death/losing screen object
+ * Author:              Konstantin Koton
+ * Filename:            GUIDeathScreen.ts
+ * Last Modified By:    Konstantin Koton
+ * Date Last Modified:  Nov. 22, 2014
+ * Revision History:    Too numerous to mention
+ */
+module GameObjects {
+    // GUIDeathScreen Class
     export class GUIDeathScreen extends GameObjects.Screen {
+        // Instance variables holding information
         redOverlay: createjs.Shape;
 
         epilogue: Object = {
@@ -15,17 +25,20 @@
             "line4"
         ];
 
+        // Constructor simply calls the super class constructor
         constructor() {
             super();
         }
 
+        /*
+         * Initializes all the screen data. Accepts Steve's kill count.
+         * @param killCount The number of monsters Steve killed
+         */
         init(killCount: number): void {
             var textLine,
                 lineData,
                 index,
                 textSize = 32;
-
-
 
             this.redOverlay = new createjs.Shape();
             this.redOverlay.graphics.beginFill("rgba(255,0,0,0.5)").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
@@ -64,6 +77,7 @@
             this.screenObjects.push(btn);
         }
 
+        // Shows the victory screen
         show(): void {
             super.show();
         }

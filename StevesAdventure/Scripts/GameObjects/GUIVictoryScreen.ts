@@ -1,5 +1,15 @@
-﻿module GameObjects {
+﻿/**
+ * This file contains the game's victory screen object
+ * Author:              Konstantin Koton
+ * Filename:            GUIVictoryScreen.ts
+ * Last Modified By:    Konstantin Koton
+ * Date Last Modified:  Nov. 22, 2014
+ * Revision History:    Too numerous to mention
+ */
+module GameObjects {
+    // GUIVictoryScreen Class 
     export class GUIVictoryScreen extends GameObjects.Screen {
+        // An object containing data descriptions and text
         epilogue: Object = {
             line1: { text: "Due to your heroic efforts, Steve made it through...", textSize: 32, color: "#000000", x: 128, y: 64 },
             line2: { text: "...alive!", textSize: 32, color: "#000000", x: 128, y: 128 },
@@ -17,6 +27,12 @@
             super();
         }
 
+        /*
+         * Initializes all the screen data. Accepts Steve's kill count and timestamp of the 
+         * start of the game.
+         * @param killCount The number of monsters Steve killed
+         * @param time The timestamp at the start of the game
+         */
         init(killCount: number, time: number): void {
             var textLine,
                 lineData,
@@ -59,6 +75,7 @@
             this.screenObjects.push(btn);
         }
 
+        // Shows the victory screen
         show(): void {
             super.show();
         }

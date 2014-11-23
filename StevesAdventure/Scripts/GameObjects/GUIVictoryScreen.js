@@ -4,12 +4,22 @@
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+/**
+* This file contains the game's victory screen object
+* Author:              Konstantin Koton
+* Filename:            GUIVictoryScreen.ts
+* Last Modified By:    Konstantin Koton
+* Date Last Modified:  Nov. 22, 2014
+* Revision History:    Too numerous to mention
+*/
 var GameObjects;
 (function (GameObjects) {
+    // GUIVictoryScreen Class
     var GUIVictoryScreen = (function (_super) {
         __extends(GUIVictoryScreen, _super);
         function GUIVictoryScreen() {
             _super.call(this);
+            // An object containing data descriptions and text
             this.epilogue = {
                 line1: { text: "Due to your heroic efforts, Steve made it through...", textSize: 32, color: "#000000", x: 128, y: 64 },
                 line2: { text: "...alive!", textSize: 32, color: "#000000", x: 128, y: 128 },
@@ -23,6 +33,12 @@ var GameObjects;
                 "line4"
             ];
         }
+        /*
+        * Initializes all the screen data. Accepts Steve's kill count and timestamp of the
+        * start of the game.
+        * @param killCount The number of monsters Steve killed
+        * @param time The timestamp at the start of the game
+        */
         GUIVictoryScreen.prototype.init = function (killCount, time) {
             var textLine, lineData, index, textSize = 32;
 
@@ -61,6 +77,7 @@ var GameObjects;
             this.screenObjects.push(btn);
         };
 
+        // Shows the victory screen
         GUIVictoryScreen.prototype.show = function () {
             _super.prototype.show.call(this);
         };
